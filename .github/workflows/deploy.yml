@@ -1,0 +1,26 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_KEY }}
+          script: |
+            cd /var/www/portfolio
+            git pull origin main
+            sudo -u www-data composer install --optimize-autoloader --no-interaction
+            sudo -u www-data php bin/console doctrine:schema:update --force --env=prod
+            sudo -u www-data php bin/console assets:install --env=prod
+            sudo -u www-data php bin/console cache:clear --env=prod
+            sudo -u www-data php bin/console cache:warmup --env=prod
+            sudo -u www-data php bin/console asset-map:compile --env=prod

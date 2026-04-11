@@ -1,0 +1,340 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Services{% endblock %}
+{% block description %}Développement de boutiques e-commerce, sites web et applications mobiles sur-mesure — Johan Louap, Développeur Full Stack freelance.{% endblock %}
+{% block og_title %}Services — Johan Louap, Développeur Full Stack freelance{% endblock %}
+{% block og_desc %}Boutique e-commerce, site vitrine, application web, app mobile React Native — prestations sur-mesure.{% endblock %}
+{% block og_url %}https://johan-louap.fr/services{% endblock %}
+{% block og_image %}https://johan-louap.fr/img/og-services.png{% endblock %}
+{% block twitter_image %}https://johan-louap.fr/img/og-services.png{% endblock %}
+{% block canonical %}https://johan-louap.fr/services{% endblock %}
+
+{% block stylesheets %}
+<style>
+.svc-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-accent);
+    font-weight: 600;
+    cursor: help;
+    border-bottom: 1px dashed currentColor;
+}
+.svc-tooltip::after {
+    content: '✦';
+    font-size: 0.55rem;
+    vertical-align: super;
+    opacity: 0.8;
+}
+.svc-tooltip__box {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    padding: 0.6rem 0.85rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.18s;
+    white-space: normal;
+    z-index: 10;
+}
+.svc-tooltip:hover .svc-tooltip__box { opacity: 1; }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section__tag">Services</span>
+        <h1 class="page-hero__title">Ce que je peux <span class="text-gradient">réaliser</span> pour vous</h1>
+        <p class="page-hero__subtitle">
+            Du devis à la mise en production — des solutions web et mobile sur-mesure, adaptées à votre budget et à vos objectifs.
+        </p>
+    </div>
+</section>
+
+{# ── NAV PRESTATIONS (mobile/tablette) ── #}
+<nav class="svc-topnav" id="svcTopnav" aria-label="Navigation des prestations">
+    <a href="#ecommerce" class="svc-topnav__item active" data-svc="ecommerce">🛒 E-commerce</a>
+    <a href="#web"       class="svc-topnav__item"        data-svc="web">🌐 Web</a>
+    <a href="#mobile"    class="svc-topnav__item"        data-svc="mobile">📱 Mobile</a>
+</nav>
+
+{# ── NAV PRESTATIONS (desktop sidebar) ── #}
+<nav class="svc-sidenav" id="svcSidenav" aria-label="Navigation des prestations">
+    <a href="#ecommerce" class="svc-sidenav__item active" data-svc="ecommerce"><span>🛒</span> E-commerce</a>
+    <a href="#web"       class="svc-sidenav__item"        data-svc="web"><span>🌐</span> Web</a>
+    <a href="#mobile"    class="svc-sidenav__item"        data-svc="mobile"><span>📱</span> Mobile</a>
+</nav>
+
+{# ── SERVICES ── #}
+<section class="section services-detail" id="servicesDetail">
+    <div class="container">
+
+        {# E-commerce #}
+        <div class="svc-block" id="ecommerce">
+            <div class="svc-block__header">
+                <div class="svc-block__icon-wrap">🛒</div>
+                <div>
+                    <span class="section__tag">Prestation 1</span>
+                    <h2 class="svc-block__title">Boutique e-commerce</h2>
+                    <p class="svc-block__lead">
+                        Une boutique complète, pensée pour convertir. Du catalogue produit au paiement sécurisé,
+                        je développe votre e-commerce en Symfony sur-mesure ou via Shopify selon votre budget et vos besoins.
+                    </p>
+                </div>
+            </div>
+            <div class="svc-block__body">
+                <div class="svc-block__features">
+                    <h3 class="svc-block__sub">Ce qui est inclus</h3>
+                    <ul class="svc-checklist">
+                        <li>Catalogue produits, variantes, stocks</li>
+                        <li>Panier &amp; tunnel d'achat optimisé</li>
+                        <li>Paiement sécurisé —
+                            <span class="svc-tooltip">Stripe<span class="svc-tooltip__box">Solution pro la plus utilisée : paiement par carte directement sur votre site, 3D Secure, remboursements</span></span>
+                            &amp;
+                            <span class="svc-tooltip">PayPal<span class="svc-tooltip__box">Familier du grand public : idéal pour les clients qui préfèrent ne pas saisir leur carte. Les deux solutions sont complémentaires.</span></span>
+                        </li>
+                        <li>Espace client &amp; historique commandes</li>
+                        <li>Interface d'administration</li>
+                        <li><span class="svc-tooltip">SEO<span class="svc-tooltip__box">Référencement naturel — optimisation pour apparaître en bonne position sur Google et autres moteurs de recherche.</span></span> technique &amp; performances optimisées</li>
+                        <li>Responsive mobile-first</li>
+                        <li>Déploiement sur votre serveur ou hébergement dédié</li>
+                    </ul>
+                </div>
+                <div class="svc-block__aside">
+                    <div class="svc-aside-card">
+                        <h4 class="svc-aside-card__title">Sur mesure (Stack Symfony)</h4>
+                        <p class="svc-aside-card__text">Boutique 100% personnalisée, performances maximales, aucune dépendance à un écosystème tiers. Idéal pour des besoins spécifiques.</p>
+                        <div class="svc-aside-card__tags">
+                            <span class="tag" data-tech="symfony">Symfony 7</span>
+                            <span class="tag" data-tech="react">React</span>
+                            <span class="tag" data-tech="mysql">MySQL</span>
+                            <span class="tag" data-tech="api">Stripe / PayPal</span>
+                            <span class="tag" data-tech="nginx">Nginx</span>
+                        </div>
+                    </div>
+                    <div class="svc-aside-card">
+                        <h4 class="svc-aside-card__title">Intégration Shopify</h4>
+                        <p class="svc-aside-card__text">Thème et fonctionnalités sur-mesure sur l'écosystème Shopify. Rapidité de mise en marché, back-office Shopify, App Store disponible.</p>
+                        <div class="svc-aside-card__tags">
+                            <span class="tag" data-tech="api">Shopify API</span>
+                            <span class="tag" data-tech="api">Shopify Liquid</span>
+                            <span class="tag" data-tech="javascript">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="svc-inline-cta">
+            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">Discutons de votre boutique →</a>
+        </div>
+
+        <div class="svc-divider"></div>
+
+        {# Site vitrine & web app #}
+        <div class="svc-block" id="web">
+            <div class="svc-block__header">
+                <div class="svc-block__icon-wrap">🌐</div>
+                <div>
+                    <span class="section__tag">Prestation 2</span>
+                    <h2 class="svc-block__title">Site vitrine &amp; application web</h2>
+                    <p class="svc-block__lead">
+                        De la carte de visite en ligne à l'application web métier complexe — je conçois des interfaces
+                        performantes, bien référencées et agréables à utiliser.
+                    </p>
+                </div>
+            </div>
+            <div class="svc-block__body">
+                <div class="svc-block__features">
+                    <h3 class="svc-block__sub">Ce qui est inclus</h3>
+                    <ul class="svc-checklist">
+                        <li>Design responsive, mobile-first</li>
+                        <li><span class="svc-tooltip">SEO<span class="svc-tooltip__box">Référencement naturel — optimisation pour apparaître en bonne position sur Google et autres moteurs de recherche.</span></span> optimisé dès la conception</li>
+                        <li>Formulaire de contact sécurisé</li>
+                        <li>Interface d'administration (si nécessaire)</li>
+                        <li>API REST sur-mesure pour vos besoins métier</li>
+                        <li>Authentification &amp; gestion des rôles</li>
+                        <li>Hébergement, SSL &amp; déploiement continu</li>
+                        <li>Maintenance &amp; évolutions facilitées</li>
+                    </ul>
+                </div>
+                <div class="svc-block__aside">
+                    <div class="svc-aside-card">
+                        <h4 class="svc-aside-card__title">Site vitrine — Symfony/Twig</h4>
+                        <p class="svc-aside-card__text">Rendu côté serveur, SEO natif, performances excellentes. Idéal pour les sites vitrines, portfolios, blogs ou sites institutionnels.</p>
+                        <div class="svc-aside-card__tags">
+                            <span class="tag" data-tech="symfony">Symfony 7</span>
+                            <span class="tag" data-tech="php">Twig</span>
+                            <span class="tag" data-tech="mysql">MySQL</span>
+                            <span class="tag" data-tech="nginx">Nginx</span>
+                        </div>
+                    </div>
+                    <div class="svc-aside-card">
+                        <h4 class="svc-aside-card__title">Application web — Symfony API + React</h4>
+                        <p class="svc-aside-card__text">Interface très interactive (SPA), expérience utilisateur fluide, code réutilisable côté mobile. Idéal pour les outils métier et dashboards.</p>
+                        <div class="svc-aside-card__tags">
+                            <span class="tag" data-tech="symfony">Symfony API</span>
+                            <span class="tag" data-tech="react">React</span>
+                            <span class="tag" data-tech="typescript">TypeScript</span>
+                            <span class="tag" data-tech="mysql">MySQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="svc-inline-cta">
+            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">Discutons de votre site →</a>
+        </div>
+
+        <div class="svc-divider"></div>
+
+        {# App mobile #}
+        <div class="svc-block" id="mobile">
+            <div class="svc-block__header">
+                <div class="svc-block__icon-wrap">📱</div>
+                <div>
+                    <span class="section__tag">Prestation 3</span>
+                    <h2 class="svc-block__title">Application mobile</h2>
+                    <p class="svc-block__lead">
+                        Votre idée dans la poche de vos utilisateurs. Une application iOS &amp; Android depuis une seule codebase
+                        React Native, publiée sur l'App Store et le Google Play.
+                    </p>
+                </div>
+            </div>
+            <div class="svc-block__body">
+                <div class="svc-block__features">
+                    <h3 class="svc-block__sub">Ce qui est inclus</h3>
+                    <ul class="svc-checklist">
+                        <li>Application iOS &amp; Android (React Native)</li>
+                        <li>Authentification &amp; gestion des profils</li>
+                        <li>Notifications push</li>
+                        <li>API REST PHP dédiée</li>
+                        <li>Synchronisation hors-ligne si nécessaire</li>
+                        <li>Publication sur l'App Store &amp; Google Play</li>
+                        <li>Mises à jour facilitées (une seule application)</li>
+                    </ul>
+                </div>
+                <div class="svc-block__aside">
+                    <div class="svc-aside-card svc-aside-card--full">
+                        <h4 class="svc-aside-card__title">Pourquoi React Native ?</h4>
+                        <p class="svc-aside-card__text">
+                            Contrairement au développement natif (Swift pour iOS, Kotlin pour Android) qui nécessite deux codebases séparées,
+                            React Native permet de produire <strong>une seule application</strong> qui tourne nativement sur les deux plateformes.
+                            Résultat : coût réduit, maintenance simplifiée, performances proches du natif.
+                        </p>
+                        <div class="svc-aside-card__tags">
+                            <span class="tag" data-tech="symfony">Symfony API</span>
+                            <span class="tag" data-tech="react">React Native</span>
+                            <span class="tag" data-tech="typescript">TypeScript</span>
+                            <span class="tag" data-tech="react">Expo</span>
+                            <span class="tag" data-tech="mysql">MySQL</span>
+                            <span class="tag" data-tech="api">Push Notifications</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="svc-inline-cta">
+            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">Discutons de votre application →</a>
+        </div>
+    </div>
+</section>
+
+{# ── PROCESS ── #}
+<section class="section section--dark svc-process">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">Comment ça se passe</span>
+            <h2 class="section__title">Mon process de travail</h2>
+            <p class="section__subtitle">Transparent, itératif et orienté résultat.</p>
+        </div>
+        <div class="process-grid">
+            <div class="process-step">
+                <div class="process-step__num">01</div>
+                <h3 class="process-step__title">Discussion</h3>
+                <p class="process-step__text">On échange sur votre besoin, vos contraintes, votre budget et vos délais. Appel, visio ou email — comme vous préférez.</p>
+            </div>
+            <div class="process-step">
+                <div class="process-step__num">02</div>
+                <h3 class="process-step__title">Proposition</h3>
+                <p class="process-step__text">Devis détaillé, planning de développement, choix techniques argumentés. Aucune surprise.</p>
+            </div>
+            <div class="process-step">
+                <div class="process-step__num">03</div>
+                <h3 class="process-step__title">Développement</h3>
+                <p class="process-step__text">Développement itératif avec points réguliers. Accès à un environnement de recette pour valider chaque étape.</p>
+            </div>
+            <div class="process-step">
+                <div class="process-step__num">04</div>
+                <h3 class="process-step__title">Livraison</h3>
+                <p class="process-step__text">Mise en production, tests finaux, formation à l'outil si besoin, et documentation. Le projet vous appartient.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ── CTA ── #}
+<section class="cta-section section">
+    <div class="container">
+        <div class="cta-box">
+            <div class="cta-box__orb"></div>
+            <span class="section__tag">Démarrons</span>
+            <h2 class="cta-box__title">Un projet en tête ?</h2>
+            <p class="cta-box__text">Parlez-moi de votre idée — je vous réponds sous 24h avec une première estimation.</p>
+            <a href="{{ path('app_contact') }}" class="btn btn--primary btn--lg">
+                Me contacter
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block page_scripts %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Boutique e-commerce sur-mesure",
+      "description": "Développement de boutiques e-commerce en Symfony 7 ou Shopify, avec paiement sécurisé Stripe et PayPal, catalogue produits, espace client et interface d'administration.",
+      "provider": { "@type": "Person", "name": "Johan Louap", "url": "https://johan-louap.fr" },
+      "serviceType": "Développement web e-commerce",
+      "areaServed": { "@type": "Country", "name": "France" },
+      "url": "https://johan-louap.fr/services#ecommerce"
+    },
+    {
+      "@type": "Service",
+      "name": "Site vitrine & application web",
+      "description": "Création de sites vitrines en Symfony/Twig et d'applications web SPA avec Symfony API et React. SEO optimisé, responsive, déploiement continu.",
+      "provider": { "@type": "Person", "name": "Johan Louap", "url": "https://johan-louap.fr" },
+      "serviceType": "Développement web",
+      "areaServed": { "@type": "Country", "name": "France" },
+      "url": "https://johan-louap.fr/services#web"
+    },
+    {
+      "@type": "Service",
+      "name": "Application mobile iOS & Android",
+      "description": "Développement d'applications mobiles cross-platform avec React Native et Expo, publiées sur l'App Store et Google Play depuis une seule codebase.",
+      "provider": { "@type": "Person", "name": "Johan Louap", "url": "https://johan-louap.fr" },
+      "serviceType": "Développement mobile",
+      "areaServed": { "@type": "Country", "name": "France" },
+      "url": "https://johan-louap.fr/services#mobile"
+    }
+  ]
+}
+</script>
+<script src="{{ asset('js/services.js') }}" defer></script>
+{% endblock %}

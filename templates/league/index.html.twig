@@ -1,0 +1,892 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}League of Legends{% endblock %}
+{% block description %}Profil League of Legends de Johan Louap — Rang, champions et historique de parties.{% endblock %}
+{% block og_title %}Stats League of Legends — Johan Louap{% endblock %}
+{% block og_desc %}Consultez vos statistiques LoL en temps réel via l'API Riot Games.{% endblock %}
+{% block og_url %}https://johan-louap.fr/league{% endblock %}
+{% block og_image %}https://johan-louap.fr/img/og-lol.png{% endblock %}
+{% block twitter_image %}https://johan-louap.fr/img/og-lol.png{% endblock %}
+
+{% block stylesheets %}
+<style>
+:root {
+    --lol-gold: #C8AA6E;
+    --lol-gold-dark: #785A28;
+    --lol-blue: #0AC8B9;
+    --lol-bg: #020C1B;
+    --lol-card: rgba(5, 15, 35, 0.85);
+    --lol-border: rgba(200, 170, 110, 0.2);
+    --win: #4CAF50;
+    --loss: #E05555;
+}
+
+.lol-page { background: var(--lol-bg); min-height: 100vh; }
+
+/* ── HERO ── */
+.lol-hero {
+    position: relative;
+    height: 340px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+.lol-hero__splash {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center top;
+    filter: brightness(0.45) saturate(0.9);
+    transition: filter 1s;
+    z-index: 0;
+}
+.lol-hero__splash:hover { filter: brightness(0.55) saturate(1.1); }
+.lol-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--lol-bg) 0%, transparent 60%),
+                linear-gradient(to right, rgba(2,12,27,0.8) 0%, transparent 50%);
+}
+
+/* Particles */
+#lol-particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.lol-particle {
+    position: absolute;
+    bottom: -10px;
+    border-radius: 50%;
+    background: var(--lol-gold);
+    animation: particleFloat linear infinite;
+}
+@keyframes particleFloat {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-380px) translateX(30px); opacity: 0; }
+}
+
+.lol-hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 0 2rem 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.lol-hero__avatar { position: relative; flex-shrink: 0; }
+.lol-hero__avatar img {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    border: 3px solid var(--lol-gold);
+    box-shadow: 0 0 24px rgba(200,170,110,0.5);
+}
+.lol-hero__lvl {
+    position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+    background: var(--lol-gold); color: var(--lol-bg);
+    font-size: 0.65rem; font-weight: 800;
+    padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+}
+.lol-hero__info { flex: 1; min-width: 200px; }
+.lol-hero__name {
+    font-size: 2rem; font-weight: 900; color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+    margin: 0 0 0.2rem;
+}
+.lol-hero__name span { color: var(--lol-gold); }
+.lol-hero__badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.7rem; }
+.badge {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.3rem 0.75rem; border-radius: 999px;
+    font-size: 0.75rem; font-weight: 700;
+    border: 1px solid;
+}
+.badge--gold  { background: rgba(200,170,110,0.15); border-color: var(--lol-gold); color: var(--lol-gold); }
+.badge--blue  { background: rgba(10,200,185,0.1); border-color: var(--lol-blue); color: var(--lol-blue); }
+.badge--win   { background: rgba(76,175,80,0.15); border-color: var(--win); color: var(--win); }
+.badge--loss  { background: rgba(224,85,85,0.15); border-color: var(--loss); color: var(--loss); }
+.badge--link  { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); color: #aaa; text-decoration: none; }
+.badge--link:hover { border-color: var(--lol-gold); color: var(--lol-gold); }
+
+/* ── MAIN GRID ── */
+.lol-main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+.lol-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; align-items: stretch; }
+
+/* ── CARDS ── */
+.lol-card {
+    background: var(--lol-card);
+    border: 1px solid var(--lol-border);
+    border-radius: 12px; padding: 1.4rem;
+    backdrop-filter: blur(8px);
+}
+.lol-card__title {
+    font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--lol-gold);
+    margin: 0 0 1.2rem;
+    display: flex; align-items: center; gap: 0.6rem;
+}
+.lol-card__title::after { content:''; flex:1; height:1px; background: var(--lol-border); }
+
+/* ── RANKS ── */
+.rank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.rank-box {
+    background: rgba(0,0,0,0.3); border: 1px solid var(--lol-border);
+    border-radius: 8px; padding: 1rem; text-align: center;
+}
+.rank-box__queue { font-size: 0.68rem; color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+.rank-box__tier  { font-size: 1.4rem; font-weight: 900; color: var(--lol-gold); }
+.rank-box__lp    { font-size: 0.8rem; color: var(--lol-blue); margin-top: 0.3rem; }
+.rank-box__wr    { font-size: 0.72rem; color: #888; margin-top: 0.3rem; }
+.rank-box__wr strong { color: var(--win); }
+.rank-box--empty .rank-box__tier { color: #444; font-size: 0.9rem; }
+
+/* ── SEASON HISTORY ── */
+.season-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.season-table th {
+    font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #555; padding: 0 0.4rem 0.4rem;
+    text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.season-table td {
+    padding: 0.28rem 0.4rem;
+    font-size: 0.72rem; color: #bbb;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: middle;
+}
+.season-row--best td { background: rgba(157,72,224,0.06); }
+.season-row--best:first-child td:first-child { border-left: 2px solid #9D48E0; }
+
+.tier-badge {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.15rem 0.5rem; border-radius: 4px; font-weight: 700;
+    font-size: 0.68rem; border: 1px solid;
+    white-space: nowrap;
+}
+.tier-badge--challenger  { background: rgba(255,200,80,0.12);  color: #f0c040; border-color: rgba(240,192,64,0.4); }
+.tier-badge--grandmaster { background: rgba(220,60,60,0.12);   color: #e05555; border-color: rgba(224,85,85,0.4); }
+.tier-badge--master      { background: rgba(157,72,224,0.15);  color: #b77de8; border-color: rgba(183,125,232,0.5); box-shadow: 0 0 10px rgba(157,72,224,0.25); }
+.tier-badge--diamond     { background: rgba(0,180,216,0.12);   color: #57c8e8; border-color: rgba(87,200,232,0.4); }
+.tier-badge--emerald     { background: rgba(50,200,120,0.12);  color: #4cd98a; border-color: rgba(76,217,138,0.4); }
+.tier-badge--platinum    { background: rgba(0,200,180,0.12);   color: #4dcfc3; border-color: rgba(77,207,195,0.4); }
+.tier-badge--gold        { background: rgba(200,170,110,0.12); color: var(--lol-gold); border-color: rgba(200,170,110,0.4); }
+.tier-badge--silver      { background: rgba(180,180,180,0.08); color: #aaa;    border-color: rgba(170,170,170,0.3); }
+.tier-badge--bronze      { background: rgba(180,120,80,0.12);  color: #cd7f32; border-color: rgba(205,127,50,0.4); }
+
+.best-badge {
+    font-size: 0.6rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #b77de8;
+    background: rgba(157,72,224,0.15); border: 1px solid rgba(157,72,224,0.3);
+    padding: 1px 6px; border-radius: 3px; margin-left: 0.4rem;
+    vertical-align: middle;
+}
+
+/* ── MASTERIES ── */
+.mastery-list { display: flex; flex-direction: column; gap: 0.7rem; }
+.mastery-row {
+    display: flex; align-items: center; gap: 0.9rem;
+    background: rgba(0,0,0,0.25); border-radius: 8px; padding: 0.6rem 0.9rem;
+    transition: background 0.2s;
+}
+.mastery-row:hover { background: rgba(200,170,110,0.07); }
+.mastery-row img { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--lol-border); flex-shrink: 0; }
+.mastery-row__name { font-weight: 600; font-size: 0.88rem; color: #e0e0e0; }
+.mastery-row__pts  { font-size: 0.72rem; color: #888; margin-top: 0.1rem; }
+.mastery-row__match-stats { font-size: 0.7rem; color: #666; margin-top: 0.15rem; }
+#masteryList { transition: max-height 0.4s ease; scrollbar-width: thin; scrollbar-color: rgba(200,170,110,0.3) transparent; }
+#masteryList::-webkit-scrollbar { width: 4px; }
+#masteryList::-webkit-scrollbar-thumb { background: rgba(200,170,110,0.3); border-radius: 2px; }
+
+.mastery-row__lvl  {
+    margin-left: auto;
+    background: rgba(200,170,110,0.12); border: 1px solid var(--lol-border);
+    color: var(--lol-gold); font-size: 0.7rem; font-weight: 800;
+    padding: 2px 9px; border-radius: 999px;
+}
+
+/* ── CHAMPION STATS ── */
+.champ-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+.champ-stat-card {
+    background: var(--lol-card); border: 1px solid var(--lol-border);
+    border-radius: 10px; padding: 0.9rem 1rem;
+    display: flex; align-items: center; gap: 0.9rem;
+}
+.champ-stat-card img { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--lol-border); flex-shrink: 0; }
+.champ-stat-card__info { flex: 1; min-width: 0; }
+.champ-stat-card__name { font-weight: 700; font-size: 0.85rem; color: #e0e0e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.champ-stat-card__meta { font-size: 0.72rem; color: #888; margin-top: 0.15rem; }
+.wr-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 999px; margin-top: 0.5rem; overflow: hidden; }
+.wr-bar__fill { height: 100%; border-radius: 999px; transition: width 0.8s ease; }
+
+/* ── MATCHES ── */
+.filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.filter-tab {
+    padding: 0.35rem 1rem; border-radius: 999px;
+    border: 1px solid var(--lol-border); background: transparent;
+    color: #888; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+    transition: all 0.2s;
+}
+.filter-tab:hover, .filter-tab.active {
+    background: rgba(200,170,110,0.15);
+    border-color: var(--lol-gold); color: var(--lol-gold);
+}
+
+.match-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.match-row {
+    display: flex; align-items: center; gap: 0.8rem;
+    background: rgba(0,0,0,0.3); border-radius: 8px;
+    padding: 0.7rem 1rem;
+    border-left: 4px solid transparent;
+    cursor: pointer; transition: background 0.15s, transform 0.15s;
+}
+.match-row:hover { background: rgba(200,170,110,0.07); transform: translateX(2px); }
+.match-row--win  { border-left-color: var(--win); }
+.match-row--loss { border-left-color: var(--loss); }
+.match-row img   { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; }
+.match-row__champ { font-weight: 700; font-size: 0.85rem; min-width: 85px; color: #e0e0e0; }
+.match-row__queue {
+    font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+    background: rgba(255,255,255,0.06); color: #888; min-width: 60px; text-align: center;
+}
+.match-row__result { font-size: 0.82rem; font-weight: 800; min-width: 55px; }
+.match-row--win  .match-row__result { color: var(--win); }
+.match-row--loss .match-row__result { color: var(--loss); }
+.match-row__kda  { font-size: 0.82rem; color: #bbb; min-width: 65px; }
+.match-row__cs   { font-size: 0.78rem; color: #777; min-width: 50px; }
+.match-row__items { display: flex; gap: 3px; flex-wrap: wrap; flex: 1; }
+.match-row__items img { width: 24px; height: 24px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+.match-row__dur  { font-size: 0.75rem; color: #555; white-space: nowrap; }
+.match-row__date { font-size: 0.72rem; color: #555; white-space: nowrap; }
+
+.btn-load-more {
+    background: rgba(200,170,110,0.08); border: 1px solid var(--lol-border);
+    color: var(--lol-gold); font-size: 0.82rem; font-weight: 700;
+    padding: 0.55rem 1.5rem; border-radius: 999px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    transition: background 0.2s, border-color 0.2s;
+}
+.btn-load-more:hover { background: rgba(200,170,110,0.18); border-color: var(--lol-gold); }
+.btn-load-more:disabled { opacity: 0.3; cursor: default; }
+
+/* ── MODAL ── */
+.lol-modal {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+    padding: 1rem;
+}
+.lol-modal.open { display: flex; }
+.lol-modal__box {
+    background: #050F23; border: 1px solid var(--lol-border);
+    border-radius: 16px; width: 100%; max-width: 1000px;
+    max-height: 90vh; overflow-y: auto;
+    padding: 1.5rem;
+}
+.lol-modal__head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.2rem;
+}
+.lol-modal__head h3 { font-size: 1rem; color: var(--lol-gold); margin: 0; }
+.lol-modal__close {
+    background: none; border: none; color: #888; font-size: 1.4rem;
+    cursor: pointer; line-height: 1; transition: color 0.2s;
+}
+.lol-modal__close:hover { color: #fff; }
+.lol-modal__meta { font-size: 0.78rem; color: #666; margin-bottom: 1rem; }
+
+.modal-teams { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+
+.team-label {
+    font-size: 0.62rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 4px;
+    margin-bottom: 0.4rem; display: inline-block;
+}
+.team-label--win  { background: rgba(76,175,80,0.15); color: var(--win); }
+.team-label--loss { background: rgba(224,85,85,0.12); color: var(--loss); }
+
+.modal-participants { display: flex; flex-direction: column; gap: 0.25rem; }
+.modal-player {
+    display: flex; align-items: center; gap: 0.45rem;
+    padding: 0.3rem 0.5rem; border-radius: 6px;
+    background: rgba(0,0,0,0.2);
+}
+.modal-player--me { background: rgba(200,170,110,0.08); border: 1px solid rgba(200,170,110,0.2); }
+.modal-player img { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; }
+.modal-player__name { font-size: 0.72rem; font-weight: 600; width: 80px; color: #e0e0e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+.modal-player--me .modal-player__name { color: var(--lol-gold); }
+.modal-player__kda  { font-size: 0.7rem; color: #bbb; width: 55px; flex-shrink: 0; }
+.modal-player__items { display: flex; gap: 2px; flex-wrap: nowrap; }
+.modal-player__items img { width: 20px; height: 20px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.08); }
+
+/* ── LIVE BANNER ── */
+.live-banner {
+    display: flex; align-items: center; gap: 0.8rem;
+    background: rgba(224,85,85,0.08); border: 1px solid rgba(224,85,85,0.3);
+    border-radius: 10px; padding: 0.8rem 1.2rem; width: 100%;
+}
+.live-banner img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(224,85,85,0.5); }
+.live-banner span { font-size: 0.88rem; color: #e0e0e0; }
+.live-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--loss); flex-shrink: 0;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(224,85,85,0.6); }
+    50%      { opacity: 0.7; box-shadow: 0 0 0 6px rgba(224,85,85,0); }
+}
+.live-timer { margin-left: auto; font-size: 0.82rem; color: var(--loss); font-weight: 700; }
+
+/* ── ROTATION ── */
+.rotation-grid {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+}
+.rotation-item {
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+    width: 60px; cursor: default;
+}
+.rotation-item img { width: 48px; height: 48px; border-radius: 8px; border: 1px solid var(--lol-border); transition: border-color 0.2s; }
+.rotation-item:hover img { border-color: var(--lol-gold); }
+.rotation-item span { font-size: 0.6rem; color: #888; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+
+/* ── TOOLTIP CHAMPION ── */
+.champ-tooltip {
+    position: fixed; z-index: 999; pointer-events: none;
+    background: #050F23; border: 1px solid var(--lol-border);
+    border-radius: 10px; overflow: hidden; width: 190px;
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.15s, transform 0.15s;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.champ-tooltip.visible { opacity: 1; transform: none; }
+.champ-tooltip__splash { width: 100%; height: 85px; object-fit: cover; object-position: top center; }
+.champ-tooltip__info { padding: 0.5rem 0.75rem; }
+.champ-tooltip__name { font-size: 0.85rem; font-weight: 800; color: var(--lol-gold); }
+.champ-tooltip__sub  { font-size: 0.7rem; color: #777; margin-top: 0.2rem; }
+
+/* ── EMPTY / ERROR ── */
+.lol-error {
+    max-width: 700px; margin: 8rem auto; padding: 2rem; text-align: center;
+    background: rgba(224,85,85,0.07); border: 1px solid rgba(224,85,85,0.25);
+    border-radius: 12px; color: #e05555;
+}
+
+/* ── RECORDS ── */
+.records-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.record-card {
+    background: var(--lol-card); border: 1px solid var(--lol-border);
+    border-radius: 10px; padding: 1rem 1.2rem;
+    display: flex; flex-direction: column; gap: 0.25rem;
+}
+.record-card__label { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #555; }
+.record-card__value { font-size: 1.6rem; font-weight: 900; color: var(--lol-gold); line-height: 1; }
+.record-card__sub   { font-size: 0.7rem; color: #666; }
+
+/* ── ROLE + QUEUE ── */
+.role-bar { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.6rem; }
+.role-bar__name  { font-size: 0.75rem; font-weight: 700; color: #ccc; width: 60px; flex-shrink: 0; }
+.role-bar__track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
+.role-bar__fill  { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--lol-gold-dark), var(--lol-gold)); }
+.role-bar__meta  { font-size: 0.68rem; color: #666; width: 80px; text-align: right; flex-shrink: 0; }
+
+/* ── TOP DUOS ── */
+.duo-grid { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.duo-card {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: rgba(0,0,0,0.3); border: 1px solid var(--lol-border);
+    border-radius: 8px; padding: 0.6rem 0.9rem; min-width: 180px;
+}
+.duo-card img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--lol-border); flex-shrink: 0; }
+.duo-card__name { font-size: 0.78rem; font-weight: 700; color: #e0e0e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+.duo-card__meta { font-size: 0.68rem; color: #666; margin-top: 0.1rem; }
+
+/* ── HEATMAP ── */
+.heatmap-wrap { overflow-x: auto; padding-bottom: 0.5rem; }
+.heatmap-outer { display: flex; gap: 6px; }
+.heatmap-day-labels { display: flex; flex-direction: column; gap: 3px; padding-top: 20px; }
+.heatmap-day-labels span { font-size: 0.58rem; color: #444; height: 12px; line-height: 12px; text-align: right; }
+.heatmap-right { display: flex; flex-direction: column; gap: 3px; }
+.heatmap-months { display: flex; gap: 3px; height: 16px; margin-bottom: 4px; }
+.heatmap-month-label { font-size: 0.6rem; color: #555; }
+.heatmap-grid {
+    display: grid;
+    grid-template-rows: repeat(7, 12px);
+    grid-auto-flow: column;
+    grid-auto-columns: 12px;
+    gap: 3px;
+}
+.heatmap-cell {
+    width: 12px; height: 12px; border-radius: 2px;
+    background: rgba(200,170,110,0.06);
+    cursor: default; transition: transform 0.1s;
+}
+.heatmap-cell:hover { transform: scale(1.3); }
+.heatmap-legend { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.7rem; font-size: 0.65rem; color: #555; }
+.heatmap-legend-cell { width: 12px; height: 12px; border-radius: 2px; }
+
+@media (max-width: 768px) {
+    .lol-grid-2 { grid-template-columns: 1fr; }
+    .rank-grid   { grid-template-columns: 1fr 1fr; }
+    .records-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Décaler le hero sous la navbar (fixed 70px) + splash flush */
+    .lol-hero {
+        height: 260px;
+        margin-top: var(--nav-height);
+    }
+    .lol-hero__name { font-size: 1.4rem; }
+    .lol-hero__content { padding: 0 1rem 1.5rem; gap: 0.75rem; }
+    .lol-hero__avatar img { width: 64px; height: 64px; }
+
+    .lol-main { padding: 1rem; }
+
+    /* Match rows : masquer colonnes secondaires */
+    .match-row__cs, .match-row__items, .match-row__hint,
+    .match-row__dur, .match-row__date { display: none; }
+    .match-row__champ { min-width: 70px; font-size: 0.78rem; }
+    .match-row__kda   { min-width: 55px; font-size: 0.75rem; }
+
+    /* Modal équipes en colonne */
+    .modal-teams { grid-template-columns: 1fr; }
+    .lol-modal__box { padding: 1rem; }
+
+    /* Duos full width */
+    .duo-card { min-width: unset; flex: 1 1 calc(50% - 0.4rem); }
+
+    /* Champ stats */
+    .champ-grid { grid-template-columns: 1fr; }
+
+    /* Heatmap scrollable */
+    .heatmap-wrap { -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 480px) {
+    .rank-grid    { grid-template-columns: 1fr; }
+    .records-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .lol-hero__name { font-size: 1.2rem; }
+    .lol-hero__badges { gap: 0.3rem; }
+    .badge { font-size: 0.68rem; padding: 0.2rem 0.55rem; }
+
+    .match-row__queue { display: none; }
+    .match-row { gap: 0.5rem; padding: 0.5rem 0.6rem; }
+    .match-row img { width: 34px; height: 34px; }
+
+    .duo-card { flex: 1 1 100%; }
+    .record-card__value { font-size: 1.3rem; }
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="lol-page">
+
+{% if error %}
+    <div class="lol-error">
+        <strong>Impossible de charger les données Riot.</strong>
+        <p style="font-size:.85rem;margin-top:.5rem;color:#aaa;">{{ error }}</p>
+    </div>
+{% elseif data %}
+
+{# ── HERO ── #}
+<section class="lol-hero">
+    <div class="lol-hero__splash" style="background-image: url('{{ asset('images/lucian_splash.jpg') }}')"></div>
+    <div class="lol-hero__overlay"></div>
+    <div id="lol-particles"></div>
+
+    <div class="lol-hero__content">
+        <div class="lol-hero__avatar">
+            <img src="{{ data.iconUrl }}" alt="Icône">
+            <span class="lol-hero__lvl">Niv. {{ data.level }}</span>
+        </div>
+        <div class="lol-hero__info">
+            <h1 class="lol-hero__name">{{ data.gameName }} <span>#{{ data.tagLine }}</span></h1>
+            <div class="lol-hero__badges">
+                <span class="badge badge--blue">⚔ KDA {{ data.avgKda }}</span>
+                {% if data.streak > 1 %}
+                    <span class="badge badge--win">🔥 {{ data.streak }} Win Streak</span>
+                {% elseif data.streak < -1 %}
+                    <span class="badge badge--loss">💀 {{ data.streak|abs }} Loss Streak</span>
+                {% endif %}
+                {% if data.soloRank %}
+                    <span class="badge badge--gold">🏆 {{ data.soloRank.tier }} {{ data.soloRank.rank }} — {{ data.soloRank.leaguePoints }} LP</span>
+                {% endif %}
+                {% if data.mainRole %}
+                    <span class="badge badge--gold">🎯 {{ data.mainRole }}</span>
+                {% endif %}
+                {% if data.totalMastery %}
+                    <span class="badge badge--blue">✨ Maîtrise totale {{ data.totalMastery }}</span>
+                {% endif %}
+                <span id="lastGameBadge" class="badge badge--link" style="display:none"></span>
+                <span id="trendBadge" class="badge" style="display:none"></span>
+                <a href="{{ data.opggUrl }}" target="_blank" rel="noopener" class="badge badge--link">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                    op.gg
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="lol-main">
+
+    {# ── LIVE GAME ── #}
+    <div id="liveGameBanner" style="margin-bottom:1.2rem;display:{% if liveGame %}flex{% else %}none{% endif %}">
+        {% if liveGame %}
+        <div class="live-banner">
+            <span class="live-dot"></span>
+            <img src="{{ liveGame.imageUrl }}" alt="{{ liveGame.championName }}">
+            <span><strong>{{ liveGame.championName }}</strong> — {{ liveGame.queueName }}</span>
+            <span id="liveTimer" class="live-timer">...</span>
+        </div>
+        {% else %}
+        <div class="live-banner" style="display:none"></div>
+        {% endif %}
+    </div>
+
+    {# ── RANKS + MASTERIES ── #}
+    <div class="lol-grid-2" id="rankMasteryGrid" style="align-items:start;">
+        <div class="lol-card" id="rankCard">
+            <h2 class="lol-card__title">Classements</h2>
+
+            {# Saison en cours #}
+            {% set soloEntry = null %}
+            {% set flexEntry = null %}
+            {% for e in data.entries %}
+                {% if e.queueType == 'RANKED_SOLO_5x5' %}{% set soloEntry = e %}{% endif %}
+                {% if e.queueType == 'RANKED_FLEX_SR'  %}{% set flexEntry = e %}{% endif %}
+            {% endfor %}
+            <div class="rank-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 1.4rem;">
+                {% for entry in [soloEntry, flexEntry] %}
+                {% set label = loop.index == 1 ? 'Solo / Duo' : 'Flex 5v5' %}
+                {% if entry %}
+                <div class="rank-box">
+                    <div class="rank-box__queue">{{ label }}</div>
+                    <div class="rank-box__tier">{{ entry.tier }} {{ entry.rank }}</div>
+                    <div class="rank-box__lp">{{ entry.leaguePoints }} LP</div>
+                    <div class="rank-box__wr">
+                        {{ entry.wins }}V {{ entry.losses }}D —
+                        <strong>{{ ((entry.wins / (entry.wins + entry.losses)) * 100)|round }}%</strong>
+                    </div>
+                    {% if entry.hotStreak %}
+                    <div style="font-size:.7rem;color:#ff9800;margin-top:.3rem;">🔥 En série</div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="rank-box rank-box--empty">
+                    <div class="rank-box__queue">{{ label }}</div>
+                    <div class="rank-box__tier">Non classé</div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            {# Historique Solo/Duo #}
+            <div style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#555;margin-bottom:0.5rem;">
+                Historique Solo / Duo
+            </div>
+            {% set seasons = [
+                { season: 'S2025',    tier: 'EMERALD',  div: 'III', lp: 21,  best: false },
+                { season: 'S2024 S3', tier: 'EMERALD',  div: 'I',   lp: 75,  best: false },
+                { season: 'S2024 S2', tier: 'EMERALD',  div: 'I',   lp: 75,  best: false },
+                { season: 'S2024 S1', tier: 'DIAMOND',  div: 'III', lp: 0,   best: false },
+                { season: 'S2023 S2', tier: 'MASTER',   div: '',    lp: 0,   best: true  },
+                { season: 'S2023 S1', tier: 'DIAMOND',  div: 'IV',  lp: 1,   best: false },
+                { season: 'S2022',    tier: 'PLATINUM', div: 'IV',  lp: 36,  best: false },
+                { season: 'S2021',    tier: 'GOLD',     div: 'II',  lp: 79,  best: false },
+            ] %}
+            <table class="season-table">
+                <thead>
+                    <tr>
+                        <th>Saison</th>
+                        <th style="text-align:right;">Rang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for s in seasons %}
+                <tr class="{{ s.best ? 'season-row--best' : '' }}">
+                    <td style="color:#888;">{{ s.season }}</td>
+                    <td style="text-align:right;">
+                        {% if s.best %}<span class="best-badge">⭐ Meilleur</span>{% endif %}
+                        <span class="tier-badge tier-badge--{{ s.tier|lower }}">
+                            {{ s.tier|capitalize }} {{ s.div }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div style="margin-top:1rem;position:relative;height:65px;">
+                <canvas id="lpChart"></canvas>
+            </div>
+        </div>
+
+        <div class="lol-card" id="masteryCard" style="display:flex;flex-direction:column;overflow:hidden;">
+            <h2 class="lol-card__title">Champions maîtrisés</h2>
+            <div class="mastery-list" id="masteryList" style="flex:1;min-height:0;overflow-y:auto;padding-right:4px;max-height:520px;">
+                {% for m in data.masteries %}
+                {% set s = m.matchStats %}
+                <div class="mastery-row" data-mastery-idx="{{ loop.index0 }}">
+                    <img src="{{ m.imageUrl }}" alt="{{ m.championName }}" loading="lazy">
+                    <div style="flex:1;min-width:0;">
+                        <div class="mastery-row__name">{{ m.championName }}</div>
+                        <div class="mastery-row__pts">{{ (m.championPoints / 1000)|round(1) }}k pts</div>
+                        {% if s %}
+                        {% set kda = s.deaths > 0 ? ((s.kills + s.assists) / s.deaths)|round(2) : (s.kills + s.assists) %}
+                        {% set csMin = s.duration > 0 ? (s.cs / (s.duration / 60))|round(1) : 0 %}
+                        {% set avgDmg = s.games > 0 ? (s.damage / s.games)|round : 0 %}
+                        {% set avgVision = s.games > 0 ? (s.vision / s.games)|round(1) : 0 %}
+                        <div class="mastery-row__match-stats">
+                            {{ s.games }} partie{{ s.games > 1 ? 's' : '' }} · KDA {{ kda }} · {{ csMin }} cs/min · 👁 {{ avgVision }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mastery-row__lvl">M{{ m.championLevel }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# ── GRAPHIQUE KDA ── #}
+    <div class="lol-card" style="margin-bottom:1.5rem;">
+        <h2 class="lol-card__title">KDA — 20 dernières parties</h2>
+        <div style="position:relative;height:160px;">
+            <div id="kdaChartSkeleton" class="skeleton chart-skeleton" style="position:absolute;inset:0;"></div>
+            <canvas id="kdaChart"></canvas>
+        </div>
+    </div>
+
+    {# ── RECORDS ── #}
+    <div class="records-grid">
+        <div class="record-card">
+            <div class="record-card__label">⚡ Meilleur KDA</div>
+            <div class="record-card__value" data-count="{{ data.records.bestKda }}" data-decimals="2">0</div>
+            <div class="record-card__sub">{{ data.records.bestKdaScore }} · {{ data.records.bestKdaChamp }}</div>
+        </div>
+        <div class="record-card">
+            <div class="record-card__label">⚔️ Plus de kills</div>
+            <div class="record-card__value" data-count="{{ data.records.mostKills }}">0</div>
+            <div class="record-card__sub">{{ data.records.mostKillsChamp }}</div>
+        </div>
+        <div class="record-card">
+            <div class="record-card__label">🌟 Pentas</div>
+            <div class="record-card__value" data-count="{{ data.records.pentaTotal }}">0</div>
+            <div class="record-card__sub">sur {{ data.totalGames }} parties</div>
+        </div>
+        <div class="record-card">
+            <div class="record-card__label">🩸 First Blood</div>
+            <div class="record-card__value" data-count="{{ data.records.firstBloods }}">0</div>
+            <div class="record-card__sub">{{ data.totalGames > 0 ? ((data.records.firstBloods / data.totalGames) * 100)|round : 0 }}% des parties</div>
+        </div>
+    </div>
+
+    {# ── WINRATE PAR RÔLE + RÉPARTITION MODES ── #}
+    <div class="lol-grid-2" style="margin-bottom:1.5rem;">
+        <div class="lol-card">
+            <h2 class="lol-card__title">Winrate par rôle</h2>
+            {% for r in data.roleStats %}
+            {% set wr = r.games > 0 ? ((r.wins / r.games) * 100)|round : 0 %}
+            <div class="role-bar">
+                <div class="role-bar__name">{{ r.role }}</div>
+                <div class="role-bar__track">
+                    <div class="role-bar__fill" data-width="{{ wr }}" style="width:0%;{% if wr >= 60 %}background:var(--win){% elseif wr < 40 %}background:var(--loss){% endif %}"></div>
+                </div>
+                <div class="role-bar__meta">{{ r.wins }}V {{ r.games - r.wins }}D · <strong style="color:{% if wr >= 60 %}var(--win){% elseif wr >= 50 %}var(--lol-blue){% else %}var(--loss){% endif %}">{{ wr }}%</strong></div>
+            </div>
+            {% else %}
+            <p style="color:#555;font-size:0.8rem;">Pas assez de données</p>
+            {% endfor %}
+        </div>
+        <div class="lol-card">
+            <h2 class="lol-card__title">Répartition des modes</h2>
+            <div style="position:relative;height:160px;">
+                <div id="queueChartSkeleton" class="skeleton chart-skeleton" style="position:absolute;inset:0;"></div>
+                <canvas id="queueChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    {# ── STATS PAR CHAMPION ── #}
+    <div class="lol-card" style="margin-bottom:1.5rem;">
+        <h2 class="lol-card__title">Stats par champion <span style="font-weight:400;color:#666;font-size:0.7rem;text-transform:none;letter-spacing:0;">({{ data.totalGames }} dernières parties)</span></h2>
+        <div class="champ-grid">
+            {% for c in data.championStats %}
+            {% set wr = ((c.wins / c.games) * 100)|round %}
+            {% set kda = c.deaths > 0 ? ((c.kills + c.assists) / c.deaths)|round(2) : (c.kills + c.assists) %}
+            {% set csMin = c.duration > 0 ? (c.cs / (c.duration / 60))|round(1) : 0 %}
+            {% set avgDmg = c.games > 0 ? (c.damage / c.games)|round : 0 %}
+            {% set avgVision = c.games > 0 ? (c.vision / c.games)|round(1) : 0 %}
+            <div class="champ-stat-card">
+                <img src="{{ c.imageUrl }}" alt="{{ c.championName }}" loading="lazy">
+                <div class="champ-stat-card__info">
+                    <div class="champ-stat-card__name">{{ c.championName }}</div>
+                    <div class="champ-stat-card__meta">
+                        {{ c.games }} partie{{ c.games > 1 ? 's' : '' }} · KDA {{ kda }}
+                    </div>
+                    <div class="champ-stat-card__meta">
+                        {{ csMin }} cs/min · {{ avgDmg|number_format(0, ',', '\u{202F}') }} dmg · 👁 {{ avgVision }}
+                    </div>
+                    <div class="wr-bar">
+                        <div class="wr-bar__fill" style="width:{{ wr }}%;background:{% if wr >= 60 %}var(--win){% elseif wr >= 50 %}var(--lol-blue){% else %}var(--loss){% endif %};"></div>
+                    </div>
+                    <div style="font-size:0.7rem;margin-top:0.25rem;{% if wr >= 60 %}color:var(--win){% elseif wr >= 50 %}color:var(--lol-blue){% else %}color:var(--loss){% endif %}">{{ wr }}% WR</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# ── HISTORIQUE ── #}
+    <div class="lol-card">
+        <h2 class="lol-card__title">Historique de parties</h2>
+
+        <div class="filter-tabs" id="filterTabs">
+            <button type="button" class="filter-tab active" data-filter="all">Tous</button>
+            <button type="button" class="filter-tab" data-filter="420">Solo/Duo</button>
+            <button type="button" class="filter-tab" data-filter="450">ARAM</button>
+            <button type="button" class="filter-tab" data-filter="440">Flex</button>
+            <button type="button" class="filter-tab" data-filter="400,430">Normal</button>
+        </div>
+
+        <div class="match-list" id="matchList">
+            {% for match in data.matches %}
+            <div class="match-row {{ match.win ? 'match-row--win' : 'match-row--loss' }}"
+                 data-queue="{{ match.queueId }}"
+                 data-idx="{{ loop.index0 }}"
+                >
+                <img src="{{ match.imageUrl }}" alt="{{ match.championName }}" loading="lazy">
+                <div class="match-row__champ">{{ match.championName }}</div>
+                <div class="match-row__queue">{{ match.queueName }}</div>
+                <div class="match-row__result">{{ match.win ? 'Victoire' : 'Défaite' }}</div>
+                <div class="match-row__kda">{{ match.kills }}/{{ match.deaths }}/{{ match.assists }}</div>
+                <div class="match-row__cs">{{ match.cs }} CS</div>
+                <div class="match-row__items">
+                    {% for itemId in match.items %}
+                    <img src="https://ddragon.leagueoflegends.com/cdn/{{ data.ddVersion }}/img/item/{{ itemId }}.png" alt="item">
+                    {% endfor %}
+                </div>
+                <div class="match-row__dur">{{ (match.duration / 60)|round }}min</div>
+                {% if match.gameDate %}
+                <div class="match-row__date">{{ match.gameDate }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="text-align:center;margin-top:1rem;">
+            <button id="loadMoreBtn" class="btn-load-more">
+                Charger plus
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    {# ── HEATMAP + TOP DUOS ── #}
+    <div class="lol-grid-2" style="margin-top:1.5rem;">
+        <div class="lol-card">
+            <h2 class="lol-card__title">Activité — 90 derniers jours</h2>
+            <div class="heatmap-wrap">
+                <div class="heatmap-outer">
+                    <div class="heatmap-day-labels">
+                        <span>L</span><span></span><span>M</span><span></span><span>V</span><span></span><span>D</span>
+                    </div>
+                    <div class="heatmap-right">
+                        <div class="heatmap-months" id="heatmapMonths"></div>
+                        <div class="heatmap-grid" id="heatmapGrid"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="heatmap-legend">
+                <span>Moins</span>
+                <div class="heatmap-legend-cell" style="background:rgba(200,170,110,0.06)"></div>
+                <div class="heatmap-legend-cell" style="background:rgba(200,170,110,0.2)"></div>
+                <div class="heatmap-legend-cell" style="background:rgba(200,170,110,0.45)"></div>
+                <div class="heatmap-legend-cell" style="background:rgba(200,170,110,0.75)"></div>
+                <div class="heatmap-legend-cell" style="background:rgba(200,170,110,1)"></div>
+                <span>Plus</span>
+            </div>
+        </div>
+
+        {% if data.topDuos is not empty %}
+        <div class="lol-card">
+            <h2 class="lol-card__title">Top duos <span style="font-weight:400;color:#555;font-size:0.7rem;text-transform:none;letter-spacing:0;">(joueurs récurrents)</span></h2>
+            <div class="duo-grid">
+                {% for d in data.topDuos %}
+                {% set dwr = ((d.wins / d.games) * 100)|round %}
+                <div class="duo-card">
+                    <img src="{{ d.imageUrl }}" alt="{{ d.name }}" loading="lazy">
+                    <div>
+                        <div class="duo-card__name">{{ d.name }}</div>
+                        <div class="duo-card__meta">{{ d.games }} partie{{ d.games > 1 ? 's' : '' }} · <span style="color:{% if dwr >= 60 %}var(--win){% elseif dwr >= 50 %}var(--lol-blue){% else %}var(--loss){% endif %}">{{ dwr }}% WR</span></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {# ── ROTATION GRATUITE ── #}
+    {% if data.rotation is not empty %}
+    <div class="lol-card" style="margin-top:1.5rem;">
+        <h2 class="lol-card__title">Champions gratuits cette semaine</h2>
+        <div class="rotation-grid">
+            {% for c in data.rotation %}
+            <div class="rotation-item" title="{{ c.championName }}">
+                <img src="{{ c.imageUrl }}" alt="{{ c.championName }}" loading="lazy">
+                <span>{{ c.championName }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+{# ── TOOLTIP CHAMPION ── #}
+<div class="champ-tooltip" id="champTooltip">
+    <img class="champ-tooltip__splash" src="" alt="">
+    <div class="champ-tooltip__info">
+        <div class="champ-tooltip__name"></div>
+        <div class="champ-tooltip__sub"></div>
+    </div>
+</div>
+
+{# ── MODAL ── #}
+<div class="lol-modal" id="matchModal">
+    <div class="lol-modal__box">
+        <div class="lol-modal__head">
+            <h3 id="modalTitle">Détail de la partie</h3>
+            <button class="lol-modal__close">✕</button>
+        </div>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+{# Data for JS — lu par assets/js/league.js #}
+<script type="application/json" id="league-data">
+{
+    "matches":       {{ data.matches|json_encode|raw }},
+    "ddVersion":     {{ data.ddVersion|json_encode|raw }},
+    "chartData":     {{ data.chartData|json_encode|raw }},
+    "queueDist":     {{ data.queueDist|json_encode|raw }},
+    "masteries":     {{ data.masteries|json_encode|raw }},
+    "lastGameTs":    {{ data.lastGameTs ?? 0 }},
+    "liveGameStart": {{ liveGame and liveGame.startTime ? liveGame.startTime : 0 }},
+    "liveGamePath":  {{ path('app_league_live')|json_encode|raw }}
+}
+</script>
+
+{% endif %}
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ asset('js/league.js') }}" defer></script>
+{% endblock %}

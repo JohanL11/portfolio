@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php bin/console cache:clear)",
+      "Bash(php bin/console cache:pool:clear cache.app)"
+    ]
+  }
+}

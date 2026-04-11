@@ -1,0 +1,419 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réalisations professionnelles{% endblock %}
+{% block description %}Réalisations professionnelles de Johan Louap — applications métier, outils mobiles de terrain, infrastructure Linux.{% endblock %}
+{% block og_title %}Réalisations professionnelles — Johan Louap{% endblock %}
+{% block og_desc %}7 ans de développement chez un éditeur de logiciels — des applications métier PHP/Zend aux outils mobiles Android.{% endblock %}
+{% block og_url %}https://johan-louap.fr/projects{% endblock %}
+{% block og_image %}https://johan-louap.fr/img/og-projects.png{% endblock %}
+{% block twitter_image %}https://johan-louap.fr/img/og-projects.png{% endblock %}
+
+{% block stylesheets %}
+<style>
+/* ── HERO STATS ── */
+.projects-hero-stats {
+    display: flex; align-items: center; gap: 2.5rem;
+    justify-content: center; margin-top: 2.5rem; flex-wrap: wrap;
+}
+.pstat { text-align: center; display: flex; flex-direction: column; }
+.pstat-value {
+    font-size: 2rem; font-weight: 800; display: block; line-height: 1;
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.pstat-label {
+    font-size: 0.8rem; color: var(--color-text-faint);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.3rem;
+}
+.pstat-div { width: 1px; height: 40px; background: var(--color-border); }
+@media (max-width: 768px) {
+    .projects-hero-stats {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 0; width: 100%;
+    }
+    .pstat { align-items: center; padding: 0 4px; }
+    .pstat-value { font-size: 1.5rem; }
+    .pstat-label { font-size: 0.65rem; }
+    .pstat-div { display: none; }
+}
+
+/* ── SEARCH ── */
+.proj-search {
+    position: relative; margin-bottom: 1.25rem;
+}
+.proj-search__icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--color-text-faint); pointer-events: none;
+}
+.proj-search__input {
+    width: 100%; padding: 0.65rem 1rem 0.65rem 2.75rem;
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); color: var(--color-text);
+    font-family: var(--font-sans); font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.proj-search__input::placeholder { color: var(--color-text-faint); }
+.proj-search__input:focus {
+    outline: none; border-color: var(--color-primary-light);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+.proj-search__clear {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: var(--color-text-faint);
+    cursor: pointer; font-size: 1rem; line-height: 1; padding: 2px 6px;
+    border-radius: 4px; display: none;
+}
+.proj-search__clear:hover { color: var(--color-text); background: var(--color-border); }
+.proj-search__clear.visible { display: block; }
+
+/* ── TOOLBAR ── */
+.proj-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;
+}
+.proj-count {
+    font-size: 0.82rem; color: var(--color-text-faint);
+    font-weight: 600; letter-spacing: 0.03em;
+}
+.proj-sort { display: flex; gap: 0.35rem; }
+.proj-sort__btn {
+    padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+    border: 1px solid var(--color-border); background: transparent;
+    color: var(--color-text-muted); cursor: pointer;
+    transition: all 0.2s; font-family: var(--font-sans);
+}
+.proj-sort__btn:hover { border-color: var(--color-primary-light); color: var(--color-primary-light); }
+.proj-sort__btn.active {
+    background: rgba(99,102,241,0.12); border-color: var(--color-primary-light);
+    color: var(--color-primary-light);
+}
+
+/* ── FILTERS ── */
+.proj-filter-tabs {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem;
+}
+.proj-filter-tab {
+    padding: 0.4rem 1rem; border-radius: 999px;
+    border: 1px solid var(--color-border); background: transparent;
+    color: var(--color-text-muted); font-size: 0.78rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; font-family: var(--font-sans);
+}
+.proj-filter-tab:hover, .proj-filter-tab.active {
+    background: rgba(99,102,241,0.12);
+    border-color: var(--color-primary-light); color: var(--color-primary-light);
+}
+.proj-filter-count { opacity: 0.5; font-size: 0.8em; margin-left: 3px; }
+.proj-filter-tab--extra { display: none; }
+.proj-filter-tab--extra.revealed { display: inline-flex; }
+.proj-filter-tab--more { border-style: dashed; }
+.proj-filter-tab--more.expanded { color: var(--color-primary-light); border-color: var(--color-primary-light); }
+
+
+/* ── CARD FILTER ANIMATION ── */
+.project-card.proj-card--out {
+    opacity: 0 !important;
+    transform: scale(0.92) translateY(8px) !important;
+    pointer-events: none;
+}
+
+/* ── CARD CLICKABLE ── */
+.project-card--clickable { cursor: pointer; }
+.project-card__hint {
+    font-size: 0.7rem; color: var(--color-text-faint);
+    margin-top: 0.75rem; text-align: right;
+    opacity: 0; transition: opacity 0.2s;
+}
+.project-card--clickable:hover .project-card__hint { opacity: 1; }
+@media (hover: none), (pointer: coarse) { .project-card__hint { opacity: 1 !important; } }
+
+/* ── EMPTY FILTER STATE ── */
+.proj-empty-filter {
+    display: none; text-align: center;
+    padding: 4rem 1rem; grid-column: 1 / -1;
+}
+.proj-empty-filter__icon { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
+.proj-empty-filter__title { font-size: 1.1rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.5rem; }
+.proj-empty-filter__sub { color: var(--color-text-muted); font-size: 0.9rem; }
+.proj-empty-filter__reset {
+    margin-top: 1.25rem; padding: 0.5rem 1.25rem;
+    background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 999px; color: var(--color-primary-light);
+    font-size: 0.82rem; font-weight: 600; cursor: pointer;
+    font-family: var(--font-sans); transition: all 0.2s;
+}
+.proj-empty-filter__reset:hover { background: rgba(99,102,241,0.22); }
+
+/* ── MODAL ── */
+.proj-modal {
+    display: flex; position: fixed; inset: 0; z-index: 1100;
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 1rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s;
+}
+.proj-modal.open { opacity: 1; pointer-events: auto; }
+
+@keyframes modalBoxIn {
+    from { opacity: 0; transform: scale(0.94) translateY(14px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.proj-modal.open .proj-modal__box { animation: modalBoxIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+.proj-modal__box {
+    background: var(--color-surface); border: 1px solid rgba(99,102,241,0.25);
+    border-radius: var(--radius-lg); width: 100%; max-width: 640px;
+    max-height: 90vh; overflow-y: auto; padding: 2rem;
+    box-shadow: var(--shadow-lg), 0 0 40px rgba(99,102,241,0.1);
+}
+.proj-modal__head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; margin-bottom: 1.5rem;
+}
+.proj-modal__head-left { display: flex; align-items: center; gap: 0.6rem; flex: 1; min-width: 0; }
+.proj-modal__icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+.proj-modal__head h3 { font-size: 1.2rem; font-weight: 800; color: var(--color-text); margin: 0; }
+.proj-modal__close {
+    background: none; border: none; color: var(--color-text-muted);
+    font-size: 1.4rem; cursor: pointer; line-height: 1;
+    transition: color 0.2s; flex-shrink: 0; padding: 0;
+}
+.proj-modal__close:hover { color: var(--color-text); }
+.proj-modal__meta {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 1.2rem;
+}
+.proj-modal__featured {
+    background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.3);
+    color: var(--color-primary-light); padding: 2px 10px; border-radius: 999px;
+    font-size: 0.72rem; font-weight: 700;
+}
+.proj-modal__desc {
+    color: var(--color-text-muted); line-height: 1.75;
+    margin-bottom: 1.25rem; font-size: 0.92rem;
+}
+.proj-modal__tags  { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+.proj-modal__links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.btn--sm { padding: 0.45rem 1rem !important; font-size: 0.82rem !important; border-radius: var(--radius-md) !important; }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="page-hero">
+    <div class="container">
+        <h1 class="page-hero__title"><span class="text-gradient">Réalisations</span> professionnelles</h1>
+        <p class="page-hero__subtitle">
+            7 ans de développement chez un éditeur de logiciels — des applications métier aux outils mobiles de terrain.
+        </p>
+
+        {% if projects|length > 0 %}
+        {%- set allUniqueTags = [] -%}
+        {%- for p in projects -%}
+            {%- for t in p.tags -%}
+                {%- if t not in allUniqueTags -%}{%- set allUniqueTags = allUniqueTags|merge([t]) -%}{%- endif -%}
+            {%- endfor -%}
+        {%- endfor -%}
+        <div class="projects-hero-stats">
+            <div class="pstat">
+                <span class="pstat-value" data-count="{{ projects|length }}">0</span>
+                <span class="pstat-label">réalisations</span>
+            </div>
+            <div class="pstat-div"></div>
+            <div class="pstat">
+                <span class="pstat-value" data-count="{{ allUniqueTags|length }}">0</span>
+                <span class="pstat-label">technologies</span>
+            </div>
+            <div class="pstat-div"></div>
+            <div class="pstat">
+                <span class="pstat-value" data-count="3">0</span>
+                <span class="pstat-label">apps mobiles</span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        {% if projects|length == 0 %}
+            <div class="empty-state">
+                <span class="empty-state__icon">🚧</span>
+                <h3>Projets en cours de chargement</h3>
+                <p>Lancez <code>php bin/console doctrine:fixtures:load</code> pour charger les données.</p>
+            </div>
+        {% else %}
+            {%- set tagCounts = {} -%}
+            {%- for p in projects -%}
+                {%- for t in p.tags -%}
+                    {%- set tagCounts = tagCounts|merge({(t): (tagCounts[t] ?? 0) + 1}) -%}
+                {%- endfor -%}
+            {%- endfor -%}
+
+            {# ── SEARCH ── #}
+            <div class="proj-search">
+                <svg class="proj-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="projSearch" class="proj-search__input" placeholder="Rechercher une réalisation…" autocomplete="off">
+                <button type="button" class="proj-search__clear" id="projSearchClear" aria-label="Effacer">✕</button>
+            </div>
+
+            {# ── TOOLBAR ── #}
+            <div class="proj-toolbar">
+                <span class="proj-count" id="projCount">{{ projects|length }} réalisation{{ projects|length > 1 ? 's' : '' }}</span>
+                <div class="proj-sort" id="projSort">
+                    <button type="button" class="proj-sort__btn active" data-sort="default">Par défaut</button>
+                    <button type="button" class="proj-sort__btn" data-sort="featured">⭐ Mis en avant</button>
+                    <button type="button" class="proj-sort__btn" data-sort="alpha">A – Z</button>
+                </div>
+            </div>
+
+            {# ── FILTER TABS ── #}
+            {%- set tagMax = 8 -%}
+            {%- set tagIdx = 0 -%}
+            <div class="proj-filter-tabs" id="projectFilterTabs">
+                <button type="button" class="proj-filter-tab active" data-filter="all">Tous <span class="proj-filter-count">({{ projects|length }})</span></button>
+                {% for t, count in tagCounts %}
+                    {%- set tagIdx = tagIdx + 1 -%}
+                    <button type="button" class="proj-filter-tab{% if tagIdx > tagMax %} proj-filter-tab--extra{% endif %}" data-filter="{{ t|e }}">
+                        {{ t }}<span class="proj-filter-count"> ({{ count }})</span>
+                    </button>
+                {% endfor %}
+                {% if tagCounts|length > tagMax %}
+                <button type="button" class="proj-filter-tab proj-filter-tab--more" id="projMoreBtn">
+                    +{{ tagCounts|length - tagMax }} autres
+                </button>
+                {% endif %}
+            </div>
+
+            {# ── GRID ── #}
+            <div class="projects-grid projects-grid--full" id="projectsGrid">
+                {% for project in projects %}
+                {%- set tagStr = project.tags|join(',') -%}
+                {%- if 'React Native' in tagStr -%}{%- set pIcon = '📱' -%}
+                {%- elseif 'Linux' in tagStr or 'Docker' in tagStr -%}{%- set pIcon = '🖥️' -%}
+                {%- elseif 'API' in tagStr -%}{%- set pIcon = '📡' -%}
+                {%- elseif 'SQL' in tagStr or 'MySQL' in tagStr or 'PostgreSQL' in tagStr -%}{%- set pIcon = '🗄️' -%}
+                {%- elseif 'Symfony' in tagStr or 'PHP' in tagStr -%}{%- set pIcon = '🌐' -%}
+                {%- else -%}{%- set pIcon = '🛠️' -%}
+                {%- endif -%}
+                <article class="project-card {% if project.featured %}project-card--featured{% endif %} project-card--clickable"
+                         data-tags="{{ project.tags|json_encode|e('html_attr') }}"
+                         data-title="{{ project.title|e('html_attr') }}"
+                         data-desc="{{ project.shortDescription|e('html_attr') }}"
+                         data-featured="{{ project.featured ? 'true' : 'false' }}"
+                         data-idx="{{ loop.index0 }}"
+                         tabindex="0">
+                    {% if project.color %}
+                    <div class="project-card__cover project-card__cover--{{ project.color }}">
+                        {% if project.metrics %}
+                        <div class="project-card__metrics">
+                            {% for metric in project.metrics %}
+                            <div class="project-card__metric">
+                                <span class="project-card__metric-value">{{ metric.value }}</span>
+                                <span class="project-card__metric-label">{{ metric.label }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="project-card__header">
+                        <div class="project-card__meta">
+                            {% if project.featured %}
+                                <span class="project-card__badge">⭐ Mis en avant</span>
+                            {% endif %}
+                        </div>
+                        <div class="project-card__links">
+                            {% if project.githubUrl %}
+                                <a href="{{ project.githubUrl }}" target="_blank" rel="noopener" class="project-card__link" title="Code source">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                                </a>
+                            {% endif %}
+                            {% if project.liveUrl %}
+                                <a href="{{ project.liveUrl }}" target="_blank" rel="noopener" class="project-card__link" title="Demo live">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="project-card__title-row">
+                        <div class="project-card__icon">{{ pIcon }}</div>
+                        <h3 class="project-card__title">{{ project.title }}</h3>
+                    </div>
+                    <p class="project-card__desc">{{ project.shortDescription }}</p>
+                    <div class="project-card__tags">
+                        {% for tag in project.tags %}
+                            <span class="tag" data-tech="{{ tag|lower|replace({' ': '-', '/': '-', '.': ''}) }}">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    <p class="project-card__hint">→ Cliquer pour plus de détails</p>
+                </article>
+                {% endfor %}
+
+                {# ── EMPTY FILTER STATE ── #}
+                <div class="proj-empty-filter" id="projEmptyFilter">
+                    <span class="proj-empty-filter__icon">🔍</span>
+                    <p class="proj-empty-filter__title">Aucune réalisation trouvée</p>
+                    <p class="proj-empty-filter__sub">Essayez un autre filtre ou une autre recherche.</p>
+                    <button type="button" class="proj-empty-filter__reset">Réinitialiser</button>
+                </div>
+            </div>
+
+            {# ── MODAL ── #}
+            <div class="proj-modal" id="projectModal">
+                <div class="proj-modal__box">
+                    <div class="proj-modal__head">
+                        <div class="proj-modal__head-left">
+                            <span class="proj-modal__icon" id="projModalIcon"></span>
+                            <h3 id="projModalTitle"></h3>
+                        </div>
+                        <button class="proj-modal__close">✕</button>
+                    </div>
+                    <div id="projModalContent"></div>
+                </div>
+            </div>
+
+            <script type="application/json" id="projects-data">
+            [
+                {% for p in projects %}
+                {%- set tagStr = p.tags|join(',') -%}
+                {%- if 'React Native' in tagStr -%}{%- set pIcon = '📱' -%}
+                {%- elseif 'Linux' in tagStr or 'Docker' in tagStr -%}{%- set pIcon = '🖥️' -%}
+                {%- elseif 'API' in tagStr -%}{%- set pIcon = '📡' -%}
+                {%- elseif 'SQL' in tagStr or 'MySQL' in tagStr or 'PostgreSQL' in tagStr -%}{%- set pIcon = '🗄️' -%}
+                {%- elseif 'Symfony' in tagStr or 'PHP' in tagStr -%}{%- set pIcon = '🌐' -%}
+                {%- else -%}{%- set pIcon = '🛠️' -%}
+                {%- endif -%}
+                {{ {
+                    "title":       p.title,
+                    "description": p.description,
+                    "tags":        p.tags,
+                    "githubUrl":   p.githubUrl ?? null,
+                    "liveUrl":     p.liveUrl ?? null,
+                    "featured":    p.featured,
+                    "icon":        pIcon
+                }|json_encode|raw }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ]
+            </script>
+        {% endif %}
+    </div>
+</section>
+
+<section class="cta-section section section--dark">
+    <div class="container">
+        <div class="cta-box">
+            <div class="cta-box__orb"></div>
+            <span class="section__tag">Collaboration</span>
+            <h2 class="cta-box__title">Vous avez un projet ?</h2>
+            <p class="cta-box__text">Je suis disponible pour des missions freelance et des collaborations.</p>
+            <a href="{{ path('app_contact') }}" class="btn btn--primary btn--lg">
+                Discutons-en
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{{ asset('js/projects.js') }}" defer></script>
+{% endblock %}

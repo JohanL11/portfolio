@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page introuvable{% endblock %}
+{% block description %}Cette page n'existe pas ou a été déplacée.{% endblock %}
+
+{% block body %}
+<section class="error-page">
+    <div class="error-page__bg">
+        <div class="hero__orb hero__orb--1"></div>
+        <div class="hero__orb hero__orb--2"></div>
+        <div class="hero__grid"></div>
+    </div>
+    <div class="container error-page__content">
+        <div class="error-page__code">
+            <span class="error-page__4">4</span>
+            <span class="error-page__0">0</span>
+            <span class="error-page__4">4</span>
+        </div>
+        <h1 class="error-page__title">Page introuvable</h1>
+        <p class="error-page__subtitle">
+            Cette page n'existe pas ou a été déplacée.<br>
+            <span style="font-family:var(--font-mono);font-size:0.85rem;color:var(--color-text-faint);">// undefined is not a page</span>
+        </p>
+        <div class="error-page__actions">
+            <a href="{{ path('app_home') }}" class="btn btn--primary">
+                Retour à l'accueil
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="{{ path('app_contact') }}" class="btn btn--ghost">Me contacter</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
