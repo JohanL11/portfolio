@@ -480,6 +480,67 @@
     .duo-card { flex: 1 1 100%; }
     .record-card__value { font-size: 1.3rem; }
 }
+
+/* ── LIGHT MODE ── */
+[data-theme="light"] {
+    --lol-bg: #eef2f7;
+    --lol-card: rgba(255,255,255,0.92);
+    --lol-border: rgba(200,170,110,0.35);
+}
+[data-theme="light"] .lol-hero__overlay {
+    background: linear-gradient(to top, #eef2f7 0%, transparent 60%),
+                linear-gradient(to right, rgba(238,242,247,0.8) 0%, transparent 50%);
+}
+[data-theme="light"] .rank-box { background: rgba(255,255,255,0.75); }
+[data-theme="light"] .rank-box__queue { color: #999; }
+[data-theme="light"] .rank-box--empty .rank-box__tier { color: #bbb; }
+[data-theme="light"] .season-table th { color: #999; border-bottom-color: rgba(0,0,0,0.08); }
+[data-theme="light"] .season-table td { color: #444; border-bottom-color: rgba(0,0,0,0.05); }
+[data-theme="light"] .mastery-row { background: rgba(255,255,255,0.75); }
+[data-theme="light"] .mastery-row:hover { background: rgba(200,170,110,0.1); }
+[data-theme="light"] .mastery-row__name { color: #222; }
+[data-theme="light"] .mastery-row__pts { color: #666; }
+[data-theme="light"] .mastery-row__match-stats { color: #888; }
+[data-theme="light"] .champ-stat-card__name { color: #222; }
+[data-theme="light"] .champ-stat-card__meta { color: #666; }
+[data-theme="light"] .wr-bar { background: rgba(0,0,0,0.1); }
+[data-theme="light"] .filter-tab { color: #666; background: rgba(255,255,255,0.7); }
+[data-theme="light"] .match-row { background: rgba(255,255,255,0.75); }
+[data-theme="light"] .match-row:hover { background: rgba(200,170,110,0.1); }
+[data-theme="light"] .match-row__champ { color: #222; }
+[data-theme="light"] .match-row__queue { background: rgba(0,0,0,0.06); color: #666; }
+[data-theme="light"] .match-row__kda { color: #444; }
+[data-theme="light"] .match-row__cs { color: #888; }
+[data-theme="light"] .match-row__dur,
+[data-theme="light"] .match-row__date { color: #888; }
+[data-theme="light"] .match-row__items img { border-color: rgba(0,0,0,0.12); }
+[data-theme="light"] .lol-modal { background: rgba(0,0,0,0.6); }
+[data-theme="light"] .lol-modal__box { background: #f5f7fa; }
+[data-theme="light"] .lol-modal__close:hover { color: #222; }
+[data-theme="light"] .lol-modal__meta { color: #888; }
+[data-theme="light"] .modal-player { background: rgba(0,0,0,0.04); }
+[data-theme="light"] .modal-player__name { color: #222; }
+[data-theme="light"] .modal-player__kda { color: #555; }
+[data-theme="light"] .modal-player__items img { border-color: rgba(0,0,0,0.1); }
+[data-theme="light"] .record-card__label { color: #888; }
+[data-theme="light"] .record-card__sub { color: #888; }
+[data-theme="light"] .role-bar__name { color: #444; }
+[data-theme="light"] .role-bar__track { background: rgba(0,0,0,0.1); }
+[data-theme="light"] .role-bar__meta { color: #888; }
+[data-theme="light"] .duo-card { background: rgba(255,255,255,0.75); }
+[data-theme="light"] .duo-card__name { color: #222; }
+[data-theme="light"] .duo-card__meta { color: #888; }
+[data-theme="light"] .rotation-item span { color: #666; }
+[data-theme="light"] .champ-tooltip { background: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+[data-theme="light"] .champ-tooltip__sub { color: #888; }
+[data-theme="light"] .badge--link { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.15); color: #666; }
+[data-theme="light"] .heatmap-day-labels span { color: #999; }
+[data-theme="light"] .heatmap-month-label { color: #999; }
+[data-theme="light"] .heatmap-cell { background: rgba(200,170,110,0.1); }
+[data-theme="light"] .heatmap-legend { color: #888; }
+[data-theme="light"] .btn-load-more { background: rgba(200,170,110,0.1); }
+[data-theme="light"] .live-banner { background: rgba(224,85,85,0.06); }
+[data-theme="light"] .live-banner span { color: #444; }
 </style>
 {% endblock %}
 
