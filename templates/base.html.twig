@@ -64,14 +64,12 @@
                     <li><a href="{{ path('app_services') }}" class="navbar__link {% if app.request.attributes.get('_route') == 'app_services' %}active{% endif %}">{{ 'nav.services'|trans }}</a></li>
                     <li><a href="{{ path('app_league') }}" class="navbar__link navbar__link--lol {% if app.request.attributes.get('_route') == 'app_league' %}active{% endif %}">{{ 'nav.league'|trans }}</a></li>
                     <li><a href="{{ path('app_contact') }}" class="navbar__link navbar__link--cta {% if app.request.attributes.get('_route') == 'app_contact' %}active{% endif %}">{{ 'nav.contact'|trans }}</a></li>
-                    <li>
+                    <li class="navbar__mobile-controls">
                         <a href="{{ path('app_locale', {locale: app.request.locale == 'fr' ? 'en' : 'fr'}) }}"
                            class="lang-toggle"
                            title="{{ app.request.locale == 'fr' ? 'Switch to English' : 'Passer en français' }}">
                             {{ 'nav.lang'|trans }}
                         </a>
-                    </li>
-                    <li>
                         <button class="theme-toggle" id="themeToggle" aria-label="{{ 'nav.aria_theme'|trans }}" title="{{ 'nav.title_theme'|trans }}">
                             <svg id="themeIconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
                             <svg id="themeIconSun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>

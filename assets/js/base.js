@@ -62,17 +62,56 @@
     function initNavbar() {
         if (window._navInitialized) return;
         window._navInitialized = true;
+
+        // Backdrop
+        var backdrop = document.createElement('div');
+        backdrop.className = 'nav-backdrop';
+        document.body.appendChild(backdrop);
+
+        function openNav() {
+            var nl  = document.getElementById('navLinks');
+            var btn = document.getElementById('navToggle');
+            if (!nl) return;
+            nl.classList.add('open');
+            btn && btn.classList.add('is-open');
+            backdrop.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNav() {
+            var nl  = document.getElementById('navLinks');
+            var btn = document.getElementById('navToggle');
+            if (!nl) return;
+            nl.classList.remove('open');
+            btn && btn.classList.remove('is-open');
+            backdrop.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+
         document.addEventListener('click', function (e) {
             if (e.target.closest('#navToggle')) {
                 var nl = document.getElementById('navLinks');
-                if (nl) nl.classList.toggle('open');
+                if (nl && nl.classList.contains('open')) closeNav();
+                else openNav();
                 return;
             }
-            if (e.target.closest('#navLinks .navbar__link')) {
-                var nl = document.getElementById('navLinks');
-                if (nl) nl.classList.remove('open');
-            }
+            if (e.target.closest('#navLinks .navbar__link')) { closeNav(); return; }
+            if (e.target.closest('#navLinks .lang-toggle'))  { closeNav(); return; }
         });
+
+        backdrop.addEventListener('click', closeNav);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeNav();
+        });
+
+        // Ferme sur scroll vers le bas
+        var lastScrollY = window.scrollY;
+        window.addEventListener('scroll', function () {
+            var nl = document.getElementById('navLinks');
+            if (nl && nl.classList.contains('open') && window.scrollY > lastScrollY + 40) closeNav();
+            lastScrollY = window.scrollY;
+        }, { passive: true });
     }
 
     function syncLocale() {
