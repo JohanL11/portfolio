@@ -12,6 +12,8 @@
     var liveGameStart = d.liveGameStart;
     var liveGamePath  = d.liveGamePath;
 
+    var PAGE_LOCALE = document.documentElement.lang || 'fr';
+
     // ── MODAL ──
     function openModal(idx) {
         var m = matchesData[idx];
@@ -197,7 +199,7 @@
                     tooltip: {
                         backgroundColor: '#050F23', borderColor: 'rgba(200,170,110,0.3)', borderWidth: 1,
                         titleColor: '#C8AA6E', bodyColor: '#aaa',
-                        callbacks: { label: function (item) { return ' ' + item.raw + ' partie' + (item.raw > 1 ? 's' : '') + ' (' + Math.round(item.raw / values.reduce(function (a, b) { return a + b; }, 0) * 100) + '%)'; } }
+                        callbacks: { label: function (item) { var g = PAGE_LOCALE === 'en' ? ' game' : ' partie'; return ' ' + item.raw + g + (item.raw > 1 ? 's' : '') + ' (' + Math.round(item.raw / values.reduce(function (a, b) { return a + b; }, 0) * 100) + '%)'; } }
                     }
                 },
                 cutout: '65%',
@@ -207,6 +209,8 @@
 
     // ── HEATMAP ──
     var MONTHS_FR = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+    var MONTHS_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var MONTHS = PAGE_LOCALE === 'en' ? MONTHS_EN : MONTHS_FR;
 
     function buildHeatmap() {
         var grid   = document.getElementById('heatmapGrid');
@@ -232,8 +236,10 @@
         var maxCount = Math.max.apply(null, cells.map(function (c) { return c.count; }).concat([1]));
         grid.innerHTML = cells.map(function (c) {
             var alpha   = c.count === 0 ? 0.06 : 0.2 + (c.count / maxCount) * 0.8;
-            var dateStr = c.d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
-            return '<div class="heatmap-cell" title="' + dateStr + ' — ' + c.count + ' partie' + (c.count !== 1 ? 's' : '') + '" style="background:rgba(200,170,110,' + alpha.toFixed(2) + ')"></div>';
+            var dtLocale = PAGE_LOCALE === 'en' ? 'en-US' : 'fr-FR';
+            var dateStr = c.d.toLocaleDateString(dtLocale, { day: 'numeric', month: 'short', year: 'numeric' });
+            var gameWord = PAGE_LOCALE === 'en' ? ' game' : ' partie';
+            return '<div class="heatmap-cell" title="' + dateStr + ' — ' + c.count + gameWord + (c.count !== 1 ? 's' : '') + '" style="background:rgba(200,170,110,' + alpha.toFixed(2) + ')"></div>';
         }).join('');
 
         if (!mLabel) return;
@@ -244,7 +250,7 @@
             if (!cell) { html += '<div style="width:12px"></div>'; continue; }
             var mo = cell.d.getMonth();
             if (mo !== lastMonth) {
-                html += '<div class="heatmap-month-label" style="width:' + (12 + 3) + 'px">' + MONTHS_FR[mo] + '</div>';
+                html += '<div class="heatmap-month-label" style="width:' + (12 + 3) + 'px">' + MONTHS[mo] + '</div>';
                 lastMonth = mo;
             } else {
                 html += '<div style="width:' + (12 + 3) + 'px"></div>';

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réalisations professionnelles{% endblock %}
-{% block description %}Réalisations professionnelles de Johan Louap — applications métier, outils mobiles de terrain, infrastructure Linux.{% endblock %}
-{% block og_title %}Réalisations professionnelles — Johan Louap{% endblock %}
-{% block og_desc %}7 ans de développement chez un éditeur de logiciels — des applications métier PHP/Zend aux outils mobiles Android.{% endblock %}
+{% block title %}{{ 'projects.meta_title'|trans }}{% endblock %}
+{% block description %}{{ 'projects.meta_desc'|trans }}{% endblock %}
+{% block og_title %}{{ 'projects.og_title'|trans }}{% endblock %}
+{% block og_desc %}{{ 'projects.og_desc'|trans }}{% endblock %}
 {% block og_url %}https://johan-louap.fr/projects{% endblock %}
 {% block og_image %}https://johan-louap.fr/img/og-projects.png{% endblock %}
 {% block twitter_image %}https://johan-louap.fr/img/og-projects.png{% endblock %}
@@ -200,9 +200,9 @@
 {% block body %}
 <section class="page-hero">
     <div class="container">
-        <h1 class="page-hero__title"><span class="text-gradient">Réalisations</span> professionnelles</h1>
+        <h1 class="page-hero__title">{{ 'projects.hero.title'|trans|raw }}</h1>
         <p class="page-hero__subtitle">
-            7 ans de développement chez un éditeur de logiciels — des applications métier aux outils mobiles de terrain.
+            {{ 'projects.hero.subtitle'|trans }}
         </p>
 
         {% if projects|length > 0 %}
@@ -215,17 +215,17 @@
         <div class="projects-hero-stats">
             <div class="pstat">
                 <span class="pstat-value" data-count="{{ projects|length }}">0</span>
-                <span class="pstat-label">réalisations</span>
+                <span class="pstat-label">{{ 'projects.stat.projects'|trans }}</span>
             </div>
             <div class="pstat-div"></div>
             <div class="pstat">
                 <span class="pstat-value" data-count="{{ allUniqueTags|length }}">0</span>
-                <span class="pstat-label">technologies</span>
+                <span class="pstat-label">{{ 'projects.stat.tech'|trans }}</span>
             </div>
             <div class="pstat-div"></div>
             <div class="pstat">
                 <span class="pstat-value" data-count="3">0</span>
-                <span class="pstat-label">apps mobiles</span>
+                <span class="pstat-label">{{ 'projects.stat.mobile'|trans }}</span>
             </div>
         </div>
         {% endif %}
@@ -237,8 +237,8 @@
         {% if projects|length == 0 %}
             <div class="empty-state">
                 <span class="empty-state__icon">🚧</span>
-                <h3>Projets en cours de chargement</h3>
-                <p>Lancez <code>php bin/console doctrine:fixtures:load</code> pour charger les données.</p>
+                <h3>{{ 'projects.empty.title'|trans }}</h3>
+                <p>{{ 'projects.empty.text'|trans|raw }}</p>
             </div>
         {% else %}
             {%- set tagCounts = {} -%}
@@ -251,17 +251,17 @@
             {# ── SEARCH ── #}
             <div class="proj-search">
                 <svg class="proj-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                <input type="text" id="projSearch" class="proj-search__input" placeholder="Rechercher une réalisation…" autocomplete="off">
-                <button type="button" class="proj-search__clear" id="projSearchClear" aria-label="Effacer">✕</button>
+                <input type="text" id="projSearch" class="proj-search__input" placeholder="{{ 'projects.search.placeholder'|trans }}" autocomplete="off">
+                <button type="button" class="proj-search__clear" id="projSearchClear" aria-label="✕">✕</button>
             </div>
 
             {# ── TOOLBAR ── #}
             <div class="proj-toolbar">
-                <span class="proj-count" id="projCount">{{ projects|length }} réalisation{{ projects|length > 1 ? 's' : '' }}</span>
+                <span class="proj-count" id="projCount">{{ projects|length }} {{ projects|length > 1 ? 'projects.count.plural'|trans({'%count%': projects|length}) : 'projects.count.singular'|trans({'%count%': projects|length}) }}</span>
                 <div class="proj-sort" id="projSort">
-                    <button type="button" class="proj-sort__btn active" data-sort="default">Par défaut</button>
-                    <button type="button" class="proj-sort__btn" data-sort="featured">⭐ Mis en avant</button>
-                    <button type="button" class="proj-sort__btn" data-sort="alpha">A – Z</button>
+                    <button type="button" class="proj-sort__btn active" data-sort="default">{{ 'projects.sort.default'|trans }}</button>
+                    <button type="button" class="proj-sort__btn" data-sort="featured">{{ 'projects.sort.featured'|trans }}</button>
+                    <button type="button" class="proj-sort__btn" data-sort="alpha">{{ 'projects.sort.alpha'|trans }}</button>
                 </div>
             </div>
 
@@ -269,7 +269,7 @@
             {%- set tagMax = 8 -%}
             {%- set tagIdx = 0 -%}
             <div class="proj-filter-tabs" id="projectFilterTabs">
-                <button type="button" class="proj-filter-tab active" data-filter="all">Tous <span class="proj-filter-count">({{ projects|length }})</span></button>
+                <button type="button" class="proj-filter-tab active" data-filter="all">{{ 'projects.filter.all'|trans }} <span class="proj-filter-count">({{ projects|length }})</span></button>
                 {% for t, count in tagCounts %}
                     {%- set tagIdx = tagIdx + 1 -%}
                     <button type="button" class="proj-filter-tab{% if tagIdx > tagMax %} proj-filter-tab--extra{% endif %}" data-filter="{{ t|e }}">
@@ -278,7 +278,7 @@
                 {% endfor %}
                 {% if tagCounts|length > tagMax %}
                 <button type="button" class="proj-filter-tab proj-filter-tab--more" id="projMoreBtn">
-                    +{{ tagCounts|length - tagMax }} autres
+                    {{ 'projects.filter.more'|trans({'%count%': tagCounts|length - tagMax}) }}
                 </button>
                 {% endif %}
             </div>
@@ -294,10 +294,12 @@
                 {%- elseif 'Symfony' in tagStr or 'PHP' in tagStr -%}{%- set pIcon = '🌐' -%}
                 {%- else -%}{%- set pIcon = '🛠️' -%}
                 {%- endif -%}
+                {%- set pTitle = (app.request.locale == 'en' and project.titleEn) ? project.titleEn : project.title -%}
+                {%- set pShort = (app.request.locale == 'en' and project.shortDescriptionEn) ? project.shortDescriptionEn : project.shortDescription -%}
                 <article class="project-card {% if project.featured %}project-card--featured{% endif %} project-card--clickable"
                          data-tags="{{ project.tags|json_encode|e('html_attr') }}"
-                         data-title="{{ project.title|e('html_attr') }}"
-                         data-desc="{{ project.shortDescription|e('html_attr') }}"
+                         data-title="{{ pTitle|e('html_attr') }}"
+                         data-desc="{{ pShort|e('html_attr') }}"
                          data-featured="{{ project.featured ? 'true' : 'false' }}"
                          data-idx="{{ loop.index0 }}"
                          tabindex="0">
@@ -308,7 +310,7 @@
                             {% for metric in project.metrics %}
                             <div class="project-card__metric">
                                 <span class="project-card__metric-value">{{ metric.value }}</span>
-                                <span class="project-card__metric-label">{{ metric.label }}</span>
+                                <span class="project-card__metric-label">{{ (app.request.locale == 'en' and metric.labelEn is defined) ? metric.labelEn : metric.label }}</span>
                             </div>
                             {% endfor %}
                         </div>
@@ -318,7 +320,7 @@
                     <div class="project-card__header">
                         <div class="project-card__meta">
                             {% if project.featured %}
-                                <span class="project-card__badge">⭐ Mis en avant</span>
+                                <span class="project-card__badge">{{ 'projects.badge_featured'|trans }}</span>
                             {% endif %}
                         </div>
                         <div class="project-card__links">
@@ -336,24 +338,24 @@
                     </div>
                     <div class="project-card__title-row">
                         <div class="project-card__icon">{{ pIcon }}</div>
-                        <h3 class="project-card__title">{{ project.title }}</h3>
+                        <h3 class="project-card__title">{{ pTitle }}</h3>
                     </div>
-                    <p class="project-card__desc">{{ project.shortDescription }}</p>
+                    <p class="project-card__desc">{{ pShort }}</p>
                     <div class="project-card__tags">
                         {% for tag in project.tags %}
                             <span class="tag" data-tech="{{ tag|lower|replace({' ': '-', '/': '-', '.': ''}) }}">{{ tag }}</span>
                         {% endfor %}
                     </div>
-                    <p class="project-card__hint">→ Cliquer pour plus de détails</p>
+                    <p class="project-card__hint">{{ 'projects.hint'|trans }}</p>
                 </article>
                 {% endfor %}
 
                 {# ── EMPTY FILTER STATE ── #}
                 <div class="proj-empty-filter" id="projEmptyFilter">
                     <span class="proj-empty-filter__icon">🔍</span>
-                    <p class="proj-empty-filter__title">Aucune réalisation trouvée</p>
-                    <p class="proj-empty-filter__sub">Essayez un autre filtre ou une autre recherche.</p>
-                    <button type="button" class="proj-empty-filter__reset">Réinitialiser</button>
+                    <p class="proj-empty-filter__title">{{ 'projects.empty_filter.title'|trans }}</p>
+                    <p class="proj-empty-filter__sub">{{ 'projects.empty_filter.sub'|trans }}</p>
+                    <button type="button" class="proj-empty-filter__reset">{{ 'projects.empty_filter.reset'|trans }}</button>
                 </div>
             </div>
 
@@ -382,9 +384,11 @@
                 {%- elseif 'Symfony' in tagStr or 'PHP' in tagStr -%}{%- set pIcon = '🌐' -%}
                 {%- else -%}{%- set pIcon = '🛠️' -%}
                 {%- endif -%}
+                {%- set pTitle = (app.request.locale == 'en' and p.titleEn) ? p.titleEn : p.title -%}
+                {%- set pDesc  = (app.request.locale == 'en' and p.descriptionEn) ? p.descriptionEn : p.description -%}
                 {{ {
-                    "title":       p.title,
-                    "description": p.description,
+                    "title":       pTitle,
+                    "description": pDesc,
                     "tags":        p.tags,
                     "githubUrl":   p.githubUrl ?? null,
                     "liveUrl":     p.liveUrl ?? null,
@@ -402,11 +406,11 @@
     <div class="container">
         <div class="cta-box">
             <div class="cta-box__orb"></div>
-            <span class="section__tag">Collaboration</span>
-            <h2 class="cta-box__title">Vous avez un projet ?</h2>
-            <p class="cta-box__text">Je suis disponible pour des missions freelance et des collaborations.</p>
+            <span class="section__tag">{{ 'projects.cta.tag'|trans }}</span>
+            <h2 class="cta-box__title">{{ 'projects.cta.title'|trans }}</h2>
+            <p class="cta-box__text">{{ 'projects.cta.text'|trans }}</p>
             <a href="{{ path('app_contact') }}" class="btn btn--primary btn--lg">
-                Discutons-en
+                {{ 'projects.cta.btn'|trans }}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
         </div>

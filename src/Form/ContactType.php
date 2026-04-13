@@ -11,55 +11,61 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Formulaire de contact.
- *
- * Collecte le nom, l'adresse e-mail, le sujet et le message de l'expéditeur.
- * Chaque champ est validé côté serveur via des contraintes Symfony.
+ * Formulaire de contact — labels et messages de validation traduits.
  */
 class ContactType extends AbstractType
 {
-    /**
-     * Définit les champs du formulaire et leurs contraintes de validation.
-     */
+    public function __construct(private readonly TranslatorInterface $translator) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $t = fn (string $key) => $this->translator->trans($key);
+
         $builder
-            // Nom complet de l'expéditeur (2 à 100 caractères)
             ->add('name', TextType::class, [
-                'label' => 'Nom complet',
-                'attr' => ['placeholder' => 'Jean Dupont'],
-                'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre nom.']),
+                'label'              => $t('contact.form.name'),
+                'translation_domain' => false,
+                'attr'               => ['placeholder' => $t('contact.form.name_placeholder')],
+                'constraints'        => [
+                    new NotBlank(['message' => $t('contact.validation.name_blank')]),
                     new Length(['min' => 2, 'max' => 100]),
                 ],
             ])
-            // Adresse e-mail utilisée pour le Reply-To de l'e-mail envoyé
             ->add('email', EmailType::class, [
-                'label' => 'Adresse e-mail',
-                'attr' => ['placeholder' => 'jean@exemple.fr'],
-                'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre e-mail.']),
-                    new Email(['message' => 'Adresse e-mail invalide.']),
+                'label'              => $t('contact.form.email'),
+                'translation_domain' => false,
+                'attr'               => ['placeholder' => $t('contact.form.email_placeholder')],
+                'constraints'        => [
+                    new NotBlank(['message' => $t('contact.validation.email_blank')]),
+                    new Email(['message' => $t('contact.validation.email_invalid')]),
                 ],
             ])
-            // Sujet utilisé comme objet de l'e-mail (préfixé par [Portfolio])
             ->add('subject', TextType::class, [
-                'label' => 'Sujet',
-                'attr' => ['placeholder' => 'Proposition de mission, collaboration...'],
-                'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer un sujet.']),
+                'label'              => $t('contact.form.subject'),
+                'translation_domain' => false,
+                'attr'               => ['placeholder' => $t('contact.form.subject_placeholder')],
+                'constraints'        => [
+                    new NotBlank(['message' => $t('contact.validation.subject_blank')]),
                     new Length(['min' => 3, 'max' => 200]),
                 ],
             ])
-            // Corps du message (10 à 2000 caractères)
             ->add('message', TextareaType::class, [
-                'label' => 'Message',
-                'attr' => ['placeholder' => 'Décrivez votre projet ou votre demande...', 'rows' => 6],
-                'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre message.']),
-                    new Length(['min' => 10, 'max' => 2000, 'minMessage' => 'Votre message doit contenir au moins {{ limit }} caractères.']),
+                'label'              => $t('contact.form.message'),
+                'translation_domain' => false,
+                'attr'               => [
+                    'placeholder' => $t('contact.form.message_placeholder'),
+                    'rows'        => 6,
+                ],
+                'constraints'        => [
+                    new NotBlank(['message' => $t('contact.validation.message_blank')]),
+                    new Length([
+                        'min'        => 10,
+                        'max'        => 2000,
+                        'minMessage' => $t('contact.validation.message_min'),
+                    ]),
                 ],
             ])
         ;

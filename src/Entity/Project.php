@@ -61,6 +61,18 @@ class Project
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $metrics = null;
 
+    /** Titre anglais du projet (optionnel). */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $titleEn = null;
+
+    /** Description courte en anglais (optionnel). */
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $shortDescriptionEn = null;
+
+    /** Description complète en anglais (optionnel). */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $descriptionEn = null;
+
     /** Date de création de l'entrée en base (initialisée automatiquement). */
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
@@ -104,6 +116,15 @@ class Project
 
     public function getMetrics(): ?array { return $this->metrics; }
     public function setMetrics(?array $metrics): static { $this->metrics = $metrics; return $this; }
+
+    public function getTitleEn(): ?string { return $this->titleEn; }
+    public function setTitleEn(?string $titleEn): static { $this->titleEn = $titleEn; return $this; }
+
+    public function getShortDescriptionEn(): ?string { return $this->shortDescriptionEn; }
+    public function setShortDescriptionEn(?string $shortDescriptionEn): static { $this->shortDescriptionEn = $shortDescriptionEn; return $this; }
+
+    public function getDescriptionEn(): ?string { return $this->descriptionEn; }
+    public function setDescriptionEn(?string $descriptionEn): static { $this->descriptionEn = $descriptionEn; return $this; }
 
     /** Accesseurs virtuels pour EasyAdmin (string JSON ↔ array). */
     public function getTagsJson(): string

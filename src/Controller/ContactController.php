@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Contrôleur de la page de contact.
@@ -18,6 +19,8 @@ use Symfony\Component\Routing\Attribute\Route;
  */
 class ContactController extends AbstractController
 {
+    public function __construct(private readonly TranslatorInterface $translator) {}
+
     /**
      * Affiche le formulaire de contact et traite son envoi.
      *
@@ -37,7 +40,7 @@ class ContactController extends AbstractController
                 $email = (new Email())
                     ->from($_ENV['MAILER_FROM'] ?? 'noreply@portfolio.local')
                     ->to($_ENV['MAILER_TO']   ?? 'noreply@portfolio.local')
-                    ->replyTo($data['email'])           // Permet de répondre directement à l'expéditeur
+                    ->replyTo($data['email'])
                     ->subject('[Portfolio] ' . $data['subject'])
                     ->text(
                         "Nom : {$data['name']}\n" .
@@ -52,12 +55,11 @@ class ContactController extends AbstractController
                     );
 
                 $mailer->send($email);
-                $this->addFlash('success', 'Votre message a bien été envoyé. Je vous répondrai dans les plus brefs délais !');
+                $this->addFlash('success', 'contact.flash.success');
             } catch (\Throwable $e) {
-                $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
+                $this->addFlash('error', 'contact.flash.error');
             }
 
-            // Redirection POST/Redirect/GET pour éviter le double envoi au rechargement
             return $this->redirectToRoute('app_contact');
         }
 

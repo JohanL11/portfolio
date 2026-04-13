@@ -1,0 +1,388 @@
+nav:
+  home: "Accueil"
+  projects: "Réalisations"
+  services: "Services"
+  league: "⚔ LoL"
+  contact: "Contact"
+  lang: "EN"
+  aria_menu: "Menu"
+  aria_theme: "Changer le thème"
+  title_theme: "Clair / Sombre"
+
+footer:
+  tagline: "Développeur Full Stack Web & Mobile — PHP, React Native, Linux/DevOps."
+  made_with: "Fait avec ❤️ et Symfony"
+
+back_to_top: "Retour en haut"
+
+hero:
+  badge: "Ouvert aux nouvelles opportunités"
+  greeting: "Bonjour, je suis"
+  subtitle: "<strong>Full Stack Web &amp; Mobile</strong> avec <strong><span id=\"heroYears\">7</span> ans d'expérience</strong> chez un éditeur de logiciels. Je prends en charge des projets de bout en bout — de l'architecture <strong>PHP/Zend</strong> à la mise en production <strong>Linux</strong>, en passant par les apps <strong>React Native</strong>."
+  btn:
+    projects: "Voir mes réalisations"
+    contact: "Me contacter"
+    cv: "Télécharger mon CV"
+  stat:
+    projects: "Réalisations"
+    tech: "Technologies"
+    mobile: "Apps mobiles"
+
+skills:
+  tag: "Compétences"
+  title: "Stack technique"
+  subtitle: "Les technologies avec lesquelles je travaille au quotidien, du back-end au déploiement."
+  php:
+    level: "Expert — 7 ans, migration PHP 8 en cours"
+  symfony:
+    level: "Avancé — architecture MVC, API, cache, mailer"
+  rn:
+    level: "Avancé — 3 apps mobiles livrées en production"
+  js:
+    level: "Avancé — vanilla JS, animations, Chart.js"
+  api:
+    level: "Avancé — conception, consommation, cache TTL"
+  sql:
+    level: "Avancé — Doctrine ORM, migrations, optimisation"
+  linux:
+    level: "Avancé — CentOS, AlmaLinux, Ubuntu, Nginx, Apache"
+  git:
+    level: "Avancé — GitHub Actions, déploiement automatisé"
+
+featured:
+  tag: "Réalisations"
+  title: "Réalisations mises en avant"
+  subtitle: "Quelques réalisations représentatives de mon parcours chez Iriga Networks."
+  btn: "Voir tous les projets"
+
+security:
+  tag: "Sécurité"
+  title: "Bonnes pratiques intégrées"
+  subtitle: "Ce portfolio applique les standards de sécurité web modernes — chaque mesure est vérifiable dans le code source."
+  csrf:
+    title: "Protection CSRF"
+    desc: "Token Symfony généré et vérifié sur chaque formulaire"
+  validation:
+    title: "Validation serveur"
+    desc: "Contraintes NotBlank · Length · Email via Symfony Validator"
+  prg:
+    title: "Pattern PRG"
+    desc: "Post → Redirect → Get, aucun double envoi possible au rechargement"
+  xss:
+    title: "Échappement XSS"
+    desc: "htmlspecialchars() sur toutes les entrées utilisateur dans les e-mails"
+  sql:
+    title: "Injection SQL"
+    desc: "Doctrine ORM — requêtes paramétrées, aucun SQL brut"
+  cache:
+    title: "Cache & rate limiting"
+    desc: "TTL 1 min – 30 j sur l'API Riot Games, protection contre les abus"
+  secrets:
+    title: "Secrets hors dépôt"
+    desc: "Variables d'environnement, <code>.env</code> protégé par <code>.gitignore</code>"
+  https:
+    title: "HTTPS / TLS"
+    desc: "Certificat SSL, redirection automatique HTTP → HTTPS"
+
+experience:
+  tag: "Parcours"
+  title: "Expérience professionnelle"
+  job_title: "Développeur Full Stack Web & Mobile"
+  company: "Iriga Networks — Pontoise"
+  alt_badge: "Alternance · 2018–2022"
+  cdi_badge: "CDI · 2022–Aujourd'hui"
+  task:
+    "1": "Développement complet de l'application web d'hébergement social (résidences étudiantes, SIAO) — PHP / Zend / JS / jQuery / Bootstrap"
+    "2": "Développement de 3 applications mobiles React Native : portail résident, domiciliation postale, borne courrier"
+    "3": "Développement d'une API REST PHP pour l'ensemble des applications mobiles"
+    "4": "Intégration de solutions partenaires (attribution numérique d'accès aux logements, IDEAL, ...)"
+    "5": "Pilotage de projets : architecture technique, estimation des charges, suivi planning et livraison"
+    "6": "Tests, analyse des anomalies, non-régression et correctifs"
+    "7": "Administration serveurs Linux (CentOS, AlmaLinux) : Apache, Bash, Postfix, Cron, SSH"
+    "8": "Migration PHP 7 → PHP 8 en réalisation"
+    "9": "Relation client directe : démonstrations produit, formations et réunions de projet"
+
+education:
+  tag: "Formation"
+  title: "Diplômes"
+  master:
+    title: "Master\nLead Dev"
+    level: "Bac+5"
+    school: "ESIEE IT · Pontoise"
+    date: "2019 – 2022"
+    type: "Alternance"
+  licence:
+    title: "Licence Pro\nDev Web & Mobile"
+    level: "Bac+3"
+    school: "Université de Cergy · Site de Gennevilliers"
+    date: "2018 – 2019"
+    type: "Alternance"
+  bac:
+    title: "Baccalauréat Scientifique"
+    level: "Bac"
+    school: "Lycée Auguste Renoir · Asnières-sur-Seine"
+
+svc_teaser:
+  tag: "Prestations"
+  title: "Ce que je réalise pour vous"
+  subtitle: "Du site vitrine à l'application mobile — des solutions sur-mesure adaptées à vos objectifs."
+  ecommerce:
+    title: "Boutique e-commerce"
+    text: "Catalogue, panier, paiement Stripe/PayPal, espace client. En Symfony sur-mesure ou Shopify selon votre besoin."
+  web:
+    title: "Site vitrine & app web"
+    text: "Site performant et bien référencé en Symfony/Twig, ou application web complexe avec Symfony API + React."
+  mobile:
+    title: "Application mobile"
+    text: "iOS & Android depuis une seule codebase React Native. Notifications push, API dédiée, publication sur les stores."
+  more: "En savoir plus →"
+  btn: "Voir toutes mes prestations"
+
+lol_teaser:
+  tag: "En dehors du code"
+  title: "League of Legends"
+  text: "Stats en temps réel, historique de parties, graphe de progression LP — une page dédiée à ma passion pour le jeu."
+  btn: "Voir mes stats"
+  rank_tier: "Master"
+  rank_label: "Peak elo · S23 S2 · Solo/Duo"
+
+home_cta:
+  tag: "Travaillons ensemble"
+  title: "Un projet en tête ?"
+  text: "Je suis ouvert aux opportunités en CDI, freelance ou collaboration technique. Échangeons !"
+  btn: "Démarrer une conversation"
+
+projects:
+  meta_title: "Réalisations professionnelles"
+  meta_desc: "Réalisations professionnelles de Johan Louap — applications métier, outils mobiles de terrain, infrastructure Linux."
+  og_title: "Réalisations professionnelles — Johan Louap"
+  og_desc: "7 ans de développement chez un éditeur de logiciels — des applications métier PHP/Zend aux outils mobiles Android."
+  hero:
+    title: "<span class=\"text-gradient\">Réalisations</span> professionnelles"
+    subtitle: "7 ans de développement chez un éditeur de logiciels — des applications métier aux outils mobiles de terrain."
+  stat:
+    projects: "réalisations"
+    tech: "technologies"
+    mobile: "apps mobiles"
+  empty:
+    title: "Projets en cours de chargement"
+    text: "Lancez <code>php bin/console doctrine:fixtures:load</code> pour charger les données."
+  search:
+    placeholder: "Rechercher une réalisation…"
+  count:
+    singular: "%count% réalisation"
+    plural: "%count% réalisations"
+  sort:
+    default: "Par défaut"
+    featured: "⭐ Mis en avant"
+    alpha: "A – Z"
+  filter:
+    all: "Tous"
+    more: "+%count% autres"
+  badge_featured: "⭐ Mis en avant"
+  hint: "→ Cliquer pour plus de détails"
+  empty_filter:
+    title: "Aucune réalisation trouvée"
+    sub: "Essayez un autre filtre ou une autre recherche."
+    reset: "Réinitialiser"
+  cta:
+    tag: "Collaboration"
+    title: "Vous avez un projet ?"
+    text: "Je suis disponible pour des missions freelance et des collaborations."
+    btn: "Discutons-en"
+
+contact:
+  meta_title: "Contact"
+  meta_desc: "Contactez Johan Louap — Développeur Full Stack Web & Mobile disponible pour CDI, freelance ou collaboration."
+  og_title: "Contact — Johan Louap"
+  og_desc: "Un projet en tête ? Parlons-en — je réponds sous 24h avec une première estimation."
+  hero:
+    tag: "Contact"
+    title: "Travaillons <span class=\"text-gradient\">ensemble</span>"
+    subtitle: "Opportunité, projet, question technique ? Je réponds sous 24h."
+  meta:
+    location: "Saint-Gratien (95) — Remote possible"
+    response: "Répond sous 24h"
+    available: "Disponible"
+  form:
+    name: "Nom complet"
+    name_placeholder: "Jean Dupont"
+    email: "Adresse e-mail"
+    email_placeholder: "jean@exemple.fr"
+    subject: "Sujet"
+    subject_placeholder: "Proposition de mission, collaboration..."
+    message: "Message"
+    message_placeholder: "Décrivez votre projet ou votre demande..."
+    submit: "Envoyer le message"
+  copy_badge: "✓ Copié"
+  flash:
+    success: "Votre message a bien été envoyé. Je vous répondrai dans les plus brefs délais !"
+    error: "Une erreur est survenue lors de l'envoi. Veuillez réessayer."
+  validation:
+    name_blank: "Veuillez entrer votre nom."
+    email_blank: "Veuillez entrer votre e-mail."
+    email_invalid: "Adresse e-mail invalide."
+    subject_blank: "Veuillez entrer un sujet."
+    message_blank: "Veuillez entrer votre message."
+    message_min: "Votre message doit contenir au moins %limit% caractères."
+
+services:
+  meta_title: "Services"
+  meta_desc: "Développement de boutiques e-commerce, sites web et applications mobiles sur-mesure — Johan Louap, Développeur Full Stack freelance."
+  og_title: "Services — Johan Louap, Développeur Full Stack freelance"
+  og_desc: "Boutique e-commerce, site vitrine, application web, app mobile React Native — prestations sur-mesure."
+  hero:
+    tag: "Services"
+    title: "Ce que je peux <span class=\"text-gradient\">réaliser</span> pour vous"
+    subtitle: "Du devis à la mise en production — des solutions web et mobile sur-mesure, adaptées à votre budget et à vos objectifs."
+  nav:
+    ecommerce: "🛒 E-commerce"
+    web: "🌐 Web"
+    mobile: "📱 Mobile"
+  ecommerce:
+    label: "Prestation 1"
+    title: "Boutique e-commerce"
+    lead: "Une boutique complète, pensée pour convertir. Du catalogue produit au paiement sécurisé, je développe votre e-commerce en Symfony sur-mesure ou via Shopify selon votre budget et vos besoins."
+    included: "Ce qui est inclus"
+    item:
+      "1": "Catalogue produits, variantes, stocks"
+      "2": "Panier & tunnel d'achat optimisé"
+      "3": "Paiement sécurisé — Stripe & PayPal"
+      "4": "Espace client & historique commandes"
+      "5": "Interface d'administration"
+      "6": "SEO technique & performances optimisées"
+      "7": "Responsive mobile-first"
+      "8": "Déploiement sur votre serveur ou hébergement dédié"
+    stripe_tooltip: "Solution pro la plus utilisée : paiement par carte directement sur votre site, 3D Secure, remboursements"
+    paypal_tooltip: "Familier du grand public : idéal pour les clients qui préfèrent ne pas saisir leur carte. Les deux solutions sont complémentaires."
+    seo_tooltip: "Référencement naturel — optimisation pour apparaître en bonne position sur Google et autres moteurs de recherche."
+    custom:
+      title: "Sur mesure (Stack Symfony)"
+      text: "Boutique 100% personnalisée, performances maximales, aucune dépendance à un écosystème tiers. Idéal pour des besoins spécifiques."
+    shopify:
+      title: "Intégration Shopify"
+      text: "Thème et fonctionnalités sur-mesure sur l'écosystème Shopify. Rapidité de mise en marché, back-office Shopify, App Store disponible."
+    cta: "Discutons de votre boutique →"
+  web:
+    label: "Prestation 2"
+    title: "Site vitrine & application web"
+    lead: "De la carte de visite en ligne à l'application web métier complexe — je conçois des interfaces performantes, bien référencées et agréables à utiliser."
+    included: "Ce qui est inclus"
+    item:
+      "1": "Design responsive, mobile-first"
+      "2": "SEO optimisé dès la conception"
+      "3": "Formulaire de contact sécurisé"
+      "4": "Interface d'administration (si nécessaire)"
+      "5": "API REST sur-mesure pour vos besoins métier"
+      "6": "Authentification & gestion des rôles"
+      "7": "Hébergement, SSL & déploiement continu"
+      "8": "Maintenance & évolutions facilitées"
+    seo_tooltip: "Référencement naturel — optimisation pour apparaître en bonne position sur Google et autres moteurs de recherche."
+    symfony:
+      title: "Site vitrine — Symfony/Twig"
+      text: "Rendu côté serveur, SEO natif, performances excellentes. Idéal pour les sites vitrines, portfolios, blogs ou sites institutionnels."
+    react:
+      title: "Application web — Symfony API + React"
+      text: "Interface très interactive (SPA), expérience utilisateur fluide, code réutilisable côté mobile. Idéal pour les outils métier et dashboards."
+    cta: "Discutons de votre site →"
+  mobile:
+    label: "Prestation 3"
+    title: "Application mobile"
+    lead: "Votre idée dans la poche de vos utilisateurs. Une application iOS & Android depuis une seule codebase React Native, publiée sur l'App Store et le Google Play."
+    included: "Ce qui est inclus"
+    item:
+      "1": "Application iOS & Android (React Native)"
+      "2": "Authentification & gestion des profils"
+      "3": "Notifications push"
+      "4": "API REST PHP dédiée"
+      "5": "Synchronisation hors-ligne si nécessaire"
+      "6": "Publication sur l'App Store & Google Play"
+      "7": "Mises à jour facilitées (une seule application)"
+    rn:
+      title: "Pourquoi React Native ?"
+      text: "Contrairement au développement natif (Swift pour iOS, Kotlin pour Android) qui nécessite deux codebases séparées, React Native permet de produire <strong>une seule application</strong> qui tourne nativement sur les deux plateformes. Résultat : coût réduit, maintenance simplifiée, performances proches du natif."
+    cta: "Discutons de votre application →"
+  process:
+    tag: "Comment ça se passe"
+    title: "Mon process de travail"
+    subtitle: "Transparent, itératif et orienté résultat."
+    step:
+      "1":
+        num: "01"
+        title: "Discussion"
+        text: "On échange sur votre besoin, vos contraintes, votre budget et vos délais. Appel, visio ou email — comme vous préférez."
+      "2":
+        num: "02"
+        title: "Proposition"
+        text: "Devis détaillé, planning de développement, choix techniques argumentés. Aucune surprise."
+      "3":
+        num: "03"
+        title: "Développement"
+        text: "Développement itératif avec points réguliers. Accès à un environnement de recette pour valider chaque étape."
+      "4":
+        num: "04"
+        title: "Livraison"
+        text: "Mise en production, tests finaux, formation à l'outil si besoin, et documentation. Le projet vous appartient."
+  cta:
+    tag: "Démarrons"
+    title: "Un projet en tête ?"
+    text: "Parlez-moi de votre idée — je vous réponds sous 24h avec une première estimation."
+    btn: "Me contacter"
+
+league:
+  meta_title: "League of Legends"
+  meta_desc: "Profil League of Legends de Johan Louap — Rang, champions et historique de parties."
+  og_title: "Stats League of Legends — Johan Louap"
+  og_desc: "Consultez vos statistiques LoL en temps réel via l'API Riot Games."
+  error: "Impossible de charger les données Riot."
+  level: "Niv."
+  mastery_total: "Maîtrise totale"
+  in_series: "🔥 En série"
+  rank:
+    title: "Classements"
+    history: "Historique Solo / Duo"
+    season: "Saison"
+    rank_col: "Rang"
+    unranked: "Non classé"
+    best: "⭐ Meilleur"
+  mastery:
+    title: "Champions maîtrisés"
+    game: "partie"
+    games: "parties"
+  matches:
+    title: "Parties récentes"
+    tab_all: "Tout"
+    tab_wins: "Victoires"
+    tab_losses: "Défaites"
+  records:
+    title: "Records personnels"
+  rotation:
+    title: "Champions gratuits cette semaine"
+  duos:
+    title: "Top duos"
+    sub: "joueurs récurrents"
+  roles:
+    title: "Rôles joués"
+  back_link: "← Retour au portfolio"
+  kda_chart: "KDA — 20 dernières parties"
+  queue_dist: "Répartition des modes"
+  no_data: "Pas assez de données"
+  load_more: "Charger plus"
+  heatmap:
+    title: "Activité — 90 derniers jours"
+    legend_less: "Moins"
+    legend_more: "Plus"
+  record:
+    best_kda: "Meilleur KDA"
+    most_kills: "Plus de kills"
+    pentas: "Pentas"
+    out_of: "sur %n% parties"
+    of_games: "des parties"
+  stats:
+    title: "Stats par champion"
+    last_games: "dernières parties"
+  match:
+    win: "Victoire"
+    loss: "Défaite"
+  modal:
+    title: "Détail de la partie"

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
-{% block description %}Johan Louap — Développeur Full Stack Web & Mobile avec 7 ans d'expérience. PHP, Zend, React Native, Linux/DevOps.{% endblock %}
+{% block title %}{{ 'nav.home'|trans }}{% endblock %}
+{% block description %}{{ app.request.locale == 'en' ? 'Johan Louap — Full Stack Web & Mobile Developer with 7 years of experience. PHP, Zend, React Native, Linux/DevOps.' : 'Johan Louap — Développeur Full Stack Web & Mobile avec 7 ans d\'expérience. PHP, Zend, React Native, Linux/DevOps.' }}{% endblock %}
 {% block og_url %}https://johan-louap.fr{% endblock %}
 {% block og_image %}https://johan-louap.fr/img/og-default.png{% endblock %}
 {% block twitter_image %}https://johan-louap.fr/img/og-default.png{% endblock %}
@@ -37,44 +37,43 @@
     <div class="hero__container">
         <a href="{{ path('app_contact') }}" class="hero__badge">
             <span class="hero__badge-dot"></span>
-            Ouvert aux nouvelles opportunités
+            {{ 'hero.badge'|trans }}
         </a>
         <h1 class="hero__title">
-            Bonjour, je suis<br>
+            {{ 'hero.greeting'|trans }}<br>
             <span class="hero__title-gradient">Johan Louap</span>
         </h1>
         <p class="hero__typing-line">
             <span class="hero__typing-prefix">// </span><span id="heroTypingText"></span><span class="typing-cursor">|</span>
         </p>
         <p class="hero__subtitle">
-            <strong>Full Stack Web &amp; Mobile</strong> avec <strong><span id="heroYears">7</span> ans d'expérience</strong> chez un éditeur de logiciels.
-            Je prends en charge des projets de bout en bout — de l'architecture <strong>PHP/Zend</strong> à la mise en production <strong>Linux</strong>, en passant par les apps <strong>React Native</strong>.
+            {{ 'hero.subtitle'|trans|raw }}
         </p>
         <div class="hero__actions">
             <a href="{{ path('app_projects') }}" class="btn btn--primary">
-                Voir mes réalisations
+                {{ 'hero.btn.projects'|trans }}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
-            <a href="{{ path('app_contact') }}" class="btn btn--ghost">Me contacter</a>
+            <a href="{{ path('app_contact') }}" class="btn btn--ghost">{{ 'hero.btn.contact'|trans }}</a>
             <a href="{{ asset('files/cv-johan-louap.pdf') }}" download="CV_Johan_Louap.pdf" class="btn btn--ghost">
-                Télécharger mon CV
+                {{ 'hero.btn.cv'|trans }}
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
             </a>
         </div>
         <div class="hero__stats">
             <div class="hero__stat">
                 <span class="hero__stat-value" data-count="5">5</span>
-                <span class="hero__stat-label">Réalisations</span>
+                <span class="hero__stat-label">{{ 'hero.stat.projects'|trans }}</span>
             </div>
             <div class="hero__stat-divider"></div>
             <div class="hero__stat">
                 <span class="hero__stat-value" data-count="23">23</span>
-                <span class="hero__stat-label">Technologies</span>
+                <span class="hero__stat-label">{{ 'hero.stat.tech'|trans }}</span>
             </div>
             <div class="hero__stat-divider"></div>
             <div class="hero__stat">
                 <span class="hero__stat-value" data-count="3">3</span>
-                <span class="hero__stat-label">Apps mobiles</span>
+                <span class="hero__stat-label">{{ 'hero.stat.mobile'|trans }}</span>
             </div>
         </div>
         <div class="hero__terminal" aria-hidden="true">
@@ -96,9 +95,9 @@
 <section class="skills section">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Compétences</span>
-            <h2 class="section__title">Stack technique</h2>
-            <p class="section__subtitle">Les technologies avec lesquelles je travaille au quotidien, du back-end au déploiement.</p>
+            <span class="section__tag">{{ 'skills.tag'|trans }}</span>
+            <h2 class="section__title">{{ 'skills.title'|trans }}</h2>
+            <p class="section__subtitle">{{ 'skills.subtitle'|trans }}</p>
         </div>
         <div class="skills__grid">
             <div class="skill-card">
@@ -109,7 +108,7 @@
                 <div class="skill-card__bar">
                     <div class="skill-card__fill" data-width="92"></div>
                 </div>
-                <span class="skill-card__level">Expert — 7 ans, migration PHP 8 en cours</span>
+                <span class="skill-card__level">{{ 'skills.php.level'|trans }}</span>
             </div>
             <div class="skill-card">
                 <div class="skill-card__header">
@@ -119,7 +118,7 @@
                 <div class="skill-card__bar">
                     <div class="skill-card__fill" data-width="85"></div>
                 </div>
-                <span class="skill-card__level">Avancé — architecture MVC, API, cache, mailer</span>
+                <span class="skill-card__level">{{ 'skills.symfony.level'|trans }}</span>
             </div>
             <div class="skill-card">
                 <div class="skill-card__header">
@@ -129,7 +128,7 @@
                 <div class="skill-card__bar">
                     <div class="skill-card__fill" data-width="82"></div>
                 </div>
-                <span class="skill-card__level">Avancé — 3 apps mobiles livrées en production</span>
+                <span class="skill-card__level">{{ 'skills.rn.level'|trans }}</span>
             </div>
             <div class="skill-card">
                 <div class="skill-card__header">
@@ -139,7 +138,7 @@
                 <div class="skill-card__bar">
                     <div class="skill-card__fill" data-width="85"></div>
                 </div>
-                <span class="skill-card__level">Avancé — vanilla JS, animations, Chart.js</span>
+                <span class="skill-card__level">{{ 'skills.js.level'|trans }}</span>
             </div>
             <div class="skill-card">
                 <div class="skill-card__header">
@@ -149,7 +148,7 @@
                 <div class="skill-card__bar">
                     <div class="skill-card__fill" data-width="88"></div>
                 </div>
-                <span class="skill-card__level">Avancé — conception, consommation, cache TTL</span>
+                <span class="skill-card__level">{{ 'skills.api.level'|trans }}</span>
             </div>
             <div class="skill-card">
                 <div class="skill-card__header">
@@ -159,7 +158,7 @@
                 <div class="skill-card__bar">
                     <div class="skill-card__fill" data-width="85"></div>
                 </div>
-                <span class="skill-card__level">Avancé — Doctrine ORM, migrations, optimisation</span>
+                <span class="skill-card__level">{{ 'skills.sql.level'|trans }}</span>
             </div>
             <div class="skill-card">
                 <div class="skill-card__header">
@@ -169,7 +168,7 @@
                 <div class="skill-card__bar">
                     <div class="skill-card__fill" data-width="80"></div>
                 </div>
-                <span class="skill-card__level">Avancé — CentOS, AlmaLinux, Ubuntu, Nginx, Apache</span>
+                <span class="skill-card__level">{{ 'skills.linux.level'|trans }}</span>
             </div>
             <div class="skill-card">
                 <div class="skill-card__header">
@@ -179,7 +178,7 @@
                 <div class="skill-card__bar">
                     <div class="skill-card__fill" data-width="78"></div>
                 </div>
-                <span class="skill-card__level">Avancé — GitHub Actions, déploiement automatisé</span>
+                <span class="skill-card__level">{{ 'skills.git.level'|trans }}</span>
             </div>
         </div>
     </div>
@@ -189,12 +188,14 @@
 <section class="featured-projects section section--dark">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Réalisations</span>
-            <h2 class="section__title">Réalisations mises en avant</h2>
-            <p class="section__subtitle">Quelques réalisations représentatives de mon parcours chez Iriga Networks.</p>
+            <span class="section__tag">{{ 'featured.tag'|trans }}</span>
+            <h2 class="section__title">{{ 'featured.title'|trans }}</h2>
+            <p class="section__subtitle">{{ 'featured.subtitle'|trans }}</p>
         </div>
         <div class="projects-grid">
             {% for project in featuredProjects %}
+                {%- set pTitle = (app.request.locale == 'en' and project.titleEn) ? project.titleEn : project.title -%}
+                {%- set pShort = (app.request.locale == 'en' and project.shortDescriptionEn) ? project.shortDescriptionEn : project.shortDescription -%}
                 <article class="project-card project-card--featured">
                     {% if project.color %}
                     <div class="project-card__cover project-card__cover--{{ project.color }}">
@@ -203,7 +204,7 @@
                             {% for metric in project.metrics %}
                             <div class="project-card__metric">
                                 <span class="project-card__metric-value">{{ metric.value }}</span>
-                                <span class="project-card__metric-label">{{ metric.label }}</span>
+                                <span class="project-card__metric-label">{{ (app.request.locale == 'en' and metric.labelEn is defined) ? metric.labelEn : metric.label }}</span>
                             </div>
                             {% endfor %}
                         </div>
@@ -212,9 +213,9 @@
                     {% endif %}
                     <div class="project-card__title-row">
                         <div class="project-card__icon">{{ loop.index == 1 ? '🛠️' : (loop.index == 2 ? '🏢' : '📡') }}</div>
-                        <h3 class="project-card__title">{{ project.title }}</h3>
+                        <h3 class="project-card__title">{{ pTitle }}</h3>
                     </div>
-                    <p class="project-card__desc">{{ project.shortDescription }}</p>
+                    <p class="project-card__desc">{{ pShort }}</p>
                     <div class="project-card__tags">
                         {% for tag in project.tags %}
                             <span class="tag" data-tech="{{ tag|lower|replace({' ': '-', '/': '-', '.': ''}) }}">{{ tag }}</span>
@@ -225,7 +226,7 @@
         </div>
         <div class="section__cta">
             <a href="{{ path('app_projects') }}" class="btn btn--primary">
-                Voir tous les projets
+                {{ 'featured.btn'|trans }}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
         </div>
@@ -236,8 +237,8 @@
 <section class="experience section section--dark">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Parcours</span>
-            <h2 class="section__title">Expérience professionnelle</h2>
+            <span class="section__tag">{{ 'experience.tag'|trans }}</span>
+            <h2 class="section__title">{{ 'experience.title'|trans }}</h2>
         </div>
         <div class="timeline">
             <div class="timeline__item">
@@ -245,25 +246,25 @@
                 <div class="timeline__content">
                     <div class="timeline__header">
                         <div>
-                            <h3 class="timeline__title">Développeur Full Stack Web & Mobile</h3>
-                            <span class="timeline__company">Iriga Networks — Pontoise</span>
+                            <h3 class="timeline__title">{{ 'experience.job_title'|trans }}</h3>
+                            <span class="timeline__company">{{ 'experience.company'|trans }}</span>
                         </div>
                         <div class="timeline__progression">
-                            <span class="timeline__badge timeline__badge--alt">Alternance · 2018–2022</span>
+                            <span class="timeline__badge timeline__badge--alt">{{ 'experience.alt_badge'|trans }}</span>
                             <span class="timeline__progression-arrow">→</span>
-                            <span class="timeline__badge timeline__badge--cdi">CDI · 2022–Aujourd'hui</span>
+                            <span class="timeline__badge timeline__badge--cdi">{{ 'experience.cdi_badge'|trans }}</span>
                         </div>
                     </div>
                     <ul class="timeline__list">
-                        <li>Développement complet de l'application web d'hébergement social (résidences étudiantes, SIAO) — PHP / Zend / JS / jQuery / Bootstrap</li>
-                        <li>Développement de 3 applications mobiles React Native : portail résident, domiciliation postale, borne courrier</li>
-                        <li>Développement d'une API REST PHP pour l'ensemble des applications mobiles</li>
-                        <li>Intégration de solutions partenaires (attribution numérique d'accès aux logements, IDEAL, ...)</li>
-                        <li>Pilotage de projets : architecture technique, estimation des charges, suivi planning et livraison</li>
-                        <li>Tests, analyse des anomalies, non-régression et correctifs</li>
-                        <li>Administration serveurs Linux (CentOS, AlmaLinux) : Apache, Bash, Postfix, Cron, SSH</li>
-                        <li>Migration PHP 7 → PHP 8 en réalisation</li>
-                        <li>Relation client directe : démonstrations produit, formations et réunions de projet</li>
+                        <li>{{ 'experience.task.1'|trans }}</li>
+                        <li>{{ 'experience.task.2'|trans }}</li>
+                        <li>{{ 'experience.task.3'|trans }}</li>
+                        <li>{{ 'experience.task.4'|trans }}</li>
+                        <li>{{ 'experience.task.5'|trans }}</li>
+                        <li>{{ 'experience.task.6'|trans }}</li>
+                        <li>{{ 'experience.task.7'|trans }}</li>
+                        <li>{{ 'experience.task.8'|trans }}</li>
+                        <li>{{ 'experience.task.9'|trans }}</li>
                     </ul>
                     <div class="timeline__tags">
                         <span class="tag" data-tech="php">PHP 7/8</span>
@@ -285,21 +286,21 @@
 <section class="education section">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Formation</span>
-            <h2 class="section__title">Diplômes</h2>
+            <span class="section__tag">{{ 'education.tag'|trans }}</span>
+            <h2 class="section__title">{{ 'education.title'|trans }}</h2>
         </div>
         <div class="edu-grid">
             <div class="edu-card edu-card--master">
                 <div class="edu-card__icon-wrap">🎓</div>
                 <div class="edu-card__body">
                     <div class="edu-card__top">
-                        <h3 class="edu-card__title">Master<br>Lead Dev</h3>
-                        <span class="edu-card__level">Bac+5</span>
+                        <h3 class="edu-card__title">{{ 'education.master.title'|trans|nl2br }}</h3>
+                        <span class="edu-card__level">{{ 'education.master.level'|trans }}</span>
                     </div>
-                    <p class="edu-card__school">ESIEE IT · Pontoise</p>
+                    <p class="edu-card__school">{{ 'education.master.school'|trans }}</p>
                     <div class="edu-card__footer">
-                        <span class="edu-card__date">2019 – 2022</span>
-                        <span class="edu-card__tag">Alternance</span>
+                        <span class="edu-card__date">{{ 'education.master.date'|trans }}</span>
+                        <span class="edu-card__tag">{{ 'education.master.type'|trans }}</span>
                     </div>
                 </div>
             </div>
@@ -307,13 +308,13 @@
                 <div class="edu-card__icon-wrap">📘</div>
                 <div class="edu-card__body">
                     <div class="edu-card__top">
-                        <h3 class="edu-card__title">Licence Pro<br>Dev Web &amp; Mobile</h3>
-                        <span class="edu-card__level">Bac+3</span>
+                        <h3 class="edu-card__title">{{ 'education.licence.title'|trans|nl2br }}</h3>
+                        <span class="edu-card__level">{{ 'education.licence.level'|trans }}</span>
                     </div>
-                    <p class="edu-card__school">Université de Cergy · Site de Gennevilliers</p>
+                    <p class="edu-card__school">{{ 'education.licence.school'|trans }}</p>
                     <div class="edu-card__footer">
-                        <span class="edu-card__date">2018 – 2019</span>
-                        <span class="edu-card__tag">Alternance</span>
+                        <span class="edu-card__date">{{ 'education.licence.date'|trans }}</span>
+                        <span class="edu-card__tag">{{ 'education.licence.type'|trans }}</span>
                     </div>
                 </div>
             </div>
@@ -321,10 +322,10 @@
                 <div class="edu-card__icon-wrap">🏫</div>
                 <div class="edu-card__body">
                     <div class="edu-card__top">
-                        <h3 class="edu-card__title">Baccalauréat Scientifique</h3>
-                        <span class="edu-card__level">Bac</span>
+                        <h3 class="edu-card__title">{{ 'education.bac.title'|trans }}</h3>
+                        <span class="edu-card__level">{{ 'education.bac.level'|trans }}</span>
                     </div>
-                    <p class="edu-card__school">Lycée Auguste Renoir · Asnières-sur-Seine</p>
+                    <p class="edu-card__school">{{ 'education.bac.school'|trans }}</p>
                     <div class="edu-card__footer">
                         {# <span class="edu-card__date">2015</span> #}
                     </div>
@@ -337,65 +338,65 @@
 <section class="security section section--dark">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Sécurité</span>
-            <h2 class="section__title">Bonnes pratiques intégrées</h2>
-            <p class="section__subtitle">Ce portfolio applique les standards de sécurité web modernes — chaque mesure est vérifiable dans le code source.</p>
+            <span class="section__tag">{{ 'security.tag'|trans }}</span>
+            <h2 class="section__title">{{ 'security.title'|trans }}</h2>
+            <p class="section__subtitle">{{ 'security.subtitle'|trans }}</p>
         </div>
         <div class="security__grid">
             <div class="security-badge">
                 <div class="security-badge__check">✓</div>
                 <div class="security-badge__body">
-                    <h3 class="security-badge__title">Protection CSRF</h3>
-                    <p class="security-badge__desc">Token Symfony généré et vérifié sur chaque formulaire</p>
+                    <h3 class="security-badge__title">{{ 'security.csrf.title'|trans }}</h3>
+                    <p class="security-badge__desc">{{ 'security.csrf.desc'|trans }}</p>
                 </div>
             </div>
             <div class="security-badge">
                 <div class="security-badge__check">✓</div>
                 <div class="security-badge__body">
-                    <h3 class="security-badge__title">Validation serveur</h3>
-                    <p class="security-badge__desc">Contraintes NotBlank · Length · Email via Symfony Validator</p>
+                    <h3 class="security-badge__title">{{ 'security.validation.title'|trans }}</h3>
+                    <p class="security-badge__desc">{{ 'security.validation.desc'|trans }}</p>
                 </div>
             </div>
             <div class="security-badge">
                 <div class="security-badge__check">✓</div>
                 <div class="security-badge__body">
-                    <h3 class="security-badge__title">Pattern PRG</h3>
-                    <p class="security-badge__desc">Post → Redirect → Get, aucun double envoi possible au rechargement</p>
+                    <h3 class="security-badge__title">{{ 'security.prg.title'|trans }}</h3>
+                    <p class="security-badge__desc">{{ 'security.prg.desc'|trans }}</p>
                 </div>
             </div>
             <div class="security-badge">
                 <div class="security-badge__check">✓</div>
                 <div class="security-badge__body">
-                    <h3 class="security-badge__title">Échappement XSS</h3>
-                    <p class="security-badge__desc">htmlspecialchars() sur toutes les entrées utilisateur dans les e-mails</p>
+                    <h3 class="security-badge__title">{{ 'security.xss.title'|trans }}</h3>
+                    <p class="security-badge__desc">{{ 'security.xss.desc'|trans }}</p>
                 </div>
             </div>
             <div class="security-badge">
                 <div class="security-badge__check">✓</div>
                 <div class="security-badge__body">
-                    <h3 class="security-badge__title">Injection SQL</h3>
-                    <p class="security-badge__desc">Doctrine ORM — requêtes paramétrées, aucun SQL brut</p>
+                    <h3 class="security-badge__title">{{ 'security.sql.title'|trans }}</h3>
+                    <p class="security-badge__desc">{{ 'security.sql.desc'|trans }}</p>
                 </div>
             </div>
             <div class="security-badge">
                 <div class="security-badge__check">✓</div>
                 <div class="security-badge__body">
-                    <h3 class="security-badge__title">Cache & rate limiting</h3>
-                    <p class="security-badge__desc">TTL 1 min – 30 j sur l'API Riot Games, protection contre les abus</p>
+                    <h3 class="security-badge__title">{{ 'security.cache.title'|trans }}</h3>
+                    <p class="security-badge__desc">{{ 'security.cache.desc'|trans }}</p>
                 </div>
             </div>
             <div class="security-badge">
                 <div class="security-badge__check">✓</div>
                 <div class="security-badge__body">
-                    <h3 class="security-badge__title">Secrets hors dépôt</h3>
-                    <p class="security-badge__desc">Variables d'environnement, <code>.env</code> protégé par <code>.gitignore</code></p>
+                    <h3 class="security-badge__title">{{ 'security.secrets.title'|trans }}</h3>
+                    <p class="security-badge__desc">{{ 'security.secrets.desc'|trans|raw }}</p>
                 </div>
             </div>
             <div class="security-badge">
                 <div class="security-badge__check">✓</div>
                 <div class="security-badge__body">
-                    <h3 class="security-badge__title">HTTPS / TLS</h3>
-                    <p class="security-badge__desc">Certificat SSL, redirection automatique HTTP → HTTPS</p>
+                    <h3 class="security-badge__title">{{ 'security.https.title'|trans }}</h3>
+                    <p class="security-badge__desc">{{ 'security.https.desc'|trans }}</p>
                 </div>
             </div>
         </div>
@@ -405,55 +406,55 @@
 <section class="services-teaser section">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Prestations</span>
-            <h2 class="section__title">Ce que je réalise pour vous</h2>
-            <p class="section__subtitle">Du site vitrine à l'application mobile — des solutions sur-mesure adaptées à vos objectifs.</p>
+            <span class="section__tag">{{ 'svc_teaser.tag'|trans }}</span>
+            <h2 class="section__title">{{ 'svc_teaser.title'|trans }}</h2>
+            <p class="section__subtitle">{{ 'svc_teaser.subtitle'|trans }}</p>
         </div>
         <div class="services-grid">
             <a href="{{ path('app_services') }}#ecommerce" class="svc-card">
                 <div class="svc-card__header">
                     <div class="svc-card__icon">🛒</div>
-                    <h3 class="svc-card__title">Boutique e-commerce</h3>
+                    <h3 class="svc-card__title">{{ 'svc_teaser.ecommerce.title'|trans }}</h3>
                 </div>
-                <p class="svc-card__text">Catalogue, panier, paiement Stripe/PayPal, espace client. En Symfony sur-mesure ou Shopify selon votre besoin.</p>
+                <p class="svc-card__text">{{ 'svc_teaser.ecommerce.text'|trans }}</p>
                 <div class="svc-card__tags">
                     <span class="tag" data-tech="symfony">Symfony</span>
                     <span class="tag" data-tech="php">PHP</span>
                     <span class="tag" data-tech="javascript">Shopify</span>
                     <span class="tag" data-tech="javascript">Stripe</span>
                 </div>
-                <span class="svc-card__more">En savoir plus →</span>
+                <span class="svc-card__more">{{ 'svc_teaser.more'|trans }}</span>
             </a>
             <a href="{{ path('app_services') }}#web" class="svc-card">
                 <div class="svc-card__header">
                     <div class="svc-card__icon">🌐</div>
-                    <h3 class="svc-card__title">Site vitrine &amp; app web</h3>
+                    <h3 class="svc-card__title">{{ 'svc_teaser.web.title'|trans }}</h3>
                 </div>
-                <p class="svc-card__text">Site performant et bien référencé en Symfony/Twig, ou application web complexe avec Symfony API + React.</p>
+                <p class="svc-card__text">{{ 'svc_teaser.web.text'|trans }}</p>
                 <div class="svc-card__tags">
                     <span class="tag" data-tech="symfony">Symfony</span>
                     <span class="tag" data-tech="react">React</span>
                     <span class="tag" data-tech="api">API REST</span>
                 </div>
-                <span class="svc-card__more">En savoir plus →</span>
+                <span class="svc-card__more">{{ 'svc_teaser.more'|trans }}</span>
             </a>
             <a href="{{ path('app_services') }}#mobile" class="svc-card">
                 <div class="svc-card__header">
                     <div class="svc-card__icon">📱</div>
-                    <h3 class="svc-card__title">Application mobile</h3>
+                    <h3 class="svc-card__title">{{ 'svc_teaser.mobile.title'|trans }}</h3>
                 </div>
-                <p class="svc-card__text">iOS &amp; Android depuis une seule codebase React Native. Notifications push, API dédiée, publication sur les stores.</p>
+                <p class="svc-card__text">{{ 'svc_teaser.mobile.text'|trans }}</p>
                 <div class="svc-card__tags">
                     <span class="tag" data-tech="react">React Native</span>
                     <span class="tag" data-tech="api">API REST</span>
                     <span class="tag" data-tech="linux">iOS &amp; Android</span>
                 </div>
-                <span class="svc-card__more">En savoir plus →</span>
+                <span class="svc-card__more">{{ 'svc_teaser.more'|trans }}</span>
             </a>
         </div>
         <div class="section__cta">
             <a href="{{ path('app_services') }}" class="btn btn--ghost">
-                Voir toutes mes prestations
+                {{ 'svc_teaser.btn'|trans }}
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
         </div>
@@ -465,11 +466,11 @@
         <a href="{{ path('app_league') }}" class="lol-teaser__card">
             <div class="lol-teaser__culling" aria-hidden="true"></div>
             <div class="lol-teaser__left">
-                <span class="section__tag" style="margin-bottom:0;">En dehors du code</span>
-                <h2 class="lol-teaser__title">League of Legends</h2>
-                <p class="lol-teaser__text">Stats en temps réel, historique de parties, graphe de progression LP — une page dédiée à ma passion pour le jeu.</p>
+                <span class="section__tag" style="margin-bottom:0;">{{ 'lol_teaser.tag'|trans }}</span>
+                <h2 class="lol-teaser__title">{{ 'lol_teaser.title'|trans }}</h2>
+                <p class="lol-teaser__text">{{ 'lol_teaser.text'|trans }}</p>
                 <span class="lol-teaser__cta">
-                    Voir mes stats
+                    {{ 'lol_teaser.btn'|trans }}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </span>
             </div>
@@ -477,8 +478,8 @@
                 <div class="lol-teaser__rank">
                     <div class="lol-teaser__rank-icon">⚔</div>
                     <div>
-                        <div class="lol-teaser__rank-tier">Master</div>
-                        <div class="lol-teaser__rank-label">Peak elo · S23 S2 · Solo/Duo</div>
+                        <div class="lol-teaser__rank-tier">{{ 'lol_teaser.rank_tier'|trans }}</div>
+                        <div class="lol-teaser__rank-label">{{ 'lol_teaser.rank_label'|trans }}</div>
                     </div>
                 </div>
                 <div class="lol-teaser__tags">
@@ -495,11 +496,11 @@
     <div class="container">
         <div class="cta-box">
             <div class="cta-box__orb"></div>
-            <span class="section__tag">Travaillons ensemble</span>
-            <h2 class="cta-box__title">Un projet en tête ?</h2>
-            <p class="cta-box__text">Je suis ouvert aux opportunités en CDI, freelance ou collaboration technique. Échangeons !</p>
+            <span class="section__tag">{{ 'home_cta.tag'|trans }}</span>
+            <h2 class="cta-box__title">{{ 'home_cta.title'|trans }}</h2>
+            <p class="cta-box__text">{{ 'home_cta.text'|trans }}</p>
             <a href="{{ path('app_contact') }}" class="btn btn--primary btn--lg">
-                Démarrer une conversation
+                {{ 'home_cta.btn'|trans }}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
         </div>

@@ -31,10 +31,17 @@ class ProjectCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield TextField::new('title', 'Titre');
-        yield TextareaField::new('shortDescription', 'Description courte')
+        yield TextField::new('title', 'Titre (FR)');
+        yield TextField::new('titleEn', 'Title (EN)')
             ->hideOnIndex();
-        yield TextareaField::new('description', 'Description complète')
+        yield TextareaField::new('shortDescription', 'Description courte (FR)')
+            ->hideOnIndex();
+        yield TextareaField::new('shortDescriptionEn', 'Short description (EN)')
+            ->hideOnIndex();
+        yield TextareaField::new('description', 'Description complète (FR)')
+            ->setNumOfRows(6)
+            ->hideOnIndex();
+        yield TextareaField::new('descriptionEn', 'Full description (EN)')
             ->setNumOfRows(6)
             ->hideOnIndex();
         yield ChoiceField::new('color', 'Couleur cover')

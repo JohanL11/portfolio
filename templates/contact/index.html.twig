@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact{% endblock %}
-{% block description %}Contactez Johan Louap — Développeur Full Stack Web & Mobile disponible pour CDI, freelance ou collaboration.{% endblock %}
-{% block og_title %}Contact — Johan Louap{% endblock %}
-{% block og_desc %}Un projet en tête ? Parlons-en — je réponds sous 24h avec une première estimation.{% endblock %}
+{% block title %}{{ 'contact.meta_title'|trans }}{% endblock %}
+{% block description %}{{ 'contact.meta_desc'|trans }}{% endblock %}
+{% block og_title %}{{ 'contact.og_title'|trans }}{% endblock %}
+{% block og_desc %}{{ 'contact.og_desc'|trans }}{% endblock %}
 {% block og_url %}https://johan-louap.fr/contact{% endblock %}
 {% block og_image %}https://johan-louap.fr/img/og-contact.png{% endblock %}
 {% block twitter_image %}https://johan-louap.fr/img/og-contact.png{% endblock %}
@@ -11,25 +11,25 @@
 {% block body %}
 <section class="page-hero">
     <div class="container">
-        <span class="section__tag">Contact</span>
-        <h1 class="page-hero__title">Travaillons <span class="text-gradient">ensemble</span></h1>
+        <span class="section__tag">{{ 'contact.hero.tag'|trans }}</span>
+        <h1 class="page-hero__title">{{ 'contact.hero.title'|trans|raw }}</h1>
         <p class="page-hero__subtitle">
-            Opportunité, projet, question technique ? Je réponds sous 24h.
+            {{ 'contact.hero.subtitle'|trans }}
         </p>
         <div class="contact-meta">
             <span class="contact-meta__item">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                Saint-Gratien (95) — Remote possible
+                {{ 'contact.meta.location'|trans }}
             </span>
             <span class="contact-meta__sep">·</span>
             <span class="contact-meta__item">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                Répond sous 24h
+                {{ 'contact.meta.response'|trans }}
             </span>
             <span class="contact-meta__sep">·</span>
             <span class="contact-meta__item contact-meta__item--avail">
                 <span class="contact-meta__dot"></span>
-                Disponible
+                {{ 'contact.meta.available'|trans }}
             </span>
         </div>
     </div>
@@ -62,16 +62,16 @@
                     {{ form_errors(form.message) }}
                 </div>
                 <button type="submit" class="btn btn--primary btn--full">
-                    Envoyer le message
+                    {{ 'contact.form.submit'|trans }}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                 </button>
             {{ form_end(form) }}
 
             <div class="contact-footer">
-                <a href="mailto:louap.johan@outlook.fr" class="contact-footer__email" id="emailCopyItem" title="Cliquer pour copier">
+                <a href="mailto:louap.johan@outlook.fr" class="contact-footer__email" id="emailCopyItem" title="{{ 'contact.copy_badge'|trans }}">
                     louap.johan@outlook.fr
                     <svg style="opacity:0.4" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                    <span id="emailCopyBadge" class="contact-footer__copy-badge">✓ Copié</span>
+                    <span id="emailCopyBadge" class="contact-footer__copy-badge">{{ 'contact.copy_badge'|trans }}</span>
                 </a>
                 <span class="contact-footer__sep">·</span>
                 <a href="https://github.com/JohanL11" target="_blank" rel="noopener" class="contact-footer__link">

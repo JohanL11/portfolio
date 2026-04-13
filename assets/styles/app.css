@@ -1829,6 +1829,29 @@ img { max-width: 100%; display: block; }
     color: var(--color-primary-light);
 }
 
+.lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: none;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.lang-toggle:hover {
+    border-color: var(--color-primary-light);
+    color: var(--color-primary-light);
+}
+
 /* =========================================
    BACK TO TOP
    ========================================= */

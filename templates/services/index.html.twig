@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Services{% endblock %}
-{% block description %}Développement de boutiques e-commerce, sites web et applications mobiles sur-mesure — Johan Louap, Développeur Full Stack freelance.{% endblock %}
-{% block og_title %}Services — Johan Louap, Développeur Full Stack freelance{% endblock %}
-{% block og_desc %}Boutique e-commerce, site vitrine, application web, app mobile React Native — prestations sur-mesure.{% endblock %}
+{% block title %}{{ 'services.meta_title'|trans }}{% endblock %}
+{% block description %}{{ 'services.meta_desc'|trans }}{% endblock %}
+{% block og_title %}{{ 'services.og_title'|trans }}{% endblock %}
+{% block og_desc %}{{ 'services.og_desc'|trans }}{% endblock %}
 {% block og_url %}https://johan-louap.fr/services{% endblock %}
 {% block og_image %}https://johan-louap.fr/img/og-services.png{% endblock %}
 {% block twitter_image %}https://johan-louap.fr/img/og-services.png{% endblock %}
@@ -55,26 +55,26 @@
 {% block body %}
 <section class="page-hero">
     <div class="container">
-        <span class="section__tag">Services</span>
-        <h1 class="page-hero__title">Ce que je peux <span class="text-gradient">réaliser</span> pour vous</h1>
+        <span class="section__tag">{{ 'services.hero.tag'|trans }}</span>
+        <h1 class="page-hero__title">{{ 'services.hero.title'|trans|raw }}</h1>
         <p class="page-hero__subtitle">
-            Du devis à la mise en production — des solutions web et mobile sur-mesure, adaptées à votre budget et à vos objectifs.
+            {{ 'services.hero.subtitle'|trans }}
         </p>
     </div>
 </section>
 
 {# ── NAV PRESTATIONS (mobile/tablette) ── #}
-<nav class="svc-topnav" id="svcTopnav" aria-label="Navigation des prestations">
-    <a href="#ecommerce" class="svc-topnav__item active" data-svc="ecommerce">🛒 E-commerce</a>
-    <a href="#web"       class="svc-topnav__item"        data-svc="web">🌐 Web</a>
-    <a href="#mobile"    class="svc-topnav__item"        data-svc="mobile">📱 Mobile</a>
+<nav class="svc-topnav" id="svcTopnav" aria-label="{{ 'services.hero.tag'|trans }}">
+    <a href="#ecommerce" class="svc-topnav__item active" data-svc="ecommerce">{{ 'services.nav.ecommerce'|trans }}</a>
+    <a href="#web"       class="svc-topnav__item"        data-svc="web">{{ 'services.nav.web'|trans }}</a>
+    <a href="#mobile"    class="svc-topnav__item"        data-svc="mobile">{{ 'services.nav.mobile'|trans }}</a>
 </nav>
 
 {# ── NAV PRESTATIONS (desktop sidebar) ── #}
-<nav class="svc-sidenav" id="svcSidenav" aria-label="Navigation des prestations">
-    <a href="#ecommerce" class="svc-sidenav__item active" data-svc="ecommerce"><span>🛒</span> E-commerce</a>
-    <a href="#web"       class="svc-sidenav__item"        data-svc="web"><span>🌐</span> Web</a>
-    <a href="#mobile"    class="svc-sidenav__item"        data-svc="mobile"><span>📱</span> Mobile</a>
+<nav class="svc-sidenav" id="svcSidenav" aria-label="{{ 'services.hero.tag'|trans }}">
+    <a href="#ecommerce" class="svc-sidenav__item active" data-svc="ecommerce"><span>🛒</span> {{ 'services.nav.ecommerce'|trans }}</a>
+    <a href="#web"       class="svc-sidenav__item"        data-svc="web"><span>🌐</span> {{ 'services.nav.web'|trans }}</a>
+    <a href="#mobile"    class="svc-sidenav__item"        data-svc="mobile"><span>📱</span> {{ 'services.nav.mobile'|trans }}</a>
 </nav>
 
 {# ── SERVICES ── #}
@@ -86,36 +86,36 @@
             <div class="svc-block__header">
                 <div class="svc-block__icon-wrap">🛒</div>
                 <div>
-                    <span class="section__tag">Prestation 1</span>
-                    <h2 class="svc-block__title">Boutique e-commerce</h2>
-                    <p class="svc-block__lead">
-                        Une boutique complète, pensée pour convertir. Du catalogue produit au paiement sécurisé,
-                        je développe votre e-commerce en Symfony sur-mesure ou via Shopify selon votre budget et vos besoins.
-                    </p>
+                    <span class="section__tag">{{ 'services.ecommerce.label'|trans }}</span>
+                    <h2 class="svc-block__title">{{ 'services.ecommerce.title'|trans }}</h2>
+                    <p class="svc-block__lead">{{ 'services.ecommerce.lead'|trans }}</p>
                 </div>
             </div>
             <div class="svc-block__body">
                 <div class="svc-block__features">
-                    <h3 class="svc-block__sub">Ce qui est inclus</h3>
+                    <h3 class="svc-block__sub">{{ 'services.ecommerce.included'|trans }}</h3>
                     <ul class="svc-checklist">
-                        <li>Catalogue produits, variantes, stocks</li>
-                        <li>Panier &amp; tunnel d'achat optimisé</li>
-                        <li>Paiement sécurisé —
-                            <span class="svc-tooltip">Stripe<span class="svc-tooltip__box">Solution pro la plus utilisée : paiement par carte directement sur votre site, 3D Secure, remboursements</span></span>
+                        <li>{{ 'services.ecommerce.item.1'|trans }}</li>
+                        <li>{{ 'services.ecommerce.item.2'|trans }}</li>
+                        <li>
+                            <span class="svc-tooltip">Stripe<span class="svc-tooltip__box">{{ 'services.ecommerce.stripe_tooltip'|trans }}</span></span>
                             &amp;
-                            <span class="svc-tooltip">PayPal<span class="svc-tooltip__box">Familier du grand public : idéal pour les clients qui préfèrent ne pas saisir leur carte. Les deux solutions sont complémentaires.</span></span>
+                            <span class="svc-tooltip">PayPal<span class="svc-tooltip__box">{{ 'services.ecommerce.paypal_tooltip'|trans }}</span></span>
                         </li>
-                        <li>Espace client &amp; historique commandes</li>
-                        <li>Interface d'administration</li>
-                        <li><span class="svc-tooltip">SEO<span class="svc-tooltip__box">Référencement naturel — optimisation pour apparaître en bonne position sur Google et autres moteurs de recherche.</span></span> technique &amp; performances optimisées</li>
-                        <li>Responsive mobile-first</li>
-                        <li>Déploiement sur votre serveur ou hébergement dédié</li>
+                        <li>{{ 'services.ecommerce.item.4'|trans }}</li>
+                        <li>{{ 'services.ecommerce.item.5'|trans }}</li>
+                        <li>
+                            <span class="svc-tooltip">SEO<span class="svc-tooltip__box">{{ 'services.ecommerce.seo_tooltip'|trans }}</span></span>
+                            — {{ 'services.ecommerce.item.6'|trans }}
+                        </li>
+                        <li>{{ 'services.ecommerce.item.7'|trans }}</li>
+                        <li>{{ 'services.ecommerce.item.8'|trans }}</li>
                     </ul>
                 </div>
                 <div class="svc-block__aside">
                     <div class="svc-aside-card">
-                        <h4 class="svc-aside-card__title">Sur mesure (Stack Symfony)</h4>
-                        <p class="svc-aside-card__text">Boutique 100% personnalisée, performances maximales, aucune dépendance à un écosystème tiers. Idéal pour des besoins spécifiques.</p>
+                        <h4 class="svc-aside-card__title">{{ 'services.ecommerce.custom.title'|trans }}</h4>
+                        <p class="svc-aside-card__text">{{ 'services.ecommerce.custom.text'|trans }}</p>
                         <div class="svc-aside-card__tags">
                             <span class="tag" data-tech="symfony">Symfony 7</span>
                             <span class="tag" data-tech="react">React</span>
@@ -125,8 +125,8 @@
                         </div>
                     </div>
                     <div class="svc-aside-card">
-                        <h4 class="svc-aside-card__title">Intégration Shopify</h4>
-                        <p class="svc-aside-card__text">Thème et fonctionnalités sur-mesure sur l'écosystème Shopify. Rapidité de mise en marché, back-office Shopify, App Store disponible.</p>
+                        <h4 class="svc-aside-card__title">{{ 'services.ecommerce.shopify.title'|trans }}</h4>
+                        <p class="svc-aside-card__text">{{ 'services.ecommerce.shopify.text'|trans }}</p>
                         <div class="svc-aside-card__tags">
                             <span class="tag" data-tech="api">Shopify API</span>
                             <span class="tag" data-tech="api">Shopify Liquid</span>
@@ -137,7 +137,7 @@
             </div>
         </div>
         <div class="svc-inline-cta">
-            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">Discutons de votre boutique →</a>
+            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">{{ 'services.ecommerce.cta'|trans }}</a>
         </div>
 
         <div class="svc-divider"></div>
@@ -147,32 +147,32 @@
             <div class="svc-block__header">
                 <div class="svc-block__icon-wrap">🌐</div>
                 <div>
-                    <span class="section__tag">Prestation 2</span>
-                    <h2 class="svc-block__title">Site vitrine &amp; application web</h2>
-                    <p class="svc-block__lead">
-                        De la carte de visite en ligne à l'application web métier complexe — je conçois des interfaces
-                        performantes, bien référencées et agréables à utiliser.
-                    </p>
+                    <span class="section__tag">{{ 'services.web.label'|trans }}</span>
+                    <h2 class="svc-block__title">{{ 'services.web.title'|trans }}</h2>
+                    <p class="svc-block__lead">{{ 'services.web.lead'|trans }}</p>
                 </div>
             </div>
             <div class="svc-block__body">
                 <div class="svc-block__features">
-                    <h3 class="svc-block__sub">Ce qui est inclus</h3>
+                    <h3 class="svc-block__sub">{{ 'services.web.included'|trans }}</h3>
                     <ul class="svc-checklist">
-                        <li>Design responsive, mobile-first</li>
-                        <li><span class="svc-tooltip">SEO<span class="svc-tooltip__box">Référencement naturel — optimisation pour apparaître en bonne position sur Google et autres moteurs de recherche.</span></span> optimisé dès la conception</li>
-                        <li>Formulaire de contact sécurisé</li>
-                        <li>Interface d'administration (si nécessaire)</li>
-                        <li>API REST sur-mesure pour vos besoins métier</li>
-                        <li>Authentification &amp; gestion des rôles</li>
-                        <li>Hébergement, SSL &amp; déploiement continu</li>
-                        <li>Maintenance &amp; évolutions facilitées</li>
+                        <li>{{ 'services.web.item.1'|trans }}</li>
+                        <li>
+                            <span class="svc-tooltip">SEO<span class="svc-tooltip__box">{{ 'services.web.seo_tooltip'|trans }}</span></span>
+                            — {{ 'services.web.item.2'|trans }}
+                        </li>
+                        <li>{{ 'services.web.item.3'|trans }}</li>
+                        <li>{{ 'services.web.item.4'|trans }}</li>
+                        <li>{{ 'services.web.item.5'|trans }}</li>
+                        <li>{{ 'services.web.item.6'|trans }}</li>
+                        <li>{{ 'services.web.item.7'|trans }}</li>
+                        <li>{{ 'services.web.item.8'|trans }}</li>
                     </ul>
                 </div>
                 <div class="svc-block__aside">
                     <div class="svc-aside-card">
-                        <h4 class="svc-aside-card__title">Site vitrine — Symfony/Twig</h4>
-                        <p class="svc-aside-card__text">Rendu côté serveur, SEO natif, performances excellentes. Idéal pour les sites vitrines, portfolios, blogs ou sites institutionnels.</p>
+                        <h4 class="svc-aside-card__title">{{ 'services.web.symfony.title'|trans }}</h4>
+                        <p class="svc-aside-card__text">{{ 'services.web.symfony.text'|trans }}</p>
                         <div class="svc-aside-card__tags">
                             <span class="tag" data-tech="symfony">Symfony 7</span>
                             <span class="tag" data-tech="php">Twig</span>
@@ -181,8 +181,8 @@
                         </div>
                     </div>
                     <div class="svc-aside-card">
-                        <h4 class="svc-aside-card__title">Application web — Symfony API + React</h4>
-                        <p class="svc-aside-card__text">Interface très interactive (SPA), expérience utilisateur fluide, code réutilisable côté mobile. Idéal pour les outils métier et dashboards.</p>
+                        <h4 class="svc-aside-card__title">{{ 'services.web.react.title'|trans }}</h4>
+                        <p class="svc-aside-card__text">{{ 'services.web.react.text'|trans }}</p>
                         <div class="svc-aside-card__tags">
                             <span class="tag" data-tech="symfony">Symfony API</span>
                             <span class="tag" data-tech="react">React</span>
@@ -194,7 +194,7 @@
             </div>
         </div>
         <div class="svc-inline-cta">
-            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">Discutons de votre site →</a>
+            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">{{ 'services.web.cta'|trans }}</a>
         </div>
 
         <div class="svc-divider"></div>
@@ -204,35 +204,28 @@
             <div class="svc-block__header">
                 <div class="svc-block__icon-wrap">📱</div>
                 <div>
-                    <span class="section__tag">Prestation 3</span>
-                    <h2 class="svc-block__title">Application mobile</h2>
-                    <p class="svc-block__lead">
-                        Votre idée dans la poche de vos utilisateurs. Une application iOS &amp; Android depuis une seule codebase
-                        React Native, publiée sur l'App Store et le Google Play.
-                    </p>
+                    <span class="section__tag">{{ 'services.mobile.label'|trans }}</span>
+                    <h2 class="svc-block__title">{{ 'services.mobile.title'|trans }}</h2>
+                    <p class="svc-block__lead">{{ 'services.mobile.lead'|trans }}</p>
                 </div>
             </div>
             <div class="svc-block__body">
                 <div class="svc-block__features">
-                    <h3 class="svc-block__sub">Ce qui est inclus</h3>
+                    <h3 class="svc-block__sub">{{ 'services.mobile.included'|trans }}</h3>
                     <ul class="svc-checklist">
-                        <li>Application iOS &amp; Android (React Native)</li>
-                        <li>Authentification &amp; gestion des profils</li>
-                        <li>Notifications push</li>
-                        <li>API REST PHP dédiée</li>
-                        <li>Synchronisation hors-ligne si nécessaire</li>
-                        <li>Publication sur l'App Store &amp; Google Play</li>
-                        <li>Mises à jour facilitées (une seule application)</li>
+                        <li>{{ 'services.mobile.item.1'|trans }}</li>
+                        <li>{{ 'services.mobile.item.2'|trans }}</li>
+                        <li>{{ 'services.mobile.item.3'|trans }}</li>
+                        <li>{{ 'services.mobile.item.4'|trans }}</li>
+                        <li>{{ 'services.mobile.item.5'|trans }}</li>
+                        <li>{{ 'services.mobile.item.6'|trans }}</li>
+                        <li>{{ 'services.mobile.item.7'|trans }}</li>
                     </ul>
                 </div>
                 <div class="svc-block__aside">
                     <div class="svc-aside-card svc-aside-card--full">
-                        <h4 class="svc-aside-card__title">Pourquoi React Native ?</h4>
-                        <p class="svc-aside-card__text">
-                            Contrairement au développement natif (Swift pour iOS, Kotlin pour Android) qui nécessite deux codebases séparées,
-                            React Native permet de produire <strong>une seule application</strong> qui tourne nativement sur les deux plateformes.
-                            Résultat : coût réduit, maintenance simplifiée, performances proches du natif.
-                        </p>
+                        <h4 class="svc-aside-card__title">{{ 'services.mobile.rn.title'|trans }}</h4>
+                        <p class="svc-aside-card__text">{{ 'services.mobile.rn.text'|trans|raw }}</p>
                         <div class="svc-aside-card__tags">
                             <span class="tag" data-tech="symfony">Symfony API</span>
                             <span class="tag" data-tech="react">React Native</span>
@@ -246,7 +239,7 @@
             </div>
         </div>
         <div class="svc-inline-cta">
-            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">Discutons de votre application →</a>
+            <a href="{{ path('app_contact') }}" class="btn btn--outline btn--sm">{{ 'services.mobile.cta'|trans }}</a>
         </div>
     </div>
 </section>
@@ -255,31 +248,18 @@
 <section class="section section--dark svc-process">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Comment ça se passe</span>
-            <h2 class="section__title">Mon process de travail</h2>
-            <p class="section__subtitle">Transparent, itératif et orienté résultat.</p>
+            <span class="section__tag">{{ 'services.process.tag'|trans }}</span>
+            <h2 class="section__title">{{ 'services.process.title'|trans }}</h2>
+            <p class="section__subtitle">{{ 'services.process.subtitle'|trans }}</p>
         </div>
         <div class="process-grid">
+            {% for i in 1..4 %}
             <div class="process-step">
-                <div class="process-step__num">01</div>
-                <h3 class="process-step__title">Discussion</h3>
-                <p class="process-step__text">On échange sur votre besoin, vos contraintes, votre budget et vos délais. Appel, visio ou email — comme vous préférez.</p>
+                <div class="process-step__num">{{ ('services.process.step.' ~ i ~ '.num')|trans }}</div>
+                <h3 class="process-step__title">{{ ('services.process.step.' ~ i ~ '.title')|trans }}</h3>
+                <p class="process-step__text">{{ ('services.process.step.' ~ i ~ '.text')|trans }}</p>
             </div>
-            <div class="process-step">
-                <div class="process-step__num">02</div>
-                <h3 class="process-step__title">Proposition</h3>
-                <p class="process-step__text">Devis détaillé, planning de développement, choix techniques argumentés. Aucune surprise.</p>
-            </div>
-            <div class="process-step">
-                <div class="process-step__num">03</div>
-                <h3 class="process-step__title">Développement</h3>
-                <p class="process-step__text">Développement itératif avec points réguliers. Accès à un environnement de recette pour valider chaque étape.</p>
-            </div>
-            <div class="process-step">
-                <div class="process-step__num">04</div>
-                <h3 class="process-step__title">Livraison</h3>
-                <p class="process-step__text">Mise en production, tests finaux, formation à l'outil si besoin, et documentation. Le projet vous appartient.</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -289,11 +269,11 @@
     <div class="container">
         <div class="cta-box">
             <div class="cta-box__orb"></div>
-            <span class="section__tag">Démarrons</span>
-            <h2 class="cta-box__title">Un projet en tête ?</h2>
-            <p class="cta-box__text">Parlez-moi de votre idée — je vous réponds sous 24h avec une première estimation.</p>
+            <span class="section__tag">{{ 'services.cta.tag'|trans }}</span>
+            <h2 class="cta-box__title">{{ 'services.cta.title'|trans }}</h2>
+            <p class="cta-box__text">{{ 'services.cta.text'|trans }}</p>
             <a href="{{ path('app_contact') }}" class="btn btn--primary btn--lg">
-                Me contacter
+                {{ 'services.cta.btn'|trans }}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
             </a>
         </div>

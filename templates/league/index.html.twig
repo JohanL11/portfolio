@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}League of Legends{% endblock %}
-{% block description %}Profil League of Legends de Johan Louap — Rang, champions et historique de parties.{% endblock %}
-{% block og_title %}Stats League of Legends — Johan Louap{% endblock %}
-{% block og_desc %}Consultez vos statistiques LoL en temps réel via l'API Riot Games.{% endblock %}
+{% block title %}{{ 'league.meta_title'|trans }}{% endblock %}
+{% block description %}{{ 'league.meta_desc'|trans }}{% endblock %}
+{% block og_title %}{{ 'league.og_title'|trans }}{% endblock %}
+{% block og_desc %}{{ 'league.og_desc'|trans }}{% endblock %}
 {% block og_url %}https://johan-louap.fr/league{% endblock %}
 {% block og_image %}https://johan-louap.fr/img/og-lol.png{% endblock %}
 {% block twitter_image %}https://johan-louap.fr/img/og-lol.png{% endblock %}
@@ -488,7 +488,7 @@
 
 {% if error %}
     <div class="lol-error">
-        <strong>Impossible de charger les données Riot.</strong>
+        <strong>{{ 'league.error'|trans }}</strong>
         <p style="font-size:.85rem;margin-top:.5rem;color:#aaa;">{{ error }}</p>
     </div>
 {% elseif data %}
@@ -502,7 +502,7 @@
     <div class="lol-hero__content">
         <div class="lol-hero__avatar">
             <img src="{{ data.iconUrl }}" alt="Icône">
-            <span class="lol-hero__lvl">Niv. {{ data.level }}</span>
+            <span class="lol-hero__lvl">{{ 'league.level'|trans }} {{ data.level }}</span>
         </div>
         <div class="lol-hero__info">
             <h1 class="lol-hero__name">{{ data.gameName }} <span>#{{ data.tagLine }}</span></h1>
@@ -520,7 +520,7 @@
                     <span class="badge badge--gold">🎯 {{ data.mainRole }}</span>
                 {% endif %}
                 {% if data.totalMastery %}
-                    <span class="badge badge--blue">✨ Maîtrise totale {{ data.totalMastery }}</span>
+                    <span class="badge badge--blue">✨ {{ 'league.mastery_total'|trans }} {{ data.totalMastery }}</span>
                 {% endif %}
                 <span id="lastGameBadge" class="badge badge--link" style="display:none"></span>
                 <span id="trendBadge" class="badge" style="display:none"></span>
@@ -552,7 +552,7 @@
     {# ── RANKS + MASTERIES ── #}
     <div class="lol-grid-2" id="rankMasteryGrid" style="align-items:start;">
         <div class="lol-card" id="rankCard">
-            <h2 class="lol-card__title">Classements</h2>
+            <h2 class="lol-card__title">{{ 'league.rank.title'|trans }}</h2>
 
             {# Saison en cours #}
             {% set soloEntry = null %}
@@ -574,13 +574,13 @@
                         <strong>{{ ((entry.wins / (entry.wins + entry.losses)) * 100)|round }}%</strong>
                     </div>
                     {% if entry.hotStreak %}
-                    <div style="font-size:.7rem;color:#ff9800;margin-top:.3rem;">🔥 En série</div>
+                    <div style="font-size:.7rem;color:#ff9800;margin-top:.3rem;">{{ 'league.in_series'|trans }}</div>
                     {% endif %}
                 </div>
                 {% else %}
                 <div class="rank-box rank-box--empty">
                     <div class="rank-box__queue">{{ label }}</div>
-                    <div class="rank-box__tier">Non classé</div>
+                    <div class="rank-box__tier">{{ 'league.rank.unranked'|trans }}</div>
                 </div>
                 {% endif %}
                 {% endfor %}
@@ -588,7 +588,7 @@
 
             {# Historique Solo/Duo #}
             <div style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#555;margin-bottom:0.5rem;">
-                Historique Solo / Duo
+                {{ 'league.rank.history'|trans }}
             </div>
             {% set seasons = [
                 { season: 'S2025',    tier: 'EMERALD',  div: 'III', lp: 21,  best: false },
@@ -603,8 +603,8 @@
             <table class="season-table">
                 <thead>
                     <tr>
-                        <th>Saison</th>
-                        <th style="text-align:right;">Rang</th>
+                        <th>{{ 'league.rank.season'|trans }}</th>
+                        <th style="text-align:right;">{{ 'league.rank.rank_col'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -612,7 +612,7 @@
                 <tr class="{{ s.best ? 'season-row--best' : '' }}">
                     <td style="color:#888;">{{ s.season }}</td>
                     <td style="text-align:right;">
-                        {% if s.best %}<span class="best-badge">⭐ Meilleur</span>{% endif %}
+                        {% if s.best %}<span class="best-badge">{{ 'league.rank.best'|trans }}</span>{% endif %}
                         <span class="tier-badge tier-badge--{{ s.tier|lower }}">
                             {{ s.tier|capitalize }} {{ s.div }}
                         </span>
@@ -627,7 +627,7 @@
         </div>
 
         <div class="lol-card" id="masteryCard" style="display:flex;flex-direction:column;overflow:hidden;">
-            <h2 class="lol-card__title">Champions maîtrisés</h2>
+            <h2 class="lol-card__title">{{ 'league.mastery.title'|trans }}</h2>
             <div class="mastery-list" id="masteryList" style="flex:1;min-height:0;overflow-y:auto;padding-right:4px;max-height:520px;">
                 {% for m in data.masteries %}
                 {% set s = m.matchStats %}
@@ -642,7 +642,7 @@
                         {% set avgDmg = s.games > 0 ? (s.damage / s.games)|round : 0 %}
                         {% set avgVision = s.games > 0 ? (s.vision / s.games)|round(1) : 0 %}
                         <div class="mastery-row__match-stats">
-                            {{ s.games }} partie{{ s.games > 1 ? 's' : '' }} · KDA {{ kda }} · {{ csMin }} cs/min · 👁 {{ avgVision }}
+                            {{ s.games }} {{ s.games > 1 ? 'league.mastery.games'|trans : 'league.mastery.game'|trans }} · KDA {{ kda }} · {{ csMin }} cs/min · 👁 {{ avgVision }}
                         </div>
                         {% endif %}
                     </div>
@@ -655,7 +655,7 @@
 
     {# ── GRAPHIQUE KDA ── #}
     <div class="lol-card" style="margin-bottom:1.5rem;">
-        <h2 class="lol-card__title">KDA — 20 dernières parties</h2>
+        <h2 class="lol-card__title">{{ 'league.kda_chart'|trans }}</h2>
         <div style="position:relative;height:160px;">
             <div id="kdaChartSkeleton" class="skeleton chart-skeleton" style="position:absolute;inset:0;"></div>
             <canvas id="kdaChart"></canvas>
@@ -665,31 +665,31 @@
     {# ── RECORDS ── #}
     <div class="records-grid">
         <div class="record-card">
-            <div class="record-card__label">⚡ Meilleur KDA</div>
+            <div class="record-card__label">⚡ {{ 'league.record.best_kda'|trans }}</div>
             <div class="record-card__value" data-count="{{ data.records.bestKda }}" data-decimals="2">0</div>
             <div class="record-card__sub">{{ data.records.bestKdaScore }} · {{ data.records.bestKdaChamp }}</div>
         </div>
         <div class="record-card">
-            <div class="record-card__label">⚔️ Plus de kills</div>
+            <div class="record-card__label">⚔️ {{ 'league.record.most_kills'|trans }}</div>
             <div class="record-card__value" data-count="{{ data.records.mostKills }}">0</div>
             <div class="record-card__sub">{{ data.records.mostKillsChamp }}</div>
         </div>
         <div class="record-card">
-            <div class="record-card__label">🌟 Pentas</div>
+            <div class="record-card__label">🌟 {{ 'league.record.pentas'|trans }}</div>
             <div class="record-card__value" data-count="{{ data.records.pentaTotal }}">0</div>
-            <div class="record-card__sub">sur {{ data.totalGames }} parties</div>
+            <div class="record-card__sub">{{ 'league.record.out_of'|trans({'%n%': data.totalGames}) }}</div>
         </div>
         <div class="record-card">
             <div class="record-card__label">🩸 First Blood</div>
             <div class="record-card__value" data-count="{{ data.records.firstBloods }}">0</div>
-            <div class="record-card__sub">{{ data.totalGames > 0 ? ((data.records.firstBloods / data.totalGames) * 100)|round : 0 }}% des parties</div>
+            <div class="record-card__sub">{{ data.totalGames > 0 ? ((data.records.firstBloods / data.totalGames) * 100)|round : 0 }}% {{ 'league.record.of_games'|trans }}</div>
         </div>
     </div>
 
     {# ── WINRATE PAR RÔLE + RÉPARTITION MODES ── #}
     <div class="lol-grid-2" style="margin-bottom:1.5rem;">
         <div class="lol-card">
-            <h2 class="lol-card__title">Winrate par rôle</h2>
+            <h2 class="lol-card__title">{{ 'league.roles.title'|trans }}</h2>
             {% for r in data.roleStats %}
             {% set wr = r.games > 0 ? ((r.wins / r.games) * 100)|round : 0 %}
             <div class="role-bar">
@@ -700,11 +700,11 @@
                 <div class="role-bar__meta">{{ r.wins }}V {{ r.games - r.wins }}D · <strong style="color:{% if wr >= 60 %}var(--win){% elseif wr >= 50 %}var(--lol-blue){% else %}var(--loss){% endif %}">{{ wr }}%</strong></div>
             </div>
             {% else %}
-            <p style="color:#555;font-size:0.8rem;">Pas assez de données</p>
+            <p style="color:#555;font-size:0.8rem;">{{ 'league.no_data'|trans }}</p>
             {% endfor %}
         </div>
         <div class="lol-card">
-            <h2 class="lol-card__title">Répartition des modes</h2>
+            <h2 class="lol-card__title">{{ 'league.queue_dist'|trans }}</h2>
             <div style="position:relative;height:160px;">
                 <div id="queueChartSkeleton" class="skeleton chart-skeleton" style="position:absolute;inset:0;"></div>
                 <canvas id="queueChart"></canvas>
@@ -714,7 +714,7 @@
 
     {# ── STATS PAR CHAMPION ── #}
     <div class="lol-card" style="margin-bottom:1.5rem;">
-        <h2 class="lol-card__title">Stats par champion <span style="font-weight:400;color:#666;font-size:0.7rem;text-transform:none;letter-spacing:0;">({{ data.totalGames }} dernières parties)</span></h2>
+        <h2 class="lol-card__title">{{ 'league.stats.title'|trans }} <span style="font-weight:400;color:#666;font-size:0.7rem;text-transform:none;letter-spacing:0;">({{ data.totalGames }} {{ 'league.stats.last_games'|trans }})</span></h2>
         <div class="champ-grid">
             {% for c in data.championStats %}
             {% set wr = ((c.wins / c.games) * 100)|round %}
@@ -727,10 +727,10 @@
                 <div class="champ-stat-card__info">
                     <div class="champ-stat-card__name">{{ c.championName }}</div>
                     <div class="champ-stat-card__meta">
-                        {{ c.games }} partie{{ c.games > 1 ? 's' : '' }} · KDA {{ kda }}
+                        {{ c.games }} {{ c.games > 1 ? 'league.mastery.games'|trans : 'league.mastery.game'|trans }} · KDA {{ kda }}
                     </div>
                     <div class="champ-stat-card__meta">
-                        {{ csMin }} cs/min · {{ avgDmg|number_format(0, ',', '\u{202F}') }} dmg · 👁 {{ avgVision }}
+                        {{ csMin }} cs/min · {% if app.request.locale == 'en' %}{{ avgDmg|number_format(0, '.', ',') }}{% else %}{{ avgDmg|number_format(0, ',', ' ') }}{% endif %} dmg · 👁 {{ avgVision }}
                     </div>
                     <div class="wr-bar">
                         <div class="wr-bar__fill" style="width:{{ wr }}%;background:{% if wr >= 60 %}var(--win){% elseif wr >= 50 %}var(--lol-blue){% else %}var(--loss){% endif %};"></div>
@@ -744,10 +744,10 @@
 
     {# ── HISTORIQUE ── #}
     <div class="lol-card">
-        <h2 class="lol-card__title">Historique de parties</h2>
+        <h2 class="lol-card__title">{{ 'league.matches.title'|trans }}</h2>
 
         <div class="filter-tabs" id="filterTabs">
-            <button type="button" class="filter-tab active" data-filter="all">Tous</button>
+            <button type="button" class="filter-tab active" data-filter="all">{{ 'league.matches.tab_all'|trans }}</button>
             <button type="button" class="filter-tab" data-filter="420">Solo/Duo</button>
             <button type="button" class="filter-tab" data-filter="450">ARAM</button>
             <button type="button" class="filter-tab" data-filter="440">Flex</button>
@@ -763,7 +763,7 @@
                 <img src="{{ match.imageUrl }}" alt="{{ match.championName }}" loading="lazy">
                 <div class="match-row__champ">{{ match.championName }}</div>
                 <div class="match-row__queue">{{ match.queueName }}</div>
-                <div class="match-row__result">{{ match.win ? 'Victoire' : 'Défaite' }}</div>
+                <div class="match-row__result">{{ match.win ? 'league.match.win'|trans : 'league.match.loss'|trans }}</div>
                 <div class="match-row__kda">{{ match.kills }}/{{ match.deaths }}/{{ match.assists }}</div>
                 <div class="match-row__cs">{{ match.cs }} CS</div>
                 <div class="match-row__items">
@@ -773,7 +773,13 @@
                 </div>
                 <div class="match-row__dur">{{ (match.duration / 60)|round }}min</div>
                 {% if match.gameDate %}
-                <div class="match-row__date">{{ match.gameDate }}</div>
+                <div class="match-row__date">
+                    {%- if app.request.locale == 'en' and match.gameDateISO -%}
+                        {{ match.gameDateISO|date('M j, Y') }}
+                    {%- else -%}
+                        {{ match.gameDate }}
+                    {%- endif -%}
+                </div>
                 {% endif %}
             </div>
             {% endfor %}
@@ -781,7 +787,7 @@
 
         <div style="text-align:center;margin-top:1rem;">
             <button id="loadMoreBtn" class="btn-load-more">
-                Charger plus
+                {{ 'league.load_more'|trans }}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
             </button>
         </div>
@@ -790,7 +796,7 @@
     {# ── HEATMAP + TOP DUOS ── #}
     <div class="lol-grid-2" style="margin-top:1.5rem;">
         <div class="lol-card">
-            <h2 class="lol-card__title">Activité — 90 derniers jours</h2>
+            <h2 class="lol-card__title">{{ 'league.heatmap.title'|trans }}</h2>
             <div class="heatmap-wrap">
                 <div class="heatmap-outer">
                     <div class="heatmap-day-labels">
@@ -803,19 +809,19 @@
                 </div>
             </div>
             <div class="heatmap-legend">
-                <span>Moins</span>
+                <span>{{ 'league.heatmap.legend_less'|trans }}</span>
                 <div class="heatmap-legend-cell" style="background:rgba(200,170,110,0.06)"></div>
                 <div class="heatmap-legend-cell" style="background:rgba(200,170,110,0.2)"></div>
                 <div class="heatmap-legend-cell" style="background:rgba(200,170,110,0.45)"></div>
                 <div class="heatmap-legend-cell" style="background:rgba(200,170,110,0.75)"></div>
                 <div class="heatmap-legend-cell" style="background:rgba(200,170,110,1)"></div>
-                <span>Plus</span>
+                <span>{{ 'league.heatmap.legend_more'|trans }}</span>
             </div>
         </div>
 
         {% if data.topDuos is not empty %}
         <div class="lol-card">
-            <h2 class="lol-card__title">Top duos <span style="font-weight:400;color:#555;font-size:0.7rem;text-transform:none;letter-spacing:0;">(joueurs récurrents)</span></h2>
+            <h2 class="lol-card__title">{{ 'league.duos.title'|trans }} <span style="font-weight:400;color:#555;font-size:0.7rem;text-transform:none;letter-spacing:0;">({{ 'league.duos.sub'|trans }})</span></h2>
             <div class="duo-grid">
                 {% for d in data.topDuos %}
                 {% set dwr = ((d.wins / d.games) * 100)|round %}
@@ -823,7 +829,7 @@
                     <img src="{{ d.imageUrl }}" alt="{{ d.name }}" loading="lazy">
                     <div>
                         <div class="duo-card__name">{{ d.name }}</div>
-                        <div class="duo-card__meta">{{ d.games }} partie{{ d.games > 1 ? 's' : '' }} · <span style="color:{% if dwr >= 60 %}var(--win){% elseif dwr >= 50 %}var(--lol-blue){% else %}var(--loss){% endif %}">{{ dwr }}% WR</span></div>
+                        <div class="duo-card__meta">{{ d.games }} {{ d.games > 1 ? 'league.mastery.games'|trans : 'league.mastery.game'|trans }} · <span style="color:{% if dwr >= 60 %}var(--win){% elseif dwr >= 50 %}var(--lol-blue){% else %}var(--loss){% endif %}">{{ dwr }}% WR</span></div>
                     </div>
                 </div>
                 {% endfor %}
@@ -835,7 +841,7 @@
     {# ── ROTATION GRATUITE ── #}
     {% if data.rotation is not empty %}
     <div class="lol-card" style="margin-top:1.5rem;">
-        <h2 class="lol-card__title">Champions gratuits cette semaine</h2>
+        <h2 class="lol-card__title">{{ 'league.rotation.title'|trans }}</h2>
         <div class="rotation-grid">
             {% for c in data.rotation %}
             <div class="rotation-item" title="{{ c.championName }}">
@@ -862,7 +868,7 @@
 <div class="lol-modal" id="matchModal">
     <div class="lol-modal__box">
         <div class="lol-modal__head">
-            <h3 id="modalTitle">Détail de la partie</h3>
+            <h3 id="modalTitle">{{ 'league.modal.title'|trans }}</h3>
             <button class="lol-modal__close">✕</button>
         </div>
         <div id="modalContent"></div>

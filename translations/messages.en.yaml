@@ -1,0 +1,388 @@
+nav:
+  home: "Home"
+  projects: "Projects"
+  services: "Services"
+  league: "⚔ LoL"
+  contact: "Contact"
+  lang: "FR"
+  aria_menu: "Menu"
+  aria_theme: "Toggle theme"
+  title_theme: "Light / Dark"
+
+footer:
+  tagline: "Full Stack Web & Mobile Developer — PHP, React Native, Linux/DevOps."
+  made_with: "Made with ❤️ and Symfony"
+
+back_to_top: "Back to top"
+
+hero:
+  badge: "Open to new opportunities"
+  greeting: "Hi, I'm"
+  subtitle: "<strong>Full Stack Web &amp; Mobile</strong> developer with <strong><span id=\"heroYears\">7</span> years of experience</strong> at a software publisher. I handle projects end to end — from <strong>PHP/Zend</strong> architecture to <strong>Linux</strong> production deployment, including <strong>React Native</strong> apps."
+  btn:
+    projects: "View my projects"
+    contact: "Contact me"
+    cv: "Download my CV"
+  stat:
+    projects: "Projects"
+    tech: "Technologies"
+    mobile: "Mobile apps"
+
+skills:
+  tag: "Skills"
+  title: "Tech stack"
+  subtitle: "Technologies I work with daily, from back-end to deployment."
+  php:
+    level: "Expert — 7 years, PHP 8 migration in progress"
+  symfony:
+    level: "Advanced — MVC architecture, API, cache, mailer"
+  rn:
+    level: "Advanced — 3 mobile apps shipped to production"
+  js:
+    level: "Advanced — vanilla JS, animations, Chart.js"
+  api:
+    level: "Advanced — design, consumption, TTL cache"
+  sql:
+    level: "Advanced — Doctrine ORM, migrations, optimisation"
+  linux:
+    level: "Advanced — CentOS, AlmaLinux, Ubuntu, Nginx, Apache"
+  git:
+    level: "Advanced — GitHub Actions, automated deployment"
+
+featured:
+  tag: "Projects"
+  title: "Featured projects"
+  subtitle: "A few representative projects from my time at Iriga Networks."
+  btn: "View all projects"
+
+security:
+  tag: "Security"
+  title: "Built-in best practices"
+  subtitle: "This portfolio implements modern web security standards — every measure is verifiable in the source code."
+  csrf:
+    title: "CSRF protection"
+    desc: "Symfony token generated and verified on every form"
+  validation:
+    title: "Server-side validation"
+    desc: "NotBlank · Length · Email constraints via Symfony Validator"
+  prg:
+    title: "PRG pattern"
+    desc: "Post → Redirect → Get, no duplicate submission on reload"
+  xss:
+    title: "XSS escaping"
+    desc: "htmlspecialchars() on all user input in emails"
+  sql:
+    title: "SQL injection"
+    desc: "Doctrine ORM — parameterized queries, no raw SQL"
+  cache:
+    title: "Cache & rate limiting"
+    desc: "TTL 1 min – 30 d on Riot Games API, abuse protection"
+  secrets:
+    title: "Secrets out of repo"
+    desc: "Environment variables, <code>.env</code> protected by <code>.gitignore</code>"
+  https:
+    title: "HTTPS / TLS"
+    desc: "SSL certificate, automatic HTTP → HTTPS redirect"
+
+experience:
+  tag: "Career"
+  title: "Professional experience"
+  job_title: "Full Stack Web & Mobile Developer"
+  company: "Iriga Networks — Pontoise, France"
+  alt_badge: "Apprenticeship · 2018–2022"
+  cdi_badge: "Permanent contract · 2022–Present"
+  task:
+    "1": "Full development of the social housing web application (student residences, SIAO) — PHP / Zend / JS / jQuery / Bootstrap"
+    "2": "Development of 3 React Native mobile apps: resident portal, postal address service, mail terminal"
+    "3": "Development of a PHP REST API for all mobile applications"
+    "4": "Integration of partner solutions (digital access to housing, IDEAL, ...)"
+    "5": "Project management: technical architecture, workload estimation, planning and delivery tracking"
+    "6": "Testing, bug analysis, non-regression and fixes"
+    "7": "Linux server administration (CentOS, AlmaLinux): Apache, Bash, Postfix, Cron, SSH"
+    "8": "PHP 7 → PHP 8 migration in progress"
+    "9": "Direct client relations: product demos, training and project meetings"
+
+education:
+  tag: "Education"
+  title: "Degrees"
+  master:
+    title: "Master's\nLead Dev"
+    level: "Bac+5 (Master's)"
+    school: "ESIEE IT · Pontoise"
+    date: "2019 – 2022"
+    type: "Apprenticeship"
+  licence:
+    title: "Bachelor's\nWeb & Mobile Dev"
+    level: "Bac+3 (Bachelor's)"
+    school: "Université de Cergy · Gennevilliers"
+    date: "2018 – 2019"
+    type: "Apprenticeship"
+  bac:
+    title: "Scientific Baccalaureate"
+    level: "Bac"
+    school: "Lycée Auguste Renoir · Asnières-sur-Seine"
+
+svc_teaser:
+  tag: "Services"
+  title: "What I can build for you"
+  subtitle: "From showcase sites to mobile apps — tailored solutions adapted to your goals."
+  ecommerce:
+    title: "E-commerce store"
+    text: "Product catalogue, cart, Stripe/PayPal payments, customer portal. Custom Symfony or Shopify depending on your needs."
+  web:
+    title: "Website & web app"
+    text: "High-performance, SEO-friendly site in Symfony/Twig, or complex web app with Symfony API + React."
+  mobile:
+    title: "Mobile application"
+    text: "iOS & Android from a single React Native codebase. Push notifications, dedicated API, published on the stores."
+  more: "Learn more →"
+  btn: "View all services"
+
+lol_teaser:
+  tag: "Beyond code"
+  title: "League of Legends"
+  text: "Real-time stats, match history, LP progression chart — a dedicated page for my passion for the game."
+  btn: "View my stats"
+  rank_tier: "Master"
+  rank_label: "Peak elo · S23 S2 · Solo/Duo"
+
+home_cta:
+  tag: "Let's work together"
+  title: "Have a project in mind?"
+  text: "I'm open to permanent positions, freelance work or technical collaboration. Let's talk!"
+  btn: "Start a conversation"
+
+projects:
+  meta_title: "Professional projects"
+  meta_desc: "Professional projects by Johan Louap — business applications, mobile field tools, Linux infrastructure."
+  og_title: "Professional projects — Johan Louap"
+  og_desc: "7 years of development at a software publisher — from PHP/Zend business apps to Android mobile tools."
+  hero:
+    title: "Professional <span class=\"text-gradient\">projects</span>"
+    subtitle: "7 years of development at a software publisher — from business applications to mobile field tools."
+  stat:
+    projects: "projects"
+    tech: "technologies"
+    mobile: "mobile apps"
+  empty:
+    title: "Projects loading"
+    text: "Run <code>php bin/console doctrine:fixtures:load</code> to load the data."
+  search:
+    placeholder: "Search a project…"
+  count:
+    singular: "%count% project"
+    plural: "%count% projects"
+  sort:
+    default: "Default"
+    featured: "⭐ Featured"
+    alpha: "A – Z"
+  filter:
+    all: "All"
+    more: "+%count% more"
+  badge_featured: "⭐ Featured"
+  hint: "→ Click for details"
+  empty_filter:
+    title: "No projects found"
+    sub: "Try a different filter or search term."
+    reset: "Reset"
+  cta:
+    tag: "Collaboration"
+    title: "Have a project?"
+    text: "I'm available for freelance missions and collaborations."
+    btn: "Let's talk"
+
+contact:
+  meta_title: "Contact"
+  meta_desc: "Contact Johan Louap — Full Stack Web & Mobile Developer available for permanent roles, freelance or collaboration."
+  og_title: "Contact — Johan Louap"
+  og_desc: "Have a project in mind? Let's talk — I reply within 24h with a first estimate."
+  hero:
+    tag: "Contact"
+    title: "Let's work <span class=\"text-gradient\">together</span>"
+    subtitle: "Opportunity, project, technical question? I reply within 24h."
+  meta:
+    location: "Saint-Gratien (95), France — Remote available"
+    response: "Replies within 24h"
+    available: "Available"
+  form:
+    name: "Full name"
+    name_placeholder: "John Smith"
+    email: "Email address"
+    email_placeholder: "john@example.com"
+    subject: "Subject"
+    subject_placeholder: "Project proposal, collaboration..."
+    message: "Message"
+    message_placeholder: "Describe your project or request..."
+    submit: "Send message"
+  copy_badge: "✓ Copied"
+  flash:
+    success: "Your message has been sent. I will get back to you as soon as possible!"
+    error: "An error occurred while sending. Please try again."
+  validation:
+    name_blank: "Please enter your name."
+    email_blank: "Please enter your email."
+    email_invalid: "Invalid email address."
+    subject_blank: "Please enter a subject."
+    message_blank: "Please enter your message."
+    message_min: "Your message must be at least %limit% characters."
+
+services:
+  meta_title: "Services"
+  meta_desc: "E-commerce stores, websites and mobile apps — custom development by Johan Louap, Full Stack freelance developer."
+  og_title: "Services — Johan Louap, Full Stack freelance developer"
+  og_desc: "E-commerce store, showcase site, web app, React Native mobile app — custom solutions."
+  hero:
+    tag: "Services"
+    title: "What I can <span class=\"text-gradient\">build</span> for you"
+    subtitle: "From quote to production — custom web and mobile solutions, tailored to your budget and goals."
+  nav:
+    ecommerce: "🛒 E-commerce"
+    web: "🌐 Web"
+    mobile: "📱 Mobile"
+  ecommerce:
+    label: "Service 1"
+    title: "E-commerce store"
+    lead: "A complete store designed to convert. From product catalogue to secure payment, I build your e-commerce in custom Symfony or via Shopify depending on your budget and needs."
+    included: "What's included"
+    item:
+      "1": "Product catalogue, variants, stock management"
+      "2": "Cart & optimised checkout flow"
+      "3": "Secure payment — Stripe & PayPal"
+      "4": "Customer portal & order history"
+      "5": "Admin interface"
+      "6": "Technical SEO & performance optimisation"
+      "7": "Mobile-first responsive"
+      "8": "Deployment on your server or dedicated hosting"
+    stripe_tooltip: "Most widely used pro solution: card payments directly on your site, 3D Secure, refunds"
+    paypal_tooltip: "Familiar to the general public: ideal for customers who prefer not to enter their card. Both solutions complement each other."
+    seo_tooltip: "Search engine optimisation — ranking well on Google and other search engines."
+    custom:
+      title: "Custom (Symfony stack)"
+      text: "100% tailored store, maximum performance, no third-party ecosystem dependency. Ideal for specific requirements."
+    shopify:
+      title: "Shopify integration"
+      text: "Custom theme and features on the Shopify ecosystem. Fast time-to-market, Shopify back-office, App Store available."
+    cta: "Let's discuss your store →"
+  web:
+    label: "Service 2"
+    title: "Website & web application"
+    lead: "From an online business card to a complex business web app — I build high-performance, well-ranked, enjoyable interfaces."
+    included: "What's included"
+    item:
+      "1": "Responsive, mobile-first design"
+      "2": "SEO optimised from the start"
+      "3": "Secure contact form"
+      "4": "Admin interface (if needed)"
+      "5": "Custom REST API for your business needs"
+      "6": "Authentication & role management"
+      "7": "Hosting, SSL & continuous deployment"
+      "8": "Maintenance & easy updates"
+    seo_tooltip: "Search engine optimisation — ranking well on Google and other search engines."
+    symfony:
+      title: "Showcase site — Symfony/Twig"
+      text: "Server-side rendering, native SEO, excellent performance. Ideal for showcase sites, portfolios, blogs or institutional sites."
+    react:
+      title: "Web app — Symfony API + React"
+      text: "Highly interactive (SPA), smooth user experience, code reusable on mobile. Ideal for business tools and dashboards."
+    cta: "Let's discuss your site →"
+  mobile:
+    label: "Service 3"
+    title: "Mobile application"
+    lead: "Your idea in your users' pockets. An iOS & Android app from a single React Native codebase, published on the App Store and Google Play."
+    included: "What's included"
+    item:
+      "1": "iOS & Android app (React Native)"
+      "2": "Authentication & profile management"
+      "3": "Push notifications"
+      "4": "Dedicated PHP REST API"
+      "5": "Offline sync if needed"
+      "6": "Published on App Store & Google Play"
+      "7": "Easy updates (single codebase)"
+    rn:
+      title: "Why React Native?"
+      text: "Unlike native development (Swift for iOS, Kotlin for Android) which requires two separate codebases, React Native produces <strong>a single application</strong> that runs natively on both platforms. Result: reduced cost, simplified maintenance, near-native performance."
+    cta: "Let's discuss your app →"
+  process:
+    tag: "How it works"
+    title: "My working process"
+    subtitle: "Transparent, iterative and result-oriented."
+    step:
+      "1":
+        num: "01"
+        title: "Discovery"
+        text: "We discuss your needs, constraints, budget and timeline. Call, video or email — whatever works for you."
+      "2":
+        num: "02"
+        title: "Proposal"
+        text: "Detailed quote, development schedule, justified technical choices. No surprises."
+      "3":
+        num: "03"
+        title: "Development"
+        text: "Iterative development with regular check-ins. Access to a staging environment to validate each step."
+      "4":
+        num: "04"
+        title: "Delivery"
+        text: "Production deployment, final tests, tool training if needed, and documentation. The project is yours."
+  cta:
+    tag: "Let's get started"
+    title: "Have a project in mind?"
+    text: "Tell me about your idea — I'll get back to you within 24h with a first estimate."
+    btn: "Contact me"
+
+league:
+  meta_title: "League of Legends"
+  meta_desc: "Johan Louap's League of Legends profile — Rank, champions and match history."
+  og_title: "League of Legends stats — Johan Louap"
+  og_desc: "View real-time LoL stats via the Riot Games API."
+  error: "Unable to load Riot data."
+  level: "Lvl."
+  mastery_total: "Total mastery"
+  in_series: "🔥 On a streak"
+  rank:
+    title: "Rankings"
+    history: "Solo/Duo history"
+    season: "Season"
+    rank_col: "Rank"
+    unranked: "Unranked"
+    best: "⭐ Best"
+  mastery:
+    title: "Champion mastery"
+    game: "game"
+    games: "games"
+  matches:
+    title: "Recent games"
+    tab_all: "All"
+    tab_wins: "Wins"
+    tab_losses: "Losses"
+  records:
+    title: "Personal records"
+  rotation:
+    title: "Free champions this week"
+  duos:
+    title: "Top duos"
+    sub: "recurring players"
+  roles:
+    title: "Roles played"
+  back_link: "← Back to portfolio"
+  kda_chart: "KDA — last 20 games"
+  queue_dist: "Queue distribution"
+  no_data: "Not enough data"
+  load_more: "Load more"
+  heatmap:
+    title: "Activity — last 90 days"
+    legend_less: "Less"
+    legend_more: "More"
+  record:
+    best_kda: "Best KDA"
+    most_kills: "Most kills"
+    pentas: "Pentas"
+    out_of: "out of %n% games"
+    of_games: "of games"
+  stats:
+    title: "Champion stats"
+    last_games: "last games"
+  match:
+    win: "Victory"
+    loss: "Defeat"
+  modal:
+    title: "Game details"
