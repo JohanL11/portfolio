@@ -9,4 +9,3 @@ when@prod:
     framework:
         asset_mapper:
             missing_import_mode: warn
-            versioned_assets: true

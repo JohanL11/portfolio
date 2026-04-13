@@ -203,7 +203,7 @@
                         <div class="project-card__metrics">
                             {% for metric in project.metrics %}
                             <div class="project-card__metric">
-                                <span class="project-card__metric-value">{{ metric.value }}</span>
+                                <span class="project-card__metric-value">{{ (app.request.locale == 'en' and metric.valueEn is defined) ? metric.valueEn : metric.value }}</span>
                                 <span class="project-card__metric-label">{{ (app.request.locale == 'en' and metric.labelEn is defined) ? metric.labelEn : metric.label }}</span>
                             </div>
                             {% endfor %}
