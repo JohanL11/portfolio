@@ -75,12 +75,19 @@
         });
     }
 
+    function syncLocale() {
+        var meta = document.querySelector('meta[name="app-locale"]');
+        if (meta) window.APP_LOCALE = meta.content;
+    }
+
     document.addEventListener('turbo:load', function () {
+        syncLocale();
         initGlobalGlow();
         initTheme();
         initBackToTop();
         initNavbar();
     });
+    syncLocale();
     initGlobalGlow();
     initTheme();
     initBackToTop();
