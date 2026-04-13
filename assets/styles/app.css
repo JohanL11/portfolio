@@ -1859,6 +1859,30 @@ img { max-width: 100%; display: block; }
     border-bottom-color: rgba(0,0,0,0.08);
 }
 
+[data-theme="light"] .navbar--scrolled {
+    background: rgba(248, 250, 252, 0.97);
+}
+
+[data-theme="light"] .theme-toggle {
+    border-color: rgba(0,0,0,0.15);
+    color: #475569;
+}
+[data-theme="light"] .theme-toggle:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(99,102,241,0.06);
+}
+
+[data-theme="light"] .lang-toggle {
+    border-color: rgba(0,0,0,0.15);
+    color: #475569;
+}
+[data-theme="light"] .lang-toggle:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(99,102,241,0.06);
+}
+
 [data-theme="light"] .navbar__links {
     background: rgba(248, 250, 252, 0.98);
     border-bottom-color: rgba(0,0,0,0.08);
