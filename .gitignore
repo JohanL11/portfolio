@@ -24,6 +24,13 @@
 /.env.test
 /deploy/
 
+# Traductions auto-générées par Symfony (EasyAdmin, validators, etc.)
+/translations/EasyAdminBundle.*.xlf
+/translations/_undefined*.xlf
+/translations/messages.*.xlf
+/translations/security.*.xlf
+/translations/validators.*.xlf
+
 # Fichiers personnels
 /Johan_Louap_CV.pdf
 /Johan_Louap_CV.html
