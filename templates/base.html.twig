@@ -35,6 +35,7 @@
         {% endblock %}
     </head>
     <body>
+    <script>window.APP_LOCALE = '{{ app.request.locale }}';</script>
         <nav class="navbar" id="navbar">
             <div class="navbar__container">
                 <a href="{{ path('app_home') }}" class="navbar__logo" aria-label="Johan Louap — Accueil">

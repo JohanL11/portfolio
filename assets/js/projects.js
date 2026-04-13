@@ -3,7 +3,7 @@
     if (!raw) return;
     var projectsData = JSON.parse(raw.textContent);
 
-    var PAGE_LOCALE = document.documentElement.lang || 'fr';
+    function getLocale() { return window.APP_LOCALE || document.documentElement.lang || 'fr'; }
 
     // ── TECH TAG COLORS ──
     var TAG_COLORS = {
@@ -73,7 +73,7 @@
         });
 
         var total = allCards.length;
-        var word = PAGE_LOCALE === 'en' ? ' project' : ' projet';
+        var word = getLocale() === 'en' ? ' project' : ' projet';
         var label = visible === total
             ? total + word + (total > 1 ? 's' : '')
             : visible + ' / ' + total + word + (total > 1 ? 's' : '');
@@ -108,7 +108,7 @@
             p.githubUrl ? '<a href="' + p.githubUrl + '" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">GitHub ' + SVG_LINK + '</a>' : null,
             p.liveUrl   ? '<a href="' + p.liveUrl   + '" target="_blank" rel="noopener" class="btn btn--primary btn--sm">Demo live ' + SVG_LINK + '</a>' : null,
         ].filter(Boolean);
-        var featuredLabel = PAGE_LOCALE === 'en' ? '⭐ Featured' : '⭐ Mis en avant';
+        var featuredLabel = getLocale() === 'en' ? '⭐ Featured' : '⭐ Mis en avant';
         document.getElementById('projModalContent').innerHTML =
             (p.featured ? '<div class="proj-modal__meta"><span class="proj-modal__featured">' + featuredLabel + '</span></div>' : '') +
             '<p class="proj-modal__desc">' + p.description + '</p>' +

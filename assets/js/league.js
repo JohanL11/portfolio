@@ -12,7 +12,7 @@
     var liveGameStart = d.liveGameStart;
     var liveGamePath  = d.liveGamePath;
 
-    var PAGE_LOCALE = document.documentElement.lang || 'fr';
+    var PAGE_LOCALE = window.APP_LOCALE || document.documentElement.lang || 'fr';
 
     // ── MODAL ──
     function openModal(idx) {
