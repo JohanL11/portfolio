@@ -1321,6 +1321,14 @@ img { max-width: 100%; display: block; }
 /* =========================================
    RESPONSIVE
    ========================================= */
+/* ── NAV CONTROLS (desktop) ── */
+.navbar__mobile-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+}
+
 /* ── NAV BACKDROP ── */
 .nav-backdrop {
     position: fixed;
