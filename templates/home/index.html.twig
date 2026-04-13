@@ -185,73 +185,53 @@
     </div>
 </section>
 
-<section class="security section">
+{% if featuredProjects|length > 0 %}
+<section class="featured-projects section section--dark">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Sécurité</span>
-            <h2 class="section__title">Bonnes pratiques intégrées</h2>
-            <p class="section__subtitle">Ce portfolio applique les standards de sécurité web modernes — chaque mesure est vérifiable dans le code source.</p>
+            <span class="section__tag">Réalisations</span>
+            <h2 class="section__title">Réalisations mises en avant</h2>
+            <p class="section__subtitle">Quelques réalisations représentatives de mon parcours chez Iriga Networks.</p>
         </div>
-        <div class="security__grid">
-            <div class="security-badge">
-                <div class="security-badge__check">✓</div>
-                <div class="security-badge__body">
-                    <h3 class="security-badge__title">Protection CSRF</h3>
-                    <p class="security-badge__desc">Token Symfony généré et vérifié sur chaque formulaire</p>
-                </div>
-            </div>
-            <div class="security-badge">
-                <div class="security-badge__check">✓</div>
-                <div class="security-badge__body">
-                    <h3 class="security-badge__title">Validation serveur</h3>
-                    <p class="security-badge__desc">Contraintes NotBlank · Length · Email via Symfony Validator</p>
-                </div>
-            </div>
-            <div class="security-badge">
-                <div class="security-badge__check">✓</div>
-                <div class="security-badge__body">
-                    <h3 class="security-badge__title">Pattern PRG</h3>
-                    <p class="security-badge__desc">Post → Redirect → Get, aucun double envoi possible au rechargement</p>
-                </div>
-            </div>
-            <div class="security-badge">
-                <div class="security-badge__check">✓</div>
-                <div class="security-badge__body">
-                    <h3 class="security-badge__title">Échappement XSS</h3>
-                    <p class="security-badge__desc">htmlspecialchars() sur toutes les entrées utilisateur dans les e-mails</p>
-                </div>
-            </div>
-            <div class="security-badge">
-                <div class="security-badge__check">✓</div>
-                <div class="security-badge__body">
-                    <h3 class="security-badge__title">Injection SQL</h3>
-                    <p class="security-badge__desc">Doctrine ORM — requêtes paramétrées, aucun SQL brut</p>
-                </div>
-            </div>
-            <div class="security-badge">
-                <div class="security-badge__check">✓</div>
-                <div class="security-badge__body">
-                    <h3 class="security-badge__title">Cache & rate limiting</h3>
-                    <p class="security-badge__desc">TTL 1 min – 30 j sur l'API Riot Games, protection contre les abus</p>
-                </div>
-            </div>
-            <div class="security-badge">
-                <div class="security-badge__check">✓</div>
-                <div class="security-badge__body">
-                    <h3 class="security-badge__title">Secrets hors dépôt</h3>
-                    <p class="security-badge__desc">Variables d'environnement, <code>.env</code> protégé par <code>.gitignore</code></p>
-                </div>
-            </div>
-            <div class="security-badge">
-                <div class="security-badge__check">✓</div>
-                <div class="security-badge__body">
-                    <h3 class="security-badge__title">HTTPS / TLS</h3>
-                    <p class="security-badge__desc">Certificat SSL, redirection automatique HTTP → HTTPS</p>
-                </div>
-            </div>
+        <div class="projects-grid">
+            {% for project in featuredProjects %}
+                <article class="project-card project-card--featured">
+                    {% if project.color %}
+                    <div class="project-card__cover project-card__cover--{{ project.color }}">
+                        {% if project.metrics %}
+                        <div class="project-card__metrics">
+                            {% for metric in project.metrics %}
+                            <div class="project-card__metric">
+                                <span class="project-card__metric-value">{{ metric.value }}</span>
+                                <span class="project-card__metric-label">{{ metric.label }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="project-card__title-row">
+                        <div class="project-card__icon">{{ loop.index == 1 ? '🛠️' : (loop.index == 2 ? '🏢' : '📡') }}</div>
+                        <h3 class="project-card__title">{{ project.title }}</h3>
+                    </div>
+                    <p class="project-card__desc">{{ project.shortDescription }}</p>
+                    <div class="project-card__tags">
+                        {% for tag in project.tags %}
+                            <span class="tag" data-tech="{{ tag|lower|replace({' ': '-', '/': '-', '.': ''}) }}">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+        <div class="section__cta">
+            <a href="{{ path('app_projects') }}" class="btn btn--primary">
+                Voir tous les projets
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
         </div>
     </div>
 </section>
+{% endif %}
 
 <section class="experience section section--dark">
     <div class="container">
@@ -354,53 +334,73 @@
     </div>
 </section>
 
-{% if featuredProjects|length > 0 %}
-<section class="featured-projects section section--dark">
+<section class="security section section--dark">
     <div class="container">
         <div class="section__header">
-            <span class="section__tag">Réalisations</span>
-            <h2 class="section__title">Réalisations mises en avant</h2>
-            <p class="section__subtitle">Quelques réalisations représentatives de mon parcours chez Iriga Networks.</p>
+            <span class="section__tag">Sécurité</span>
+            <h2 class="section__title">Bonnes pratiques intégrées</h2>
+            <p class="section__subtitle">Ce portfolio applique les standards de sécurité web modernes — chaque mesure est vérifiable dans le code source.</p>
         </div>
-        <div class="projects-grid">
-            {% for project in featuredProjects %}
-                <article class="project-card project-card--featured">
-                    {% if project.color %}
-                    <div class="project-card__cover project-card__cover--{{ project.color }}">
-                        {% if project.metrics %}
-                        <div class="project-card__metrics">
-                            {% for metric in project.metrics %}
-                            <div class="project-card__metric">
-                                <span class="project-card__metric-value">{{ metric.value }}</span>
-                                <span class="project-card__metric-label">{{ metric.label }}</span>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    </div>
-                    {% endif %}
-                    <div class="project-card__title-row">
-                        <div class="project-card__icon">{{ loop.index == 1 ? '🛠️' : (loop.index == 2 ? '🏢' : '📡') }}</div>
-                        <h3 class="project-card__title">{{ project.title }}</h3>
-                    </div>
-                    <p class="project-card__desc">{{ project.shortDescription }}</p>
-                    <div class="project-card__tags">
-                        {% for tag in project.tags %}
-                            <span class="tag" data-tech="{{ tag|lower|replace({' ': '-', '/': '-', '.': ''}) }}">{{ tag }}</span>
-                        {% endfor %}
-                    </div>
-                </article>
-            {% endfor %}
-        </div>
-        <div class="section__cta">
-            <a href="{{ path('app_projects') }}" class="btn btn--primary">
-                Voir tous les projets
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
+        <div class="security__grid">
+            <div class="security-badge">
+                <div class="security-badge__check">✓</div>
+                <div class="security-badge__body">
+                    <h3 class="security-badge__title">Protection CSRF</h3>
+                    <p class="security-badge__desc">Token Symfony généré et vérifié sur chaque formulaire</p>
+                </div>
+            </div>
+            <div class="security-badge">
+                <div class="security-badge__check">✓</div>
+                <div class="security-badge__body">
+                    <h3 class="security-badge__title">Validation serveur</h3>
+                    <p class="security-badge__desc">Contraintes NotBlank · Length · Email via Symfony Validator</p>
+                </div>
+            </div>
+            <div class="security-badge">
+                <div class="security-badge__check">✓</div>
+                <div class="security-badge__body">
+                    <h3 class="security-badge__title">Pattern PRG</h3>
+                    <p class="security-badge__desc">Post → Redirect → Get, aucun double envoi possible au rechargement</p>
+                </div>
+            </div>
+            <div class="security-badge">
+                <div class="security-badge__check">✓</div>
+                <div class="security-badge__body">
+                    <h3 class="security-badge__title">Échappement XSS</h3>
+                    <p class="security-badge__desc">htmlspecialchars() sur toutes les entrées utilisateur dans les e-mails</p>
+                </div>
+            </div>
+            <div class="security-badge">
+                <div class="security-badge__check">✓</div>
+                <div class="security-badge__body">
+                    <h3 class="security-badge__title">Injection SQL</h3>
+                    <p class="security-badge__desc">Doctrine ORM — requêtes paramétrées, aucun SQL brut</p>
+                </div>
+            </div>
+            <div class="security-badge">
+                <div class="security-badge__check">✓</div>
+                <div class="security-badge__body">
+                    <h3 class="security-badge__title">Cache & rate limiting</h3>
+                    <p class="security-badge__desc">TTL 1 min – 30 j sur l'API Riot Games, protection contre les abus</p>
+                </div>
+            </div>
+            <div class="security-badge">
+                <div class="security-badge__check">✓</div>
+                <div class="security-badge__body">
+                    <h3 class="security-badge__title">Secrets hors dépôt</h3>
+                    <p class="security-badge__desc">Variables d'environnement, <code>.env</code> protégé par <code>.gitignore</code></p>
+                </div>
+            </div>
+            <div class="security-badge">
+                <div class="security-badge__check">✓</div>
+                <div class="security-badge__body">
+                    <h3 class="security-badge__title">HTTPS / TLS</h3>
+                    <p class="security-badge__desc">Certificat SSL, redirection automatique HTTP → HTTPS</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
-{% endif %}
 
 <section class="services-teaser section">
     <div class="container">
