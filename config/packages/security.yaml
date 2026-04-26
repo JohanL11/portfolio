@@ -26,6 +26,10 @@ security:
             logout:
                 path: admin_logout
                 target: admin_login
+            # Anti brute-force : 5 tentatives échouées par IP+username / 15 min
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
         main:
             lazy: true
             provider: admin_user
