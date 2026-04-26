@@ -59,6 +59,21 @@
         applyGlow('.security-badge',    'rgba(255,255,255,0.05)', 'rgba(99,102,241,0.07)');
     }
 
+    // ── VIEW TRANSITIONS API — wrap des navigations Turbo ──
+    function initViewTransitions() {
+        if (typeof document.startViewTransition !== 'function') return;
+        if (window._vtInit) return;
+        window._vtInit = true;
+
+        document.addEventListener('turbo:before-render', function (e) {
+            if (!e.detail || typeof e.detail.resume !== 'function') return;
+            e.preventDefault();
+            document.startViewTransition(function () {
+                e.detail.resume();
+            });
+        });
+    }
+
     function initNavbar() {
         if (window._navInitialized) return;
         window._navInitialized = true;
@@ -128,9 +143,11 @@
     });
     syncLocale();
     initGlobalGlow();
+    initGlobalTilt();
     initTheme();
     initBackToTop();
     initNavbar();
+    initViewTransitions();
 
     document.addEventListener('turbo:before-render', function () {
         document.documentElement.scrollTop = 0;

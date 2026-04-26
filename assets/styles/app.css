@@ -32,6 +32,37 @@ html.page-leaving .main-content {
     transform: translateY(-8px);
 }
 
+/* View Transitions API — natif (Chrome/Edge/Safari), fallback Turbo géré par .page-leaving */
+@media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation-duration: 0.42s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    ::view-transition-old(root) {
+        animation-name: vt-fade-out;
+    }
+    ::view-transition-new(root) {
+        animation-name: vt-fade-in;
+    }
+}
+@keyframes vt-fade-out {
+    to { opacity: 0; transform: translateY(-12px) scale(0.99); filter: blur(4px); }
+}
+@keyframes vt-fade-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.99); filter: blur(4px); }
+}
+
+/* Éléments persistants : la navbar et le footer sont morphés au lieu d'être cross-fadés */
+.navbar { view-transition-name: site-navbar; }
+.footer { view-transition-name: site-footer; }
+::view-transition-old(site-navbar),
+::view-transition-new(site-navbar),
+::view-transition-old(site-footer),
+::view-transition-new(site-footer) {
+    animation-duration: 0.25s;
+}
+
 /* Card entrance animation */
 .animate-in {
     opacity: 0;
@@ -390,43 +421,72 @@ img { max-width: 100%; display: block; }
     position: absolute;
     inset: 0;
     pointer-events: none;
+    overflow: hidden;
 }
 
 .hero__orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.12;
+    filter: blur(90px);
+    opacity: 0.28;
+    will-change: transform;
 }
 
+/* Orbe top-right — mélange indigo / violet (lumière froide) */
 .hero__orb--1 {
-    width: 600px;
-    height: 600px;
-    background: var(--color-primary);
-    top: -200px;
-    right: -100px;
-    animation: float 8s ease-in-out infinite, orb-flicker 7s ease-in-out infinite;
+    width: 720px;
+    height: 720px;
+    top: -240px;
+    right: -160px;
+    background:
+        radial-gradient(circle at 35% 35%, rgba(124, 58, 237, 0.55) 0%, transparent 55%),
+        radial-gradient(circle at 65% 65%, rgba(99,  102, 241, 0.65) 0%, transparent 60%);
+    animation:
+        float 10s ease-in-out infinite,
+        orb-flicker 7s ease-in-out infinite,
+        orb-drift-1 24s ease-in-out infinite alternate;
 }
 
+/* Orbe bottom-left — mélange cyan / teal (lumière fraîche) */
 .hero__orb--2 {
-    width: 400px;
-    height: 400px;
-    background: var(--color-accent);
-    bottom: -100px;
-    left: -100px;
-    animation: float 10s ease-in-out infinite reverse, orb-flicker 9s ease-in-out infinite 3s;
+    width: 520px;
+    height: 520px;
+    bottom: -160px;
+    left: -140px;
+    background:
+        radial-gradient(circle at 40% 40%, rgba(6,   182, 212, 0.6)  0%, transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(16,  185, 129, 0.45) 0%, transparent 60%);
+    animation:
+        float 12s ease-in-out infinite reverse,
+        orb-flicker 9s ease-in-out infinite 3s,
+        orb-drift-2 28s ease-in-out infinite alternate;
 }
+
+@keyframes orb-drift-1 {
+    0%   { transform: translate(0, 0)      scale(1); }
+    50%  { transform: translate(-4%, 3%)   scale(1.08); }
+    100% { transform: translate(2%, -2%)   scale(1.05); }
+}
+@keyframes orb-drift-2 {
+    0%   { transform: translate(0, 0)      scale(1); }
+    50%  { transform: translate(3%, -4%)   scale(1.10); }
+    100% { transform: translate(-2%, 2%)   scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero__orb { animation: orb-flicker 7s ease-in-out infinite; }
+}
+
 
 @keyframes orb-flicker {
-    0%, 100% { filter: blur(100px) brightness(1);    }
-    12%      { filter: blur(100px) brightness(0.82); }
-    14%      { filter: blur(100px) brightness(1);    }
-    46%      { filter: blur(100px) brightness(0.91); }
-    48%      { filter: blur(100px) brightness(1);    }
-    70%      { filter: blur(100px) brightness(0.87); }
-    72%      { filter: blur(100px) brightness(0.96); }
-    73%      { filter: blur(100px) brightness(0.79); }
-    76%      { filter: blur(100px) brightness(1);    }
+    0%, 100% { filter: blur(90px) brightness(1);    }
+    12%      { filter: blur(90px) brightness(0.82); }
+    14%      { filter: blur(90px) brightness(1);    }
+    46%      { filter: blur(90px) brightness(0.91); }
+    48%      { filter: blur(90px) brightness(1);    }
+    70%      { filter: blur(90px) brightness(0.87); }
+    72%      { filter: blur(90px) brightness(0.96); }
+    73%      { filter: blur(90px) brightness(0.79); }
+    76%      { filter: blur(90px) brightness(1);    }
 }
 
 .hero__grid {
@@ -598,8 +658,8 @@ img { max-width: 100%; display: block; }
 @media (min-width: 1080px) {
     .hero__container {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 300px;
-        column-gap: 3.5rem;
+        grid-template-columns: minmax(0, 1fr) 400px;
+        column-gap: 3rem;
         align-items: center;
     }
     .hero__badge,
@@ -642,9 +702,15 @@ img { max-width: 100%; display: block; }
 .hero__terminal-body {
     padding: 14px 16px;
     min-height: 148px;
+    max-height: 320px;
+    overflow-y: auto;
     line-height: 1.95;
     color: rgba(200,220,255,0.85);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(99,102,241,0.4) transparent;
 }
+.hero__terminal-body::-webkit-scrollbar { width: 6px; }
+.hero__terminal-body::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.4); border-radius: 3px; }
 .terminal-line { white-space: pre; }
 .terminal-ps   { color: #4ade80; }
 .terminal-cmd  { color: #f1f5f9; }
@@ -659,6 +725,13 @@ img { max-width: 100%; display: block; }
 .terminal-caret--blink { animation: termBlink 1s step-end infinite; }
 @keyframes termBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 .terminal-line--out { color: rgba(148,163,184,0.88); padding-left: 10px; }
+.terminal-input {
+    color: #f1f5f9;
+    outline: none;
+    min-width: 4px;
+    caret-color: transparent;
+    white-space: pre;
+}
 
 /* =========================================
    SKILLS
@@ -1890,6 +1963,21 @@ img { max-width: 100%; display: block; }
     background: rgba(0,0,0,0.06);
 }
 
+/* En light mode, le CTA Contact garde le même fond que la navbar (transparent),
+   seule la bordure le distingue */
+[data-theme="light"] .navbar__link--cta {
+    background: transparent;
+    border-color: rgba(99, 102, 241, 0.3);
+    color: var(--color-primary);
+}
+[data-theme="light"] .navbar__link--cta:hover,
+[data-theme="light"] .navbar__link--cta.active {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.45);
+    color: var(--color-primary);
+}
+
+
 [data-theme="light"] .page-hero__title { color: #0f172a; }
 
 [data-theme="light"] .pstat-value {
@@ -1935,22 +2023,26 @@ img { max-width: 100%; display: block; }
     background: rgba(99,102,241,0.06);
 }
 
-[data-theme="light"] .navbar__links {
-    background: rgba(248, 250, 252, 0.98);
-    border-bottom-color: rgba(0,0,0,0.08);
-}
+/* Ces règles ciblent le drawer mobile (overlay fixed) — ne pas appliquer sur desktop
+   où .navbar__links est juste un flex inline qui doit hériter du fond de la navbar */
+@media (max-width: 768px) {
+    [data-theme="light"] .navbar__links {
+        background: rgba(248, 250, 252, 0.98);
+        border-bottom-color: rgba(0,0,0,0.08);
+    }
 
-[data-theme="light"] .navbar__links li {
-    border-bottom-color: rgba(0,0,0,0.06);
-}
+    [data-theme="light"] .navbar__links li {
+        border-bottom-color: rgba(0,0,0,0.06);
+    }
 
-[data-theme="light"] .navbar__links .navbar__link:hover {
-    background: rgba(0,0,0,0.04);
-    border-left-color: rgba(99,102,241,0.4);
-}
+    [data-theme="light"] .navbar__links .navbar__link:hover {
+        background: rgba(0,0,0,0.04);
+        border-left-color: rgba(99,102,241,0.4);
+    }
 
-[data-theme="light"] .navbar__links .navbar__link.active {
-    background: rgba(99,102,241,0.08);
+    [data-theme="light"] .navbar__links .navbar__link.active {
+        background: rgba(99,102,241,0.08);
+    }
 }
 
 [data-theme="light"] .navbar__mobile-controls {
@@ -1972,9 +2064,17 @@ img { max-width: 100%; display: block; }
         linear-gradient(90deg, rgba(99,102,241,0.07) 1px, transparent 1px);
     opacity: 1;
 }
-[data-theme="light"] .hero__orb   { opacity: 0.7; }
-[data-theme="light"] .hero__orb--1 { background: radial-gradient(circle, rgba(99,102,241,0.35) 30%, transparent 65%); }
-[data-theme="light"] .hero__orb--2 { background: radial-gradient(circle, rgba(6,182,212,0.28)  30%, transparent 65%); }
+[data-theme="light"] .hero__orb   { opacity: 0.55; }
+[data-theme="light"] .hero__orb--1 {
+    background:
+        radial-gradient(circle at 35% 35%, rgba(124, 58, 237, 0.30) 0%, transparent 55%),
+        radial-gradient(circle at 65% 65%, rgba(99,  102, 241, 0.40) 0%, transparent 60%);
+}
+[data-theme="light"] .hero__orb--2 {
+    background:
+        radial-gradient(circle at 40% 40%, rgba(6,   182, 212, 0.35) 0%, transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(16,  185, 129, 0.28) 0%, transparent 60%);
+}
 
 .theme-toggle {
     background: none;

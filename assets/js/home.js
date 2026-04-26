@@ -133,63 +133,229 @@
         document.querySelectorAll('.hero__stat-value[data-count]').forEach(function (el) { obs.observe(el); });
     }
 
-    // ── TERMINAL ──
+    // ── TERMINAL INTERACTIF ──
     function initTerminal() {
         var body = document.getElementById('heroTerminal');
         if (!body || body.dataset.initialized) return;
         body.dataset.initialized = '1';
         body.innerHTML = '';
 
-        var lines = [
-            { cmd: 'whoami',             out: 'Johan Louap — Lead Dev Full Stack' },
-            { cmd: 'experience --years', out: '7 ans · PHP · Symfony · React Native' },
-            { cmd: 'cat /etc/rank',      out: '⚔  Master · League of Legends'       },
-        ];
-        var idx = 0;
+        var locale = (window.APP_LOCALE === 'en') ? 'en' : 'fr';
+        var T = {
+            fr: {
+                hello:    'Bienvenue. Tape "help" pour la liste des commandes.',
+                helpHead: 'Commandes disponibles :',
+                cmds: [
+                    ['help',    'liste des commandes'],
+                    ['whoami',  'qui suis-je'],
+                    ['skills',  'stack technique'],
+                    ['xp',      'expérience pro'],
+                    ['contact', 'comment me joindre'],
+                    ['cv',      'télécharger le CV'],
+                    ['social',  'liens externes'],
+                    ['lol',     'stats LoL — "lol go" pour ouvrir la page'],
+                    ['theme',   'switch dark/light'],
+                    ['clear',   'vider le terminal'],
+                ],
+                whoami:  'Johan Louap — Développeur Full Stack Web & Mobile',
+                skills:  'PHP 8 · Symfony 7 · React Native · API REST · MySQL · Linux',
+                xp:      '7 ans (CDI 4 ans @ Iriga Networks · Pontoise 95)',
+                contact: 'louap.johan@outlook.fr · 06 47 93 44 34',
+                cv:      'CV téléchargé — voir l\'onglet Téléchargements.',
+                social:  'GitHub : github.com/JohanL11',
+                lol:     'Master · EUW · LE11KO#9211',
+                lolHint: 'Tape "lol go" (ou "lol -g") pour ouvrir la page.',
+                lolGo:   'Redirection vers la page League...',
+                theme:   'Bascule de thème effectuée.',
+                unknown: 'Commande inconnue. Tape "help".',
+                cleared: ''
+            },
+            en: {
+                hello:    'Welcome. Type "help" for the command list.',
+                helpHead: 'Available commands:',
+                cmds: [
+                    ['help',    'list commands'],
+                    ['whoami',  'about me'],
+                    ['skills',  'tech stack'],
+                    ['xp',      'work experience'],
+                    ['contact', 'how to reach me'],
+                    ['cv',      'download resume'],
+                    ['social',  'external links'],
+                    ['lol',     'LoL stats — "lol go" to open the page'],
+                    ['theme',   'toggle dark/light'],
+                    ['clear',   'clear the terminal'],
+                ],
+                whoami:  'Johan Louap — Full Stack Web & Mobile Developer',
+                skills:  'PHP 8 · Symfony 7 · React Native · REST API · MySQL · Linux',
+                xp:      '7 years (4y full-time @ Iriga Networks · Pontoise, France)',
+                contact: 'louap.johan@outlook.fr · +33 6 47 93 44 34',
+                cv:      'Resume downloaded — check your Downloads folder.',
+                social:  'GitHub: github.com/JohanL11',
+                lol:     'Master · EUW · LE11KO#9211',
+                lolHint: 'Type "lol go" (or "lol -g") to open the page.',
+                lolGo:   'Redirecting to the League page...',
+                theme:   'Theme toggled.',
+                unknown: 'Unknown command. Type "help".',
+            }
+        }[locale];
 
-        function appendOut(text) {
+        var promptStr = '$ ';
+        var inputEl = null;
+        var activeLine = null;
+
+        function newLine(cls) {
             var d = document.createElement('div');
-            d.className = 'terminal-line terminal-line--out';
+            d.className = 'terminal-line' + (cls ? ' ' + cls : '');
+            body.appendChild(d);
+            return d;
+        }
+
+        function out(text, cls) {
+            var d = newLine('terminal-line--out' + (cls ? ' ' + cls : ''));
             d.style.opacity = '0';
             d.textContent = text;
-            body.appendChild(d);
             requestAnimationFrame(function () {
-                d.style.transition = 'opacity 0.3s ease';
+                d.style.transition = 'opacity 0.25s ease';
                 d.style.opacity = '1';
             });
+            scrollDown();
+        }
+
+        function scrollDown() {
+            body.scrollTop = body.scrollHeight;
         }
 
         function typeCmd(cmd, done) {
-            var row = document.createElement('div');
-            row.className = 'terminal-line';
-            row.innerHTML = '<span class="terminal-ps">$ </span><span class="terminal-cmd"></span><span class="terminal-caret"> </span>';
-            body.appendChild(row);
+            var row = newLine();
+            row.innerHTML = '<span class="terminal-ps">' + promptStr + '</span><span class="terminal-cmd"></span><span class="terminal-caret"> </span>';
             var cmdEl = row.querySelector('.terminal-cmd');
-            var caret  = row.querySelector('.terminal-caret');
+            var caret = row.querySelector('.terminal-caret');
             var i = 0;
-            function type() {
-                if (i >= cmd.length) { caret.remove(); setTimeout(done, 350); return; }
+            function tk() {
+                if (i >= cmd.length) { caret.remove(); setTimeout(done, 280); return; }
                 cmdEl.textContent += cmd[i++];
-                setTimeout(type, 50 + Math.random() * 40);
+                scrollDown();
+                setTimeout(tk, 45 + Math.random() * 35);
             }
-            setTimeout(type, 260);
+            setTimeout(tk, 220);
         }
 
-        function next() {
-            if (idx >= lines.length) {
-                var last = document.createElement('div');
-                last.className = 'terminal-line';
-                last.innerHTML = '<span class="terminal-ps">$ </span><span class="terminal-caret terminal-caret--blink"> </span>';
-                body.appendChild(last);
-                return;
+        function execCommand(raw) {
+            var input = (raw || '').trim().toLowerCase();
+            if (!input) { showPrompt(); return; }
+            var parts = input.split(/\s+/);
+            var cmd   = parts[0];
+            var args  = parts.slice(1);
+
+            // Compatibilité : "rm -rf /" → cmd="rm", "sudo su" → cmd="sudo"
+            switch (cmd) {
+                case 'help':
+                    out(T.helpHead);
+                    T.cmds.forEach(function (c) {
+                        out('  ' + c[0].padEnd(10, ' ') + '— ' + c[1]);
+                    });
+                    break;
+                case 'whoami':  out(T.whoami); break;
+                case 'skills':  out(T.skills); break;
+                case 'xp':
+                case 'experience': out(T.xp); break;
+                case 'contact': out(T.contact); break;
+                case 'cv':
+                case 'resume':
+                    out(T.cv);
+                    var a = document.createElement('a');
+                    a.href = '/files/cv-johan-louap.pdf';
+                    a.download = 'CV_Johan_Louap.pdf';
+                    document.body.appendChild(a); a.click(); a.remove();
+                    break;
+                case 'social':
+                case 'github': out(T.social); break;
+                case 'lol':
+                    out(T.lol);
+                    if (args[0] === 'go' || args[0] === '--go' || args[0] === '-g') {
+                        out(T.lolGo);
+                        setTimeout(function () { window.location.href = '/league'; }, 700);
+                        return; // pas de re-prompt, on quitte
+                    }
+                    out(T.lolHint);
+                    break;
+                case 'theme':
+                    var btn = document.getElementById('themeToggle');
+                    if (btn) btn.click();
+                    out(T.theme);
+                    break;
+                case 'clear':
+                case 'cls':
+                    body.innerHTML = '';
+                    showPrompt(true);
+                    return;
+                case 'sudo':
+                    out('Permission denied: nice try.');
+                    break;
+                case 'rm':
+                    out('🔥 ... just kidding.');
+                    break;
+                case 'exit':
+                case 'quit':
+                    out('Bye.');
+                    return;
+                case 'ls':
+                    out('home/  projects/  services/  league/  contact/');
+                    break;
+                default:
+                    out(T.unknown);
             }
-            var item = lines[idx++];
-            typeCmd(item.cmd, function () {
-                appendOut(item.out);
-                setTimeout(next, 680);
+            showPrompt();
+        }
+
+        function showPrompt(skipIntro) {
+            // ligne saisie
+            activeLine = newLine();
+            activeLine.innerHTML = '<span class="terminal-ps">' + promptStr + '</span><span class="terminal-input" contenteditable="true" spellcheck="false" autocapitalize="off" autocorrect="off"></span><span class="terminal-caret terminal-caret--blink"> </span>';
+            inputEl = activeLine.querySelector('.terminal-input');
+            inputEl.focus({ preventScroll: true });
+            scrollDown();
+
+            inputEl.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    var v = inputEl.textContent;
+                    // Geler la ligne courante
+                    activeLine.querySelector('.terminal-caret').remove();
+                    inputEl.removeAttribute('contenteditable');
+                    inputEl.classList.add('terminal-cmd');
+                    inputEl.classList.remove('terminal-input');
+                    activeLine = null;
+                    inputEl = null;
+                    execCommand(v);
+                }
             });
         }
-        setTimeout(next, 500);
+
+        // Intro scriptée puis prompt
+        var intro = [
+            { cmd: 'whoami',  out: T.whoami },
+            { cmd: 'skills',  out: T.skills },
+        ];
+        var idx = 0;
+        function playIntro() {
+            if (idx >= intro.length) {
+                out(T.hello);
+                showPrompt();
+                return;
+            }
+            var it = intro[idx++];
+            typeCmd(it.cmd, function () {
+                out(it.out);
+                setTimeout(playIntro, 520);
+            });
+        }
+        setTimeout(playIntro, 450);
+
+        // Au clic dans la zone terminal, refocus l'input s'il existe
+        body.addEventListener('click', function () {
+            if (inputEl) inputEl.focus({ preventScroll: true });
+        });
     }
 
 
