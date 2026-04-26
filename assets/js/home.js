@@ -153,7 +153,8 @@
                     ['contact', 'comment me joindre'],
                     ['cv',      'télécharger le CV'],
                     ['social',  'liens externes'],
-                    ['lol',     'stats LoL — "lol go" pour ouvrir la page'],
+                    ['lol',     'stats LoL — "lol -g" pour ouvrir la page'],
+                    ['lang',    'changer de langue — "lang fr" ou "lang en"'],
                     ['theme',   'switch dark/light'],
                     ['clear',   'vider le terminal'],
                 ],
@@ -164,8 +165,12 @@
                 cv:      'CV téléchargé — voir l\'onglet Téléchargements.',
                 social:  'GitHub : github.com/JohanL11',
                 lol:     'Master · EUW · LE11KO#9211',
-                lolHint: 'Tape "lol go" (ou "lol -g") pour ouvrir la page.',
+                lolHint: 'Tape "lol -g" (ou "lol --go") pour ouvrir la page.',
                 lolGo:   'Redirection vers la page League...',
+                langCurrent: 'Langue actuelle : français.',
+                langHint:    'Options : "lang fr" / "lang en" (ou --fr / --en, -f / -e).',
+                langSame:    'Déjà en français.',
+                langSwitch:  'Bascule en anglais...',
                 theme:   'Bascule de thème effectuée.',
                 unknown: 'Commande inconnue. Tape "help".',
                 cleared: ''
@@ -181,7 +186,8 @@
                     ['contact', 'how to reach me'],
                     ['cv',      'download resume'],
                     ['social',  'external links'],
-                    ['lol',     'LoL stats — "lol go" to open the page'],
+                    ['lol',     'LoL stats — "lol -g" to open the page'],
+                    ['lang',    'change language — "lang fr" or "lang en"'],
                     ['theme',   'toggle dark/light'],
                     ['clear',   'clear the terminal'],
                 ],
@@ -192,8 +198,12 @@
                 cv:      'Resume downloaded — check your Downloads folder.',
                 social:  'GitHub: github.com/JohanL11',
                 lol:     'Master · EUW · LE11KO#9211',
-                lolHint: 'Type "lol go" (or "lol -g") to open the page.',
+                lolHint: 'Type "lol -g" (or "lol --go") to open the page.',
                 lolGo:   'Redirecting to the League page...',
+                langCurrent: 'Current language: English.',
+                langHint:    'Options: "lang fr" / "lang en" (or --fr / --en, -f / -e).',
+                langSame:    'Already in English.',
+                langSwitch:  'Switching to French...',
                 theme:   'Theme toggled.',
                 unknown: 'Unknown command. Type "help".',
             }
@@ -272,13 +282,31 @@
                 case 'github': out(T.social); break;
                 case 'lol':
                     out(T.lol);
-                    if (args[0] === 'go' || args[0] === '--go' || args[0] === '-g') {
+                    if (args[0] === '--go' || args[0] === '-g') {
                         out(T.lolGo);
                         setTimeout(function () { window.location.href = '/league'; }, 700);
                         return; // pas de re-prompt, on quitte
                     }
                     out(T.lolHint);
                     break;
+                case 'lang':
+                case 'locale':
+                    var target = null;
+                    if (args[0] === 'fr' || args[0] === '--fr' || args[0] === '-f') target = 'fr';
+                    else if (args[0] === 'en' || args[0] === '--en' || args[0] === '-e') target = 'en';
+
+                    if (!target) {
+                        out(T.langCurrent);
+                        out(T.langHint);
+                        break;
+                    }
+                    if (target === locale) {
+                        out(T.langSame);
+                        break;
+                    }
+                    out(T.langSwitch);
+                    setTimeout(function () { window.location.href = '/locale/' + target; }, 700);
+                    return; // pas de re-prompt, on quitte
                 case 'theme':
                     var btn = document.getElementById('themeToggle');
                     if (btn) btn.click();
