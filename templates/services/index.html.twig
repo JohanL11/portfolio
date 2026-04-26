@@ -9,6 +9,43 @@
 {% block twitter_image %}https://johan-louap.fr/img/og-services.png{% endblock %}
 {% block canonical %}https://johan-louap.fr/services{% endblock %}
 
+{% block jsonld_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "Boutique e-commerce sur-mesure",
+      "description": "Développement de boutiques e-commerce en Symfony 7 ou Shopify, avec paiement sécurisé Stripe et PayPal, catalogue produits, espace client et interface d'administration.",
+      "provider": { "@id": "https://johan-louap.fr/#person" },
+      "serviceType": "Développement web e-commerce",
+      "areaServed": { "@type": "Country", "name": "France" },
+      "url": "https://johan-louap.fr/services#ecommerce"
+    },
+    {
+      "@type": "Service",
+      "name": "Site vitrine & application web",
+      "description": "Création de sites vitrines en Symfony/Twig et d'applications web SPA avec Symfony API et React. SEO optimisé, responsive, déploiement continu.",
+      "provider": { "@id": "https://johan-louap.fr/#person" },
+      "serviceType": "Développement web",
+      "areaServed": { "@type": "Country", "name": "France" },
+      "url": "https://johan-louap.fr/services#web"
+    },
+    {
+      "@type": "Service",
+      "name": "Application mobile iOS & Android",
+      "description": "Développement d'applications mobiles cross-platform avec React Native et Expo, publiées sur l'App Store et Google Play depuis une seule codebase.",
+      "provider": { "@id": "https://johan-louap.fr/#person" },
+      "serviceType": "Développement mobile",
+      "areaServed": { "@type": "Country", "name": "France" },
+      "url": "https://johan-louap.fr/services#mobile"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block stylesheets %}
 <style>
 .svc-tooltip {
@@ -282,39 +319,5 @@
 {% endblock %}
 
 {% block page_scripts %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Service",
-      "name": "Boutique e-commerce sur-mesure",
-      "description": "Développement de boutiques e-commerce en Symfony 7 ou Shopify, avec paiement sécurisé Stripe et PayPal, catalogue produits, espace client et interface d'administration.",
-      "provider": { "@type": "Person", "name": "Johan Louap", "url": "https://johan-louap.fr" },
-      "serviceType": "Développement web e-commerce",
-      "areaServed": { "@type": "Country", "name": "France" },
-      "url": "https://johan-louap.fr/services#ecommerce"
-    },
-    {
-      "@type": "Service",
-      "name": "Site vitrine & application web",
-      "description": "Création de sites vitrines en Symfony/Twig et d'applications web SPA avec Symfony API et React. SEO optimisé, responsive, déploiement continu.",
-      "provider": { "@type": "Person", "name": "Johan Louap", "url": "https://johan-louap.fr" },
-      "serviceType": "Développement web",
-      "areaServed": { "@type": "Country", "name": "France" },
-      "url": "https://johan-louap.fr/services#web"
-    },
-    {
-      "@type": "Service",
-      "name": "Application mobile iOS & Android",
-      "description": "Développement d'applications mobiles cross-platform avec React Native et Expo, publiées sur l'App Store et Google Play depuis une seule codebase.",
-      "provider": { "@type": "Person", "name": "Johan Louap", "url": "https://johan-louap.fr" },
-      "serviceType": "Développement mobile",
-      "areaServed": { "@type": "Country", "name": "France" },
-      "url": "https://johan-louap.fr/services#mobile"
-    }
-  ]
-}
-</script>
 <script src="{{ asset('js/services.js') }}" defer></script>
 {% endblock %}

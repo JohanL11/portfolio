@@ -26,6 +26,72 @@
 
         <link rel="canonical" href="{% block canonical %}https://johan-louap.fr{% endblock %}">
         <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+
+        {# JSON-LD Schema.org — Person + WebSite (présents sur toutes les pages) #}
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "Person",
+                    "@id": "https://johan-louap.fr/#person",
+                    "name": "Johan Louap",
+                    "jobTitle": "Développeur Full Stack Web & Mobile",
+                    "url": "https://johan-louap.fr",
+                    "image": "https://johan-louap.fr/img/og-default.png",
+                    "email": "mailto:louap.johan@outlook.fr",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Saint-Gratien",
+                        "postalCode": "95210",
+                        "addressRegion": "Île-de-France",
+                        "addressCountry": "FR"
+                    },
+                    "sameAs": [
+                        "https://github.com/JohanL11"
+                    ],
+                    "knowsAbout": [
+                        "PHP",
+                        "Symfony",
+                        "React Native",
+                        "JavaScript",
+                        "API REST",
+                        "SQL",
+                        "Doctrine ORM",
+                        "Linux",
+                        "DevOps",
+                        "Nginx",
+                        "Git"
+                    ],
+                    "alumniOf": [
+                        {
+                            "@type": "EducationalOrganization",
+                            "name": "ESIEE IT",
+                            "address": "Pontoise, France"
+                        },
+                        {
+                            "@type": "EducationalOrganization",
+                            "name": "Université de Cergy",
+                            "address": "Gennevilliers, France"
+                        }
+                    ],
+                    "nationality": "French"
+                },
+                {
+                    "@type": "WebSite",
+                    "@id": "https://johan-louap.fr/#website",
+                    "url": "https://johan-louap.fr",
+                    "name": "Johan Louap — Portfolio",
+                    "description": "Portfolio de Johan Louap, Développeur Full Stack Web & Mobile — PHP, Symfony, React Native, Linux/DevOps.",
+                    "inLanguage": "fr-FR",
+                    "author": { "@id": "https://johan-louap.fr/#person" },
+                    "publisher": { "@id": "https://johan-louap.fr/#person" }
+                }
+            ]
+        }
+        </script>
+        {% block jsonld_extra %}{% endblock %}
+
         <script src="{{ asset('js/theme-init.js') }}"></script>
         <link rel="preload" href="{{ asset('fonts/inter-variable.woff2') }}" as="font" type="font/woff2" crossorigin>
         <link rel="preload" href="{{ asset('fonts/jetbrains-mono-variable.woff2') }}" as="font" type="font/woff2" crossorigin>
