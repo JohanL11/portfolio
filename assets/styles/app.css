@@ -116,6 +116,26 @@ a {
 
 img { max-width: 100%; display: block; }
 
+/* Skip-link WCAG 2.4.1 — visible uniquement au focus clavier */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 8px;
+    z-index: 10000;
+    padding: 10px 16px;
+    background: var(--color-primary, #6366f1);
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 0.15s ease;
+}
+.skip-link:focus {
+    top: 8px;
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
 /* =========================================
    UTILITIES
    ========================================= */

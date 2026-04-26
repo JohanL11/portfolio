@@ -102,6 +102,7 @@
     </head>
     <body>
     <script>window.APP_LOCALE = '{{ app.request.locale }}';</script>
+        <a href="#main-content" class="skip-link">{{ 'skip_to_content'|trans }}</a>
         <nav class="navbar" id="navbar">
             <div class="navbar__container">
                 <a href="{{ path('app_home') }}" class="navbar__logo" aria-label="Johan Louap — Accueil">
@@ -120,7 +121,7 @@
                         </g>
                     </svg>
                 </a>
-                <button class="navbar__toggle" id="navToggle" aria-label="{{ 'nav.aria_menu'|trans }}">
+                <button class="navbar__toggle" id="navToggle" aria-label="{{ 'nav.aria_menu'|trans }}" aria-expanded="false" aria-controls="navLinks">
                     <span></span><span></span><span></span>
                 </button>
                 <ul class="navbar__links" id="navLinks">
@@ -144,7 +145,7 @@
             </div>
         </nav>
 
-        <main class="main-content">
+        <main class="main-content" id="main-content" tabindex="-1">
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
                     <div class="flash flash--{{ label }}">
