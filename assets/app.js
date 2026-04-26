@@ -35,7 +35,7 @@ function initPage() {
         });
     }, { threshold: 0.08 });
 
-    document.querySelectorAll('.project-card, .skill-card, .edu-card, .timeline__content, .svc-card, .process-step, .svc-block').forEach(card => {
+    document.querySelectorAll('.project-card, .skill-card, .edu-card, .timeline__content, .svc-card, .process-step, .svc-block, .legal-block, .legal-intro').forEach(card => {
         card.classList.add('animate-in');
         cardObserver.observe(card);
     });
@@ -52,13 +52,15 @@ document.addEventListener('turbo:before-visit', () => {
     document.documentElement.classList.add('page-leaving');
 });
 
-// turbo:render se déclenche après l'injection du HTML — scroll ici
-document.addEventListener('turbo:render', () => {
-    window.scrollTo(0, 0);
+// turbo:before-render : scroll AVANT que le snapshot View Transitions soit capturé
+// behavior:instant pour bypasser le `scroll-behavior: smooth` global
+document.addEventListener('turbo:before-render', () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 });
 
-// turbo:load se déclenche au premier chargement ET à chaque navigation
+// turbo:load se déclenche au premier chargement ET à chaque navigation (filet de sécurité)
 document.addEventListener('turbo:load', () => {
     document.documentElement.classList.remove('page-leaving');
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     initPage();
 });

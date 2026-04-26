@@ -415,6 +415,7 @@ img { max-width: 100%; display: block; }
     display: flex;
     align-items: center;
     overflow: hidden;
+    padding-top: var(--nav-height);
 }
 
 .hero__bg {
@@ -711,7 +712,29 @@ img { max-width: 100%; display: block; }
 }
 .hero__terminal-body::-webkit-scrollbar { width: 6px; }
 .hero__terminal-body::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.4); border-radius: 3px; }
+
 .terminal-line { white-space: pre; }
+
+/* Mobile : terminal lisible et lignes wrappables */
+@media (max-width: 768px) {
+    .hero__terminal { font-size: 0.78rem; }
+    .hero__terminal-body {
+        padding: 12px 14px;
+        line-height: 1.7;
+        max-height: 280px;
+        overflow-x: auto;
+    }
+    .hero__terminal .terminal-line {
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+}
+@media (max-width: 480px) {
+    .hero__terminal { font-size: 0.72rem; }
+    .hero__terminal-body { padding: 10px 12px; line-height: 1.6; }
+    .hero__terminal-title { font-size: 0.62rem; }
+}
 .terminal-ps   { color: #4ade80; }
 .terminal-cmd  { color: #f1f5f9; }
 .terminal-caret {
@@ -1577,15 +1600,16 @@ img { max-width: 100%; display: block; }
 
     .hero__stats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
         width: 100%;
     }
 
     .hero__stat {
         align-items: center;
         text-align: center;
-        padding: 0 4px;
+        padding: 0 2px;
+        min-width: 0;
     }
 
     .hero__stat-value {
@@ -1594,6 +1618,9 @@ img { max-width: 100%; display: block; }
 
     .hero__stat-label {
         font-size: 0.65rem;
+        line-height: 1.25;
+        word-break: normal;
+        overflow-wrap: break-word;
     }
 
     .hero__stat-divider {
@@ -1662,6 +1689,19 @@ img { max-width: 100%; display: block; }
 @media (max-width: 480px) {
     .hero__title {
         font-size: 2.2rem;
+    }
+    .hero__container {
+        padding: 32px 16px 64px;
+    }
+    .hero__stats {
+        gap: 4px;
+    }
+    .hero__stat-value {
+        font-size: 1.25rem;
+    }
+    .hero__stat-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.02em;
     }
 }
 
