@@ -19,7 +19,15 @@ class LocaleController extends AbstractController
         }
 
         $referer = $request->headers->get('referer');
+        $target  = $this->generateUrl('app_home');
 
-        return $this->redirect($referer ?: $this->generateUrl('app_home'));
+        if ($referer) {
+            $refererHost = parse_url($referer, PHP_URL_HOST);
+            if ($refererHost !== null && $refererHost === $request->getHost()) {
+                $target = $referer;
+            }
+        }
+
+        return $this->redirect($target);
     }
 }

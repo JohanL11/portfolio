@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\RiotApiService;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,16 +22,17 @@ class LeagueController extends AbstractController
      * Affiche également la partie en cours si le joueur est en jeu.
      */
     #[Route('/league', name: 'app_league')]
-    public function index(RiotApiService $riotApi): Response
+    public function index(RiotApiService $riotApi, LoggerInterface $logger): Response
     {
+        $error = false;
+        $data = $liveGame = null;
+
         try {
             $data     = $riotApi->getSummonerData();
             $liveGame = $riotApi->getLiveGame();
-            $error    = null;
         } catch (\Throwable $e) {
-            $data     = null;
-            $liveGame = null;
-            $error    = $e->getMessage();
+            $logger->error('Riot API error', ['exception' => $e]);
+            $error = true;
         }
 
         return $this->render('league/index.html.twig', [
