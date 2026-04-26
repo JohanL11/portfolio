@@ -27,9 +27,8 @@
         <link rel="canonical" href="{% block canonical %}https://johan-louap.fr{% endblock %}">
         <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
         <script src="{{ asset('js/theme-init.js') }}"></script>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="preload" href="{{ asset('fonts/inter-variable.woff2') }}" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="{{ asset('fonts/jetbrains-mono-variable.woff2') }}" as="font" type="font/woff2" crossorigin>
         {% block stylesheets %}{% endblock %}
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
@@ -115,6 +114,8 @@
                 <div class="footer__links">
                     <a href="https://github.com/JohanL11" target="_blank" rel="noopener" class="footer__link">GitHub</a>
                     <a href="{{ path('app_contact') }}" class="footer__link">{{ 'nav.contact'|trans }}</a>
+                    <a href="{{ path('app_legal_notice') }}" class="footer__link">{{ 'footer.legal'|trans }}</a>
+                    <a href="{{ path('app_privacy_policy') }}" class="footer__link">{{ 'footer.privacy'|trans }}</a>
                 </div>
                 <p class="footer__copy">© {{ "now"|date("Y") }} Johan Louap — {{ 'footer.made_with'|trans }}</p>
             </div>

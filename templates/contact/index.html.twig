@@ -61,6 +61,12 @@
                     {{ form_widget(form.message) }}
                     {{ form_errors(form.message) }}
                 </div>
+                {# Anti-spam : honeypot (caché en CSS) + timestamp d'affichage #}
+                <div class="hp-field" aria-hidden="true">
+                    <label for="{{ form.website.vars.id }}">Leave this field empty</label>
+                    {{ form_widget(form.website) }}
+                </div>
+                {{ form_widget(form.ts) }}
                 <button type="submit" class="btn btn--primary btn--full">
                     {{ 'contact.form.submit'|trans }}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>

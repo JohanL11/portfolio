@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'legal.meta_title'|trans }}{% endblock %}
+{% block description %}{{ 'legal.meta_desc'|trans }}{% endblock %}
+{% block og_title %}{{ 'legal.og_title'|trans }}{% endblock %}
+{% block og_desc %}{{ 'legal.og_desc'|trans }}{% endblock %}
+{% block og_url %}https://johan-louap.fr/mentions-legales{% endblock %}
+{% block canonical %}https://johan-louap.fr/mentions-legales{% endblock %}
+
+{% block body %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section__tag">{{ 'legal.hero.tag'|trans }}</span>
+        <h1 class="page-hero__title">{{ 'legal.hero.title'|trans|raw }}</h1>
+        <p class="page-hero__subtitle">{{ 'legal.hero.subtitle'|trans }}</p>
+        <p class="legal-updated">{{ 'legal.updated'|trans }}</p>
+    </div>
+</section>
+
+<section class="section section--legal">
+    <div class="container container--narrow">
+
+        <article class="legal-block">
+            <h2>{{ 'legal.editor.title'|trans }}</h2>
+            <dl class="legal-dl">
+                <dt>{{ 'legal.editor.name_label'|trans }}</dt>     <dd>{{ 'legal.editor.name'|trans }}</dd>
+                <dt>{{ 'legal.editor.status_label'|trans }}</dt>   <dd>{{ 'legal.editor.status'|trans }}</dd>
+                <dt>{{ 'legal.editor.address_label'|trans }}</dt>  <dd>{{ 'legal.editor.address'|trans }}</dd>
+                <dt>{{ 'legal.editor.email_label'|trans }}</dt>    <dd><a href="mailto:{{ 'legal.editor.email'|trans }}">{{ 'legal.editor.email'|trans }}</a></dd>
+                <dt>{{ 'legal.editor.siret_label'|trans }}</dt>    <dd>{{ 'legal.editor.siret'|trans }}</dd>
+                <dt>{{ 'legal.editor.ape_label'|trans }}</dt>      <dd>{{ 'legal.editor.ape'|trans }}</dd>
+                <dt>{{ 'legal.editor.vat_label'|trans }}</dt>      <dd>{{ 'legal.editor.vat'|trans }}</dd>
+            </dl>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'legal.director.title'|trans }}</h2>
+            <p>{{ 'legal.director.text'|trans }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'legal.host.title'|trans }}</h2>
+            <dl class="legal-dl">
+                <dt>{{ 'legal.host.name_label'|trans }}</dt>     <dd>{{ 'legal.host.name'|trans }}</dd>
+                <dt>{{ 'legal.host.address_label'|trans }}</dt>  <dd>{{ 'legal.host.address'|trans }}</dd>
+                <dt>{{ 'legal.host.phone_label'|trans }}</dt>    <dd>{{ 'legal.host.phone'|trans }}</dd>
+                <dt>{{ 'legal.host.website_label'|trans }}</dt>  <dd><a href="https://www.ovhcloud.com" target="_blank" rel="noopener">{{ 'legal.host.website'|trans }}</a></dd>
+                <dt>{{ 'legal.host.rcs_label'|trans }}</dt>      <dd>{{ 'legal.host.rcs'|trans }}</dd>
+            </dl>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'legal.ip.title'|trans }}</h2>
+            <p>{{ 'legal.ip.text'|trans }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'legal.liability.title'|trans }}</h2>
+            <p>{{ 'legal.liability.text'|trans }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'legal.links.title'|trans }}</h2>
+            <p>{{ 'legal.links.text'|trans }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'legal.law.title'|trans }}</h2>
+            <p>{{ 'legal.law.text'|trans }}</p>
+        </article>
+
+        <p class="legal-footer-link">
+            <a href="{{ path('app_contact') }}">{{ 'legal.contact_link'|trans }}</a>
+        </p>
+
+    </div>
+</section>
+{% endblock %}

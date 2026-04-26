@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'privacy.meta_title'|trans }}{% endblock %}
+{% block description %}{{ 'privacy.meta_desc'|trans }}{% endblock %}
+{% block og_title %}{{ 'privacy.og_title'|trans }}{% endblock %}
+{% block og_desc %}{{ 'privacy.og_desc'|trans }}{% endblock %}
+{% block og_url %}https://johan-louap.fr/politique-de-confidentialite{% endblock %}
+{% block canonical %}https://johan-louap.fr/politique-de-confidentialite{% endblock %}
+
+{% block body %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section__tag">{{ 'privacy.hero.tag'|trans }}</span>
+        <h1 class="page-hero__title">{{ 'privacy.hero.title'|trans|raw }}</h1>
+        <p class="page-hero__subtitle">{{ 'privacy.hero.subtitle'|trans }}</p>
+        <p class="legal-updated">{{ 'privacy.updated'|trans }}</p>
+    </div>
+</section>
+
+<section class="section section--legal">
+    <div class="container container--narrow">
+
+        <p class="legal-intro">{{ 'privacy.intro.text'|trans }}</p>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.controller.title'|trans }}</h2>
+            <p>{{ 'privacy.controller.text'|trans({'%legal_url%': path('app_legal_notice')})|raw }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.data.title'|trans }}</h2>
+            <p>{{ 'privacy.data.intro'|trans }}</p>
+            <ul class="legal-list">
+                <li><strong>{{ 'privacy.data.contact_form_label'|trans }} :</strong> {{ 'privacy.data.contact_form'|trans }}</li>
+                <li><strong>{{ 'privacy.data.ip_label'|trans }} :</strong> {{ 'privacy.data.ip'|trans }}</li>
+                <li><strong>{{ 'privacy.data.logs_label'|trans }} :</strong> {{ 'privacy.data.logs'|trans }}</li>
+            </ul>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.purposes.title'|trans }}</h2>
+            <p>{{ 'privacy.purposes.intro'|trans }}</p>
+            <ul class="legal-list">
+                <li>{{ 'privacy.purposes.respond'|trans }}</li>
+                <li>{{ 'privacy.purposes.spam'|trans }}</li>
+                <li>{{ 'privacy.purposes.security'|trans }}</li>
+            </ul>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.legal_basis.title'|trans }}</h2>
+            <p>{{ 'privacy.legal_basis.text'|trans|raw }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.retention.title'|trans }}</h2>
+            <p>{{ 'privacy.retention.intro'|trans }}</p>
+            <ul class="legal-list">
+                <li>{{ 'privacy.retention.contact_data'|trans }}</li>
+                <li>{{ 'privacy.retention.ip_data'|trans }}</li>
+                <li>{{ 'privacy.retention.logs_data'|trans }}</li>
+            </ul>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.recipients.title'|trans }}</h2>
+            <p>{{ 'privacy.recipients.intro'|trans }}</p>
+            <ul class="legal-list">
+                <li>{{ 'privacy.recipients.me'|trans }}</li>
+                <li><strong>{{ 'privacy.recipients.resend_label'|trans }} :</strong> {{ 'privacy.recipients.resend'|trans }}</li>
+            </ul>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.transfer.title'|trans }}</h2>
+            <p>{{ 'privacy.transfer.intro'|trans }}</p>
+            <ul class="legal-list">
+                <li>{{ 'privacy.transfer.resend'|trans|raw }}</li>
+            </ul>
+            <p>{{ 'privacy.transfer.fonts_self_hosted'|trans|raw }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.cookies.title'|trans }}</h2>
+            <p>{{ 'privacy.cookies.intro'|trans|raw }}</p>
+            <ul class="legal-list">
+                <li>{{ 'privacy.cookies.session'|trans|raw }}</li>
+                <li>{{ 'privacy.cookies.csrf'|trans|raw }}</li>
+                <li>{{ 'privacy.cookies.locale'|trans|raw }}</li>
+                <li>{{ 'privacy.cookies.theme'|trans|raw }}</li>
+            </ul>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.rights.title'|trans }}</h2>
+            <p>{{ 'privacy.rights.intro'|trans }}</p>
+            <ul class="legal-list">
+                <li>{{ 'privacy.rights.access'|trans|raw }}</li>
+                <li>{{ 'privacy.rights.rectification'|trans|raw }}</li>
+                <li>{{ 'privacy.rights.erasure'|trans|raw }}</li>
+                <li>{{ 'privacy.rights.restriction'|trans|raw }}</li>
+                <li>{{ 'privacy.rights.opposition'|trans|raw }}</li>
+                <li>{{ 'privacy.rights.portability'|trans|raw }}</li>
+            </ul>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.exercise.title'|trans }}</h2>
+            <p>{{ 'privacy.exercise.text'|trans|raw }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.complaint.title'|trans }}</h2>
+            <p>{{ 'privacy.complaint.text'|trans|raw }}</p>
+        </article>
+
+        <article class="legal-block">
+            <h2>{{ 'privacy.updates.title'|trans }}</h2>
+            <p>{{ 'privacy.updates.text'|trans }}</p>
+        </article>
+
+    </div>
+</section>
+{% endblock %}

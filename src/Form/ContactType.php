@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,6 +16,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Formulaire de contact — labels et messages de validation traduits.
+ *
+ * Anti-spam :
+ *  - `website` : honeypot (champ caché en CSS, doit rester vide).
+ *  - `ts`     : timestamp d'affichage du formulaire, vérifié côté contrôleur.
  */
 class ContactType extends AbstractType
 {
@@ -67,6 +72,21 @@ class ContactType extends AbstractType
                         'minMessage' => $t('contact.validation.message_min'),
                     ]),
                 ],
+            ])
+            ->add('website', TextType::class, [
+                'mapped'             => false,
+                'required'           => false,
+                'label'              => false,
+                'translation_domain' => false,
+                'attr'               => [
+                    'class'        => 'hp-field',
+                    'autocomplete' => 'off',
+                    'tabindex'     => '-1',
+                ],
+            ])
+            ->add('ts', HiddenType::class, [
+                'mapped' => false,
+                'data'   => (string) time(),
             ])
         ;
     }

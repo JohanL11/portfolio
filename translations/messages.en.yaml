@@ -12,6 +12,8 @@ nav:
 footer:
   tagline: "Full Stack Web & Mobile Developer — PHP, React Native, Linux/DevOps."
   made_with: "Made with ❤️ and Symfony"
+  legal: "Legal notice"
+  privacy: "Privacy policy"
 
 back_to_top: "Back to top"
 
@@ -218,6 +220,7 @@ contact:
   flash:
     success: "Your message has been sent. I will get back to you as soon as possible!"
     error: "An error occurred while sending. Please try again."
+    rate_limited: "Too many recent submissions from your address. Please try again in one hour."
   validation:
     name_blank: "Please enter your name."
     email_blank: "Please enter your email."
@@ -386,3 +389,134 @@ league:
     loss: "Defeat"
   modal:
     title: "Game details"
+
+legal:
+  meta_title: "Legal notice"
+  meta_desc: "Legal notice for johan-louap.fr — Publisher, host and terms of use."
+  og_title: "Legal notice — Johan Louap"
+  og_desc: "Legal information about Johan Louap's portfolio website."
+  hero:
+    tag: "Legal information"
+    title: "Legal <span class=\"text-gradient\">notice</span>"
+    subtitle: "In accordance with article 6-III of the French Law for Confidence in the Digital Economy (LCEN)."
+  updated: "Last updated: 26 April 2026"
+  editor:
+    title: "Site publisher"
+    name_label: "Name"
+    name: "Johan Louap"
+    status_label: "Status"
+    status: "Sole proprietor — Micro-entrepreneur (French statute)"
+    address_label: "Address"
+    address: "8 Allée Germain Petitou, 95210 Saint-Gratien, France"
+    email_label: "Email"
+    email: "louap.johan@outlook.fr"
+    siret_label: "SIRET"
+    siret: "Pending allocation (registered on 26/04/2026)"
+    ape_label: "APE code"
+    ape: "62.01Z — Computer programming"
+    vat_label: "Intra-community VAT"
+    vat: "Not applicable — VAT exemption, art. 293 B of the French General Tax Code"
+  director:
+    title: "Publication director"
+    text: "Johan Louap, as the site publisher."
+  host:
+    title: "Hosting provider"
+    name_label: "Company"
+    name: "OVH SAS — VPS"
+    address_label: "Address"
+    address: "2 rue Kellermann, 59100 Roubaix, France"
+    phone_label: "Phone"
+    phone: "+33 9 72 10 10 07"
+    website_label: "Website"
+    website: "ovhcloud.com"
+    rcs_label: "Trade register"
+    rcs: "RCS Lille Métropole 424 761 419"
+  ip:
+    title: "Intellectual property"
+    text: "All content on this site (text, images, logos, source code, design) is the exclusive property of Johan Louap, unless otherwise stated. Any reproduction, representation, modification or use, in whole or in part, is prohibited without prior written authorization. Third-party trademarks and logos (technologies, companies mentioned) remain the property of their respective owners. Visuals and data from the Riot Games API are used in accordance with the Riot Games Developer Policy; this site is not endorsed by or affiliated with Riot Games, Inc."
+  liability:
+    title: "Liability"
+    text: "The publisher strives to provide accurate and up-to-date information but cannot guarantee the accuracy, completeness or timeliness of the information provided. The user is solely responsible for the use made of the information on this site. The publisher cannot be held liable for direct or indirect damages resulting from access to or use of the site."
+  links:
+    title: "Hyperlinks"
+    text: "The site may contain links to third-party sites (GitHub, Riot Games, etc.). The publisher exercises no control over these sites and disclaims any responsibility for their content."
+  law:
+    title: "Applicable law"
+    text: "This legal notice is governed by French law. Any dispute relating to its interpretation or execution falls under the exclusive jurisdiction of French courts."
+  contact_link: "For any question, please use the contact form."
+
+privacy:
+  meta_title: "Privacy policy"
+  meta_desc: "Privacy policy for johan-louap.fr — Personal data processing in compliance with GDPR."
+  og_title: "Privacy policy — Johan Louap"
+  og_desc: "How your personal data is collected, used and protected on this site."
+  hero:
+    tag: "Privacy"
+    title: "Privacy <span class=\"text-gradient\">policy</span>"
+    subtitle: "Personal data processing in compliance with the General Data Protection Regulation (GDPR)."
+  updated: "Last updated: 26 April 2026"
+  intro:
+    text: "This policy describes how Johan Louap collects, uses and protects the personal data of visitors to johan-louap.fr. It is drafted in accordance with Regulation (EU) 2016/679 (GDPR) and the amended French Data Protection Act."
+  controller:
+    title: "Data controller"
+    text: "The data controller is Johan Louap, whose contact details appear in the <a href=\"%legal_url%\">legal notice</a>. For any question regarding the processing of your data, contact: <strong>louap.johan@outlook.fr</strong>."
+  data:
+    title: "Data collected"
+    intro: "The site only collects data strictly necessary for the purposes described below:"
+    contact_form_label: "Contact form"
+    contact_form: "Name, email address, subject and message content. This data is voluntarily provided by the user."
+    ip_label: "IP address"
+    ip: "Temporarily kept (in memory) for rate limiting on contact form submissions (anti-spam). No persistence in any database."
+    logs_label: "Server logs"
+    logs: "The web server (Nginx) keeps technical access logs (IP, date/time, requested URL, user-agent) for a maximum duration of 30 days, for security and technical diagnostic purposes."
+  purposes:
+    title: "Purposes of processing"
+    intro: "Your data is processed for the following purposes:"
+    respond: "Reply to messages sent via the contact form"
+    spam: "Protect the site against abuse (rate limiting, anti-spam)"
+    security: "Ensure the technical security of the site (access logs)"
+  legal_basis:
+    title: "Legal basis"
+    text: "The processing of data from the contact form is based on the publisher's <strong>legitimate interest</strong> in responding to inquiries received (article 6.1.f of the GDPR). Submitting the form constitutes agreement to this processing."
+  retention:
+    title: "Retention period"
+    intro: "Retention periods are as follows:"
+    contact_data: "Messages received via the contact form: 3 years from the last exchange, or immediate deletion upon request"
+    ip_data: "IP address (rate limiting): 1 hour (duration of the limiting window)"
+    logs_data: "Server logs: 30 days maximum"
+  recipients:
+    title: "Data recipients"
+    intro: "Your data is neither sold, transferred nor rented to third parties. It is only processed by:"
+    me: "Johan Louap, data controller"
+    resend_label: "Resend (technical subprocessor)"
+    resend: "Email delivery service used to route contact form messages. Resend, Inc. is a US-based company, GDPR-compliant via Standard Contractual Clauses (SCCs)."
+  transfer:
+    title: "Transfers outside the European Union"
+    intro: "The only processing operation involving a transfer of data to the United States is:"
+    resend: "<strong>Resend</strong> (email delivery) — covered by the European Commission's Standard Contractual Clauses."
+    fonts_self_hosted: "Web fonts (Inter, JetBrains Mono) are <strong>self-hosted</strong> on the server — no call to any third-party service (Google Fonts or other) is made."
+  cookies:
+    title: "Cookies and local storage"
+    intro: "The site uses <strong>no audience-measurement nor advertising cookies</strong>. The only items stored on your browser are strictly necessary for the site's operation and exempt from consent (article 82 of the French Data Protection Act):"
+    session: "<strong>Symfony session cookie</strong> — temporary identifier required by the framework, deleted when the browser is closed."
+    csrf: "<strong>CSRF token</strong> — protection against cross-site request forgery attacks."
+    locale: "<strong>Language preference</strong> — remembers your choice between French and English."
+    theme: "<strong>Theme preference (localStorage)</strong> — remembers your light/dark mode choice. Stored locally on your device, never transmitted."
+  rights:
+    title: "Your rights"
+    intro: "In accordance with articles 15 to 22 of the GDPR, you have the following rights regarding your data:"
+    access: "<strong>Right of access</strong> — obtain confirmation that your data is being processed and receive a copy"
+    rectification: "<strong>Right of rectification</strong> — correct inaccurate data"
+    erasure: "<strong>Right to erasure</strong> (\"right to be forgotten\") — request the deletion of your data"
+    restriction: "<strong>Right to restriction of processing</strong>"
+    opposition: "<strong>Right to object</strong> — object to processing on legitimate grounds"
+    portability: "<strong>Right to portability</strong> — receive your data in a structured format"
+  exercise:
+    title: "Exercise your rights"
+    text: "To exercise any of these rights, send an email to <strong>louap.johan@outlook.fr</strong> specifying your request and a way to identify you. A response will be provided within a maximum of one month."
+  complaint:
+    title: "Complaint to the CNIL"
+    text: "If you believe that the processing of your data does not comply with regulations, you have the right to lodge a complaint with the French Data Protection Authority (CNIL) — <a href=\"https://www.cnil.fr/en/plaints\" target=\"_blank\" rel=\"noopener\">cnil.fr/en/plaints</a>."
+  updates:
+    title: "Policy updates"
+    text: "This policy may be updated to reflect changes in the site or in regulations. The last update date is shown at the top of this page. Substantial modifications will be flagged conspicuously."

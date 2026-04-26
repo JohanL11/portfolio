@@ -11,6 +11,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://johan-louap.fr/services</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://johan-louap.fr/league</loc>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
@@ -19,5 +24,15 @@
         <loc>https://johan-louap.fr/contact</loc>
         <changefreq>yearly</changefreq>
         <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://johan-louap.fr/mentions-legales</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://johan-louap.fr/politique-de-confidentialite</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
     </url>
 </urlset>
