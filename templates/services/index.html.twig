@@ -86,6 +86,19 @@
     z-index: 10;
 }
 .svc-tooltip:hover .svc-tooltip__box { opacity: 1; }
+
+/* Mobile : ancrer le tooltip à la largeur du <li> pour éviter qu'il sorte de l'écran */
+@media (max-width: 768px) {
+    .svc-checklist li { position: relative; }
+    .svc-tooltip { position: static; }
+    .svc-tooltip__box {
+        left: 0;
+        right: 0;
+        width: auto;
+        max-width: 100%;
+        transform: none;
+    }
+}
 </style>
 {% endblock %}
 
