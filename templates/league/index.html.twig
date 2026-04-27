@@ -113,6 +113,7 @@
 /* ── MAIN GRID ── */
 .lol-main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 .lol-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; align-items: stretch; }
+.lol-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; align-items: stretch; }
 
 /* ── CARDS ── */
 .lol-card {
@@ -223,6 +224,69 @@
 .champ-stat-card__meta { font-size: 0.72rem; color: #888; margin-top: 0.15rem; }
 .wr-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 999px; margin-top: 0.5rem; overflow: hidden; }
 .wr-bar__fill { height: 100%; border-radius: 999px; transition: width 0.8s ease; }
+
+/* ── SPARKLINE FORME ── */
+.winrate-spark { margin-bottom: 1.4rem; }
+.winrate-spark__head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 0.45rem;
+}
+.winrate-spark__label {
+    font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #555;
+}
+.winrate-spark__meta { font-size: 0.72rem; color: #888; }
+.winrate-spark__meta strong { color: var(--lol-gold); font-weight: 700; }
+.winrate-spark__cells {
+    display: flex; gap: 3px; height: 28px;
+}
+.winrate-spark__cell {
+    flex: 1; min-width: 0; border-radius: 3px;
+    transform: scaleY(0); transform-origin: bottom;
+    animation: sparkRise 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+.winrate-spark__cell--win  { background: linear-gradient(to top, #2d8a3e, #4caf50); box-shadow: 0 0 6px rgba(76,175,80,0.35); }
+.winrate-spark__cell--loss { background: linear-gradient(to top, #a03030, #e05555); box-shadow: 0 0 6px rgba(224,85,85,0.35); }
+.winrate-spark__cell:hover { filter: brightness(1.2); }
+@keyframes sparkRise { to { transform: scaleY(1); } }
+
+/* ── TREEMAP CHAMPIONS ── */
+.champ-treemap {
+    position: relative; width: 100%; height: 240px;
+    background: rgba(0,0,0,0.15); border-radius: 6px; overflow: hidden;
+}
+.champ-treemap__tile {
+    position: absolute; overflow: hidden; cursor: default;
+    border: 1px solid rgba(0,0,0,0.4); border-radius: 4px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, z-index 0s linear 0.2s;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 6px 8px;
+}
+.champ-treemap__tile:hover {
+    transform: scale(1.04); z-index: 5;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, z-index 0s linear 0s;
+}
+.champ-treemap__bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0.35; filter: blur(0.5px);
+}
+.champ-treemap__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(5,15,35,0.85) 0%, rgba(5,15,35,0.25) 60%, transparent 100%);
+}
+.champ-treemap__name {
+    position: relative; font-weight: 700; font-size: 0.78rem; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.champ-treemap__meta {
+    position: relative; font-size: 0.66rem; margin-top: 2px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.champ-treemap__tile--small .champ-treemap__name { font-size: 0.68rem; }
+.champ-treemap__tile--small .champ-treemap__meta { font-size: 0.6rem; }
 
 /* ── MATCHES ── */
 .filter-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
@@ -429,6 +493,9 @@
 .heatmap-legend { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.7rem; font-size: 0.65rem; color: #555; }
 .heatmap-legend-cell { width: 12px; height: 12px; border-radius: 2px; }
 
+@media (max-width: 1024px) {
+    .lol-grid-3 { grid-template-columns: 1fr; }
+}
 @media (max-width: 768px) {
     .lol-grid-2 { grid-template-columns: 1fr; }
     .rank-grid   { grid-template-columns: 1fr 1fr; }
@@ -646,6 +713,15 @@
                 {% endfor %}
             </div>
 
+            {# Sparkline forme — 20 dernières parties #}
+            <div class="winrate-spark" id="winrateSparkline">
+                <div class="winrate-spark__head">
+                    <span class="winrate-spark__label">{{ 'league.spark.label'|trans }}</span>
+                    <span class="winrate-spark__meta" id="winrateSparkMeta"></span>
+                </div>
+                <div class="winrate-spark__cells" id="winrateSparkCells"></div>
+            </div>
+
             {# Historique Solo/Duo #}
             <div style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#555;margin-bottom:0.5rem;">
                 {{ 'league.rank.history'|trans }}
@@ -746,8 +822,12 @@
         </div>
     </div>
 
-    {# ── WINRATE PAR RÔLE + RÉPARTITION MODES ── #}
-    <div class="lol-grid-2" style="margin-bottom:1.5rem;">
+    {# ── TREEMAP CHAMPIONS + WINRATE PAR RÔLE + RÉPARTITION MODES ── #}
+    <div class="lol-grid-3" style="margin-bottom:1.5rem;">
+        <div class="lol-card">
+            <h2 class="lol-card__title">{{ 'league.treemap.title'|trans }}</h2>
+            <div id="champTreemap" class="champ-treemap"></div>
+        </div>
         <div class="lol-card">
             <h2 class="lol-card__title">{{ 'league.roles.title'|trans }}</h2>
             {% for r in data.roleStats %}
@@ -943,6 +1023,7 @@
     "chartData":     {{ data.chartData|json_encode|raw }},
     "queueDist":     {{ data.queueDist|json_encode|raw }},
     "masteries":     {{ data.masteries|json_encode|raw }},
+    "championStats": {{ data.championStats|json_encode|raw }},
     "lastGameTs":    {{ data.lastGameTs ?? 0 }},
     "liveGameStart": {{ liveGame and liveGame.startTime ? liveGame.startTime : 0 }},
     "liveGamePath":  {{ path('app_league_live')|json_encode|raw }}

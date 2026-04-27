@@ -367,6 +367,11 @@ league:
     sub: "recurring players"
   roles:
     title: "Roles played"
+  spark:
+    label: "Form"
+    record: "%w%W %l%L"
+  treemap:
+    title: "Champion pool"
   back_link: "← Back to portfolio"
   kda_chart: "KDA — last 20 games"
   queue_dist: "Queue distribution"

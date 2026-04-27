@@ -367,6 +367,11 @@ league:
     sub: "joueurs récurrents"
   roles:
     title: "Rôles joués"
+  spark:
+    label: "Forme"
+    record: "%w%V %l%D"
+  treemap:
+    title: "Pool de champions"
   back_link: "← Retour au portfolio"
   kda_chart: "KDA — 20 dernières parties"
   queue_dist: "Répartition des modes"

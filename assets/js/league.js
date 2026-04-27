@@ -8,6 +8,7 @@
     var chartData     = d.chartData;
     var queueDist     = d.queueDist;
     var masteriesData = d.masteries;
+    var championStats = d.championStats || [];
     var lastGameTs    = d.lastGameTs;
     var liveGameStart = d.liveGameStart;
     var liveGamePath  = d.liveGamePath;
@@ -128,6 +129,46 @@
         });
     }
 
+    // ── HELPERS VISUEL ──
+    function makeAreaGradient(ctx, area, topColor, bottomColor) {
+        var g = ctx.createLinearGradient(0, area.top, 0, area.bottom);
+        g.addColorStop(0, topColor);
+        g.addColorStop(1, bottomColor);
+        return g;
+    }
+
+    // Plugin glow : ombre douce sur la ligne et les points (datasets de type "line")
+    var glowLinePlugin = {
+        id: 'glowLine',
+        beforeDatasetDraw: function (chart, args) {
+            if (!args.meta || args.meta.type !== 'line') return;
+            var opts = (chart.options.plugins && chart.options.plugins.glowLine) || {};
+            chart.ctx.save();
+            chart.ctx.shadowColor = opts.color || 'rgba(200,170,110,0.55)';
+            chart.ctx.shadowBlur  = opts.blur  || 14;
+        },
+        afterDatasetDraw: function (chart, args) {
+            if (!args.meta || args.meta.type !== 'line') return;
+            chart.ctx.restore();
+        }
+    };
+
+    // Plugin shadow : drop-shadow sous le doughnut pour le décoller du fond
+    var arcShadowPlugin = {
+        id: 'arcShadow',
+        beforeDatasetDraw: function (chart, args) {
+            if (!args.meta || args.meta.type !== 'doughnut') return;
+            chart.ctx.save();
+            chart.ctx.shadowColor = 'rgba(0,0,0,0.55)';
+            chart.ctx.shadowBlur  = 16;
+            chart.ctx.shadowOffsetY = 4;
+        },
+        afterDatasetDraw: function (chart, args) {
+            if (!args.meta || args.meta.type !== 'doughnut') return;
+            chart.ctx.restore();
+        }
+    };
+
     // ── CHART KDA ──
     var kdaChartInstance = null;
 
@@ -142,18 +183,24 @@
                 datasets: [{
                     data: chartData.map(function (d) { return d.kda; }),
                     borderColor: '#C8AA6E',
-                    backgroundColor: 'rgba(200,170,110,0.08)',
+                    backgroundColor: function (context) {
+                        var c = context.chart;
+                        if (!c.chartArea) return 'rgba(200,170,110,0.08)';
+                        return makeAreaGradient(c.ctx, c.chartArea, 'rgba(200,170,110,0.38)', 'rgba(200,170,110,0)');
+                    },
                     pointBackgroundColor: chartData.map(function (d) { return d.win ? '#4CAF50' : '#E05555'; }),
-                    pointBorderColor: chartData.map(function (d) { return d.win ? '#4CAF50' : '#E05555'; }),
-                    pointRadius: 5, pointHoverRadius: 7,
+                    pointBorderColor: '#050F23',
+                    pointBorderWidth: 1.5,
+                    pointRadius: 5, pointHoverRadius: 8,
                     tension: 0.4, fill: true, borderWidth: 2,
                 }]
             },
             options: {
                 responsive: true, maintainAspectRatio: false,
-                animation: { onComplete: function () { var s = document.getElementById('kdaChartSkeleton'); if (s) s.remove(); } },
+                animation: { duration: 900, easing: 'easeOutQuart', onComplete: function () { var s = document.getElementById('kdaChartSkeleton'); if (s) s.remove(); } },
                 plugins: {
                     legend: { display: false },
+                    glowLine: { color: 'rgba(200,170,110,0.6)', blur: 16 },
                     tooltip: {
                         callbacks: {
                             title: function (items) { return chartData[items[0].dataIndex].champ; },
@@ -171,7 +218,8 @@
                         ticks: { color: '#555', font: { size: 11 } }
                     }
                 }
-            }
+            },
+            plugins: [glowLinePlugin]
         });
     }
 
@@ -189,11 +237,18 @@
             type: 'doughnut',
             data: {
                 labels: labels,
-                datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 0, hoverOffset: 6 }]
+                datasets: [{
+                    data: values,
+                    backgroundColor: colors.slice(0, labels.length),
+                    borderWidth: 2,
+                    borderColor: '#050F23',
+                    hoverOffset: 10,
+                    hoverBorderColor: 'rgba(200,170,110,0.4)',
+                }]
             },
             options: {
                 responsive: true, maintainAspectRatio: false,
-                animation: { onComplete: function () { var s = document.getElementById('queueChartSkeleton'); if (s) s.remove(); } },
+                animation: { duration: 900, easing: 'easeOutQuart', animateRotate: true, animateScale: true, onComplete: function () { var s = document.getElementById('queueChartSkeleton'); if (s) s.remove(); } },
                 plugins: {
                     legend: { position: 'right', labels: { color: '#888', font: { size: 11 }, boxWidth: 12, padding: 10 } },
                     tooltip: {
@@ -203,7 +258,8 @@
                     }
                 },
                 cutout: '65%',
-            }
+            },
+            plugins: [arcShadowPlugin]
         });
     }
 
@@ -292,18 +348,25 @@
                 labels: seasons.map(function (s) { return s.label; }),
                 datasets: [{
                     data: values,
-                    borderColor: 'rgba(200,170,110,0.5)',
-                    backgroundColor: 'rgba(200,170,110,0.04)',
-                    pointBackgroundColor: colors, pointBorderColor: colors,
-                    pointRadius: 4, pointHoverRadius: 6,
-                    tension: 0.35, fill: true, borderWidth: 1.5,
+                    borderColor: 'rgba(200,170,110,0.65)',
+                    backgroundColor: function (context) {
+                        var c = context.chart;
+                        if (!c.chartArea) return 'rgba(200,170,110,0.04)';
+                        return makeAreaGradient(c.ctx, c.chartArea, 'rgba(200,170,110,0.22)', 'rgba(200,170,110,0)');
+                    },
+                    pointBackgroundColor: colors,
+                    pointBorderColor: '#050F23',
+                    pointBorderWidth: 1.5,
+                    pointRadius: 5, pointHoverRadius: 7,
+                    tension: 0.35, fill: true, borderWidth: 2,
                 }]
             },
             options: {
                 responsive: true, maintainAspectRatio: false,
-                animation: { onComplete: function () { syncMasteryHeight(); } },
+                animation: { duration: 1000, easing: 'easeOutQuart', onComplete: function () { syncMasteryHeight(); } },
                 plugins: {
                     legend: { display: false },
+                    glowLine: { color: 'rgba(200,170,110,0.5)', blur: 14 },
                     tooltip: {
                         backgroundColor: '#050F23', borderColor: 'rgba(200,170,110,0.3)', borderWidth: 1,
                         titleColor: '#C8AA6E', bodyColor: '#aaa',
@@ -317,11 +380,87 @@
                     x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#444', font: { size: 9 } } },
                     y: { display: false, min: 0.8, max: 5.9 },
                 }
-            }
+            },
+            plugins: [glowLinePlugin]
         });
     }
 
+    // ── SPARKLINE FORME (20 dernières) ──
+    function buildSparkline() {
+        var cells = document.getElementById('winrateSparkCells');
+        var meta  = document.getElementById('winrateSparkMeta');
+        if (!cells || !chartData || !chartData.length) return;
+
+        // chartData est en ordre chronologique ascendant — derniers 20
+        var data = chartData.slice(-20);
+        var wins = 0, losses = 0;
+        var html = '';
+        data.forEach(function (g, i) {
+            var cls = g.win ? 'winrate-spark__cell--win' : 'winrate-spark__cell--loss';
+            if (g.win) wins++; else losses++;
+            html += '<div class="winrate-spark__cell ' + cls + '" style="animation-delay:' + (i * 25) + 'ms" title="' + g.champ + ' — ' + g.score + '"></div>';
+        });
+        cells.innerHTML = html;
+
+        var total = wins + losses;
+        var wr    = total > 0 ? Math.round((wins / total) * 100) : 0;
+        meta.innerHTML = wins + 'V ' + losses + 'D — <strong>' + wr + '%</strong>';
+    }
+
+    // ── TREEMAP CHAMPIONS (slice-and-dice) ──
+    function squarify(items, x, y, w, h) {
+        if (!items.length) return [];
+        if (items.length === 1) return [Object.assign({}, items[0], { x: x, y: y, w: w, h: h })];
+        var total = items.reduce(function (s, i) { return s + i.value; }, 0);
+        var horizontal = w >= h;
+        var ratio = items[0].value / total;
+        var splitW = horizontal ? w * ratio : w;
+        var splitH = horizontal ? h : h * ratio;
+        var first = Object.assign({}, items[0], { x: x, y: y, w: splitW, h: splitH });
+        var rest = horizontal
+            ? squarify(items.slice(1), x + splitW, y, w - splitW, h)
+            : squarify(items.slice(1), x, y + splitH, w, h - splitH);
+        return [first].concat(rest);
+    }
+
+    function wrColor(wr) {
+        if (wr >= 65) return { bg: 'rgba(76,175,80,0.5)',  border: 'rgba(76,175,80,0.7)',  text: '#7eda85' };
+        if (wr >= 55) return { bg: 'rgba(76,175,80,0.3)',  border: 'rgba(76,175,80,0.5)',  text: '#7eda85' };
+        if (wr >= 45) return { bg: 'rgba(200,170,110,0.3)', border: 'rgba(200,170,110,0.5)', text: '#d4b878' };
+        if (wr >= 35) return { bg: 'rgba(224,85,85,0.3)',  border: 'rgba(224,85,85,0.5)',  text: '#e88a8a' };
+        return            { bg: 'rgba(224,85,85,0.5)',  border: 'rgba(224,85,85,0.7)',  text: '#e88a8a' };
+    }
+
+    function buildChampTreemap() {
+        var root = document.getElementById('champTreemap');
+        if (!root || !championStats.length) return;
+        var rect = root.getBoundingClientRect();
+        var W = rect.width, H = rect.height;
+        if (W < 10 || H < 10) return;
+
+        var items = championStats.map(function (c) { return Object.assign({}, c, { value: c.games }); });
+        items.sort(function (a, b) { return b.value - a.value; });
+
+        var tiles = squarify(items, 0, 0, W, H);
+        root.innerHTML = tiles.map(function (t) {
+            var wr = t.games > 0 ? Math.round((t.wins / t.games) * 100) : 0;
+            var col = wrColor(wr);
+            var smallCls = (t.w < 90 || t.h < 60) ? ' champ-treemap__tile--small' : '';
+            return '<div class="champ-treemap__tile' + smallCls + '" style="' +
+                'left:' + t.x + 'px;top:' + t.y + 'px;width:' + t.w + 'px;height:' + t.h + 'px;' +
+                'background:' + col.bg + ';border-color:' + col.border + ';" ' +
+                'title="' + t.championName + ' — ' + t.games + ' games — ' + wr + '% WR">' +
+                '<div class="champ-treemap__bg" style="background-image:url(' + t.imageUrl + ')"></div>' +
+                '<div class="champ-treemap__overlay"></div>' +
+                '<div class="champ-treemap__name">' + t.championName + '</div>' +
+                '<div class="champ-treemap__meta" style="color:' + col.text + ';">' + t.games + 'g · ' + wr + '%</div>' +
+                '</div>';
+        }).join('');
+    }
+
     function buildAllCharts() {
+        buildSparkline();
+        buildChampTreemap();
         if (typeof Chart !== 'undefined') {
             buildChart();
             buildQueueChart();
@@ -335,6 +474,13 @@
         }
         buildHeatmap();
     }
+
+    // Re-layout treemap au resize (sinon les tuiles gardent leurs px figés)
+    var treemapResizeTimer = null;
+    window.addEventListener('resize', function () {
+        clearTimeout(treemapResizeTimer);
+        treemapResizeTimer = setTimeout(buildChampTreemap, 150);
+    });
 
     // ── LIVE GAME ──
     function updateLiveTimer() {
