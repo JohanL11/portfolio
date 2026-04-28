@@ -141,6 +141,17 @@
         window.APP_LOCALE = next;
     }
 
+    // Vide le cache Turbo dès que l'utilisateur clique sur un lien de changement de locale,
+    // avant que la navigation commence, pour éviter que le snapshot dans l'ancienne langue
+    // soit affiché comme preview sur la page de destination.
+    document.addEventListener('turbo:click', function (e) {
+        if (e.detail && e.detail.url && e.detail.url.includes('/locale/')) {
+            if (window.Turbo && window.Turbo.cache) {
+                try { window.Turbo.cache.clear(); } catch (_) {}
+            }
+        }
+    });
+
     // Blur l'élément actif avant que Turbo snapshote la page
     // pour éviter que le clavier mobile s'ouvre à la restauration du cache.
     document.addEventListener('turbo:before-cache', function () {
