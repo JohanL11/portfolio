@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -30,6 +32,8 @@ class ContactController extends AbstractController
     public function __construct(
         private readonly TranslatorInterface $translator,
         private readonly RateLimiterFactory $contactLimiter,
+        #[Target('analyticsLogger')]
+        private readonly LoggerInterface $logger,
     ) {}
 
     /**
@@ -88,6 +92,7 @@ class ContactController extends AbstractController
                     );
 
                 $mailer->send($email);
+                $this->logger->info(sprintf('[CONTACT] sent locale=%s', $request->getLocale()));
                 $this->addFlash('success', 'contact.flash.success');
             } catch (\Throwable $e) {
                 $this->addFlash('error', 'contact.flash.error');

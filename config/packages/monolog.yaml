@@ -1,6 +1,7 @@
 monolog:
     channels:
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
+        - analytics
 
 when@dev:
     monolog:
@@ -9,11 +10,16 @@ when@dev:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event"]
+                channels: ["!event", "!analytics"]
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ["!event", "!doctrine", "!console"]
+                channels: ["!event", "!doctrine", "!console", "!analytics"]
+            analytics:
+                type: stream
+                path: "%kernel.logs_dir%/analytics.log"
+                level: info
+                channels: [analytics]
 
 when@test:
     monolog:
@@ -37,7 +43,7 @@ when@prod:
                 action_level: error
                 handler: nested
                 excluded_http_codes: [404, 405]
-                channels: ["!deprecation"]
+                channels: ["!deprecation", "!analytics"]
                 buffer_size: 50 # How many messages should be saved? Prevent memory leaks
             nested:
                 type: stream
@@ -47,9 +53,14 @@ when@prod:
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ["!event", "!doctrine"]
+                channels: ["!event", "!doctrine", "!analytics"]
             deprecation:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
                 formatter: monolog.formatter.json
+            analytics:
+                type: stream
+                path: "%kernel.logs_dir%/analytics.log"
+                level: info
+                channels: [analytics]

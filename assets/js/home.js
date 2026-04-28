@@ -250,9 +250,18 @@
             setTimeout(tk, 220);
         }
 
+        function logCmd(cmd) {
+            fetch('/api/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'terminal_cmd', cmd: cmd }),
+            }).catch(function () {});
+        }
+
         function execCommand(raw) {
             var input = (raw || '').trim().toLowerCase();
             if (!input) { showPrompt(); return; }
+            logCmd(input);
             var parts = input.split(/\s+/);
             var cmd   = parts[0];
             var args  = parts.slice(1);
