@@ -120,16 +120,16 @@ class AnalyticsReportCommand extends Command
 
         if ($s['pageViews']) {
             $lines[] = '';
-            $lines[] = 'PAGES (top 10)';
-            foreach (array_slice($s['pageViews'], 0, 10) as $path => $n) {
+            $lines[] = 'PAGES';
+            foreach ($s['pageViews'] as $path => $n) {
                 $lines[] = '  ' . str_pad($path, 20) . ' ' . $n;
             }
         }
 
         if ($s['terminal']) {
             $lines[] = '';
-            $lines[] = 'TERMINAL (top 5)';
-            foreach (array_slice($s['terminal'], 0, 5) as $cmd => $n) {
+            $lines[] = 'TERMINAL';
+            foreach ($s['terminal'] as $cmd => $n) {
                 $lines[] = '  ' . str_pad($cmd, 20) . ' ' . $n;
             }
         }
@@ -191,18 +191,18 @@ class AnalyticsReportCommand extends Command
         $h .= '</table>';
 
         if ($s['pageViews']) {
-            $h .= $section('Pages vues (top 10)');
+            $h .= $section('Pages vues');
             $h .= $table;
-            foreach (array_slice($s['pageViews'], 0, 10) as $path => $n) {
+            foreach ($s['pageViews'] as $path => $n) {
                 $h .= $td($path, (string) $n);
             }
             $h .= '</table>';
         }
 
         if ($s['terminal']) {
-            $h .= $section('Commandes terminal (top 5)');
+            $h .= $section('Commandes terminal');
             $h .= $table;
-            foreach (array_slice($s['terminal'], 0, 5) as $cmd => $n) {
+            foreach ($s['terminal'] as $cmd => $n) {
                 $h .= $td($cmd, (string) $n);
             }
             $h .= '</table>';
