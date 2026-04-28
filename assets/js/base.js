@@ -131,7 +131,14 @@
 
     function syncLocale() {
         var meta = document.querySelector('meta[name="app-locale"]');
-        if (meta) window.APP_LOCALE = meta.content;
+        if (!meta) return;
+        var next = meta.content;
+        // Si la locale a changé, vider le cache Turbo pour éviter les flashs de navbar
+        // dans l'ancienne langue lors des navigations suivantes (preview de snapshot stale).
+        if (window.APP_LOCALE && window.APP_LOCALE !== next && window.Turbo && window.Turbo.cache) {
+            try { window.Turbo.cache.clear(); } catch (_) {}
+        }
+        window.APP_LOCALE = next;
     }
 
     document.addEventListener('turbo:load', function () {
