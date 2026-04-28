@@ -157,6 +157,9 @@
                     ['lang',    'changer de langue — "lang fr" ou "lang en"'],
                     ['theme',   'switch dark/light'],
                     ['clear',   'vider le terminal'],
+                    ['history', 'historique — "history | grep terme"'],
+                    ['ping',    'simuler un ping'],
+                    ['ssh',     'tentative de connexion SSH'],
                 ],
                 whoami:  'Johan Louap — Développeur Full Stack Web & Mobile',
                 skills:  'PHP 8 · Symfony 7 · React Native · API REST · MySQL · Linux',
@@ -173,7 +176,13 @@
                 langSwitch:  'Bascule en anglais...',
                 theme:   'Bascule de thème effectuée.',
                 unknown: 'Commande inconnue. Tape "help".',
-                cleared: ''
+                cleared: '',
+                pingLine:       'PING johan-louap.fr (62.210.x.x)',
+                pingStats:      '3 paquets transmis, 3 reçus, 0% perte',
+                sshDenied:      'ssh: Permission denied (publickey).',
+                sshHint:        '→ Tape "cv" pour télécharger le CV, ou "contact" pour me joindre.',
+                historyEmpty:   '(aucune commande dans l\'historique)',
+                historyNoMatch: '(aucun résultat)',
             },
             en: {
                 hello:    'Welcome. Type "help" for the command list.',
@@ -190,6 +199,9 @@
                     ['lang',    'change language — "lang fr" or "lang en"'],
                     ['theme',   'toggle dark/light'],
                     ['clear',   'clear the terminal'],
+                    ['history', 'command history — "history | grep term"'],
+                    ['ping',    'simulate a ping'],
+                    ['ssh',     'attempt an SSH connection'],
                 ],
                 whoami:  'Johan Louap — Full Stack Web & Mobile Developer',
                 skills:  'PHP 8 · Symfony 7 · React Native · REST API · MySQL · Linux',
@@ -206,12 +218,19 @@
                 langSwitch:  'Switching to French...',
                 theme:   'Theme toggled.',
                 unknown: 'Unknown command. Type "help".',
+                pingLine:       'PING johan-louap.fr (62.210.x.x)',
+                pingStats:      '3 packets transmitted, 3 received, 0% packet loss',
+                sshDenied:      'ssh: Permission denied (publickey).',
+                sshHint:        '→ Type "cv" to download my resume, or "contact" to reach me.',
+                historyEmpty:   '(no commands in history)',
+                historyNoMatch: '(no match found)',
             }
         }[locale];
 
         var promptStr = '$ ';
         var inputEl = null;
         var activeLine = null;
+        var cmdHistory = [];
 
         function newLine(cls) {
             var d = document.createElement('div');
@@ -259,14 +278,29 @@
         }
 
         function execCommand(raw) {
-            var input = (raw || '').trim().toLowerCase();
+            var input = (raw || '').trim();
             if (!input) { showPrompt(); return; }
-            logCmd(input);
-            var parts = input.split(/\s+/);
+
+            // Pipe : history | grep "terme"
+            var pipeM = input.match(/^history\s*\|\s*grep\s+"?([^"\s][^"]*?)"?\s*$/i);
+            if (pipeM) {
+                cmdHistory.push(input);
+                logCmd('history|grep');
+                var term = pipeM[1].toLowerCase();
+                var found = cmdHistory.filter(function (c) { return c.toLowerCase().indexOf(term) !== -1; });
+                if (!found.length) { out(T.historyNoMatch); }
+                else { found.forEach(function (c, i) { out('  ' + String(i + 1).padStart(3) + '  ' + c); }); }
+                showPrompt();
+                return;
+            }
+
+            cmdHistory.push(input);
+            var lower = input.toLowerCase();
+            logCmd(lower);
+            var parts = lower.split(/\s+/);
             var cmd   = parts[0];
             var args  = parts.slice(1);
 
-            // Compatibilité : "rm -rf /" → cmd="rm", "sudo su" → cmd="sudo"
             switch (cmd) {
                 case 'help':
                     out(T.helpHead);
@@ -338,6 +372,38 @@
                     return;
                 case 'ls':
                     out('home/  projects/  services/  league/  contact/');
+                    break;
+                case 'history':
+                    if (cmdHistory.length === 0) {
+                        out(T.historyEmpty);
+                    } else {
+                        cmdHistory.forEach(function (c, i) {
+                            out('  ' + String(i + 1).padStart(3) + '  ' + c);
+                        });
+                    }
+                    break;
+                case 'ping':
+                    (function () {
+                        var seq = 0;
+                        out(T.pingLine);
+                        var step = function () {
+                            if (seq >= 3) {
+                                out('--- johan-louap.fr ping statistics ---');
+                                out(T.pingStats);
+                                showPrompt();
+                                return;
+                            }
+                            var ms = 6 + Math.floor(Math.random() * 18);
+                            out('64 bytes from 62.210.x.x: icmp_seq=' + seq + ' ttl=64 time=' + ms + ' ms');
+                            seq++;
+                            setTimeout(step, 500 + Math.floor(Math.random() * 300));
+                        };
+                        setTimeout(step, 350);
+                    })();
+                    return;
+                case 'ssh':
+                    out(T.sshDenied);
+                    out(T.sshHint);
                     break;
                 default:
                     out(T.unknown);
