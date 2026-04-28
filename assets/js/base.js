@@ -141,6 +141,14 @@
         window.APP_LOCALE = next;
     }
 
+    // Blur l'élément actif avant que Turbo snapshote la page
+    // pour éviter que le clavier mobile s'ouvre à la restauration du cache.
+    document.addEventListener('turbo:before-cache', function () {
+        if (document.activeElement && document.activeElement !== document.body) {
+            document.activeElement.blur();
+        }
+    });
+
     document.addEventListener('turbo:load', function () {
         syncLocale();
         initGlobalGlow();

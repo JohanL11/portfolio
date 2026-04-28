@@ -341,7 +341,9 @@
             activeLine = newLine();
             activeLine.innerHTML = '<span class="terminal-ps">' + promptStr + '</span><span class="terminal-input" contenteditable="true" spellcheck="false" autocapitalize="off" autocorrect="off"></span><span class="terminal-caret terminal-caret--blink"> </span>';
             inputEl = activeLine.querySelector('.terminal-input');
-            inputEl.focus({ preventScroll: true });
+            if (!window.matchMedia('(pointer: coarse)').matches) {
+                inputEl.focus({ preventScroll: true });
+            }
             scrollDown();
 
             inputEl.addEventListener('keydown', function (e) {
