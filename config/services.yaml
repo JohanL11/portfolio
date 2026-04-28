@@ -23,5 +23,9 @@ services:
         arguments:
             $apiKey: '%env(RIOT_API_KEY)%'
 
+    App\Command\AnalyticsReportCommand:
+        arguments:
+            $logsDir: '%kernel.logs_dir%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
