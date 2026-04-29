@@ -525,7 +525,12 @@
                 obs.unobserve(e.target);
             });
         }, { threshold: 0.3 });
-        document.querySelectorAll('.skill-card__fill[data-width]').forEach(function (el) { obs.observe(el); });
+        document.querySelectorAll('.skill-card__fill[data-width]').forEach(function (el) {
+            if (parseInt(el.dataset.width, 10) > 85) {
+                el.classList.add('skill-card__fill--strong');
+            }
+            obs.observe(el);
+        });
     }
 
     // ── REVEAL ANIMATIONS ──
@@ -551,6 +556,7 @@
                     items.forEach(function (el) {
                         el.style.opacity  = '1';
                         el.style.clipPath = 'inset(0 0 0% 0)';
+                        el.classList.add('is-revealed');
                     });
                     obs.disconnect();
                 });
