@@ -218,6 +218,26 @@ img { max-width: 100%; display: block; }
     margin-bottom: 16px;
 }
 
+.section__title::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 3px;
+    margin: 14px auto 0;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    border-radius: 2px;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.35);
+    transition: width 0.65s cubic-bezier(0.4, 0, 0.2, 1) 0.45s;
+}
+
+.section__title.is-revealed::after {
+    width: 64px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section__title::after { width: 64px; transition: none; }
+}
+
 .section__subtitle {
     font-size: 1.05rem;
     color: var(--color-text-muted);
@@ -811,6 +831,19 @@ img { max-width: 100%; display: block; }
     border-radius: 2px;
     width: 0;
     transition: width 1s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+}
+
+.skill-card__fill--strong {
+    animation: skill-pulse 2.6s ease-in-out 1.2s infinite;
+}
+
+@keyframes skill-pulse {
+    0%, 100% { filter: brightness(1)    saturate(1); }
+    50%      { filter: brightness(1.28) saturate(1.45); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skill-card__fill--strong { animation: none; }
 }
 
 .skill-card__level {
@@ -3029,4 +3062,21 @@ img { max-width: 100%; display: block; }
     .legal-block h2 { font-size: 1.18rem; }
 }
 
+/* === INTRO REVEAL — apparition mot par mot du sous-titre principal === */
+.tr-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+.tr-revealed .tr-word {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tr-word { opacity: 1; transform: none; transition: none; }
+}
 

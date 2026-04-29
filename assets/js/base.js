@@ -59,6 +59,55 @@
         applyGlow('.security-badge',    'rgba(255,255,255,0.05)', 'rgba(99,102,241,0.07)');
     }
 
+    // ── INTRO REVEAL — apparition mot par mot du sous-titre principal ──
+    function initIntroReveal() {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var STAGGER   = 35;
+        var MAX_DELAY = 1100;
+
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                e.target.classList.add('tr-revealed');
+                obs.unobserve(e.target);
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.hero__subtitle, .page-hero__subtitle').forEach(function (p) {
+            if (!p.dataset.introReveal) {
+                p.dataset.introReveal = '1';
+                var idx = 0;
+                var walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT, null);
+                var textNodes = [];
+                var node;
+                while ((node = walker.nextNode())) textNodes.push(node);
+
+                textNodes.forEach(function (tn) {
+                    var text = tn.nodeValue;
+                    if (!text || !text.trim()) return;
+                    var parts = text.split(/(\s+)/);
+                    var frag  = document.createDocumentFragment();
+                    parts.forEach(function (part) {
+                        if (part === '') return;
+                        if (/^\s+$/.test(part)) {
+                            frag.appendChild(document.createTextNode(part));
+                        } else {
+                            var span = document.createElement('span');
+                            span.className = 'tr-word';
+                            span.style.transitionDelay = Math.min(idx * STAGGER, MAX_DELAY) + 'ms';
+                            span.textContent = part;
+                            frag.appendChild(span);
+                            idx++;
+                        }
+                    });
+                    tn.parentNode.replaceChild(frag, tn);
+                });
+            }
+            if (!p.classList.contains('tr-revealed')) obs.observe(p);
+        });
+    }
+
     // ── VIEW TRANSITIONS API — wrap des navigations Turbo ──
     function initViewTransitions() {
         if (typeof document.startViewTransition !== 'function') return;
@@ -166,6 +215,7 @@
         initTheme();
         initBackToTop();
         initNavbar();
+        initIntroReveal();
     });
     syncLocale();
     initGlobalGlow();
@@ -174,6 +224,7 @@
     initBackToTop();
     initNavbar();
     initViewTransitions();
+    initIntroReveal();
 
     document.addEventListener('turbo:before-render', function () {
         document.documentElement.scrollTop = 0;
