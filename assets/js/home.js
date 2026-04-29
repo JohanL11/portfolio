@@ -621,10 +621,18 @@
                     card.removeEventListener('animationend', onEnd);
                 });
             });
-        }, { threshold: 0.25 });
+        }, { threshold: 0.08 });
 
         obs.observe(card);
     }
+
+    // Nettoie l'état clippé avant que Turbo snapshote la page,
+    // sinon la carte reste invisible au retour via cache (mobile surtout).
+    document.addEventListener('turbo:before-cache', function () {
+        var card = document.querySelector('.lol-teaser__card');
+        if (!card) return;
+        card.classList.remove('is-rolled', 'is-unrolling');
+    });
 
     // ── INIT ──
     function init() {
