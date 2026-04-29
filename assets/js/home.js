@@ -160,6 +160,7 @@
                     ['history', 'historique — "history | grep terme"'],
                     ['ping',    'simuler un ping'],
                     ['ssh',     'tentative de connexion SSH'],
+                    ['sound',   'son clavier — "sound on" / "sound off"'],
                 ],
                 whoami:  'Johan Louap — Développeur Full Stack Web & Mobile',
                 skills:  'PHP 8 · Symfony 7 · React Native · API REST · MySQL · Linux',
@@ -183,6 +184,9 @@
                 sshHint:        '→ Tape "cv" pour télécharger le CV, ou "contact" pour me joindre.',
                 historyEmpty:   '(aucune commande dans l\'historique)',
                 historyNoMatch: '(aucun résultat)',
+                soundOn:     'Son clavier activé. 🔊',
+                soundOff:    'Son clavier désactivé. 🔇',
+                soundStatus: 'Son clavier : ',
             },
             en: {
                 hello:    'Welcome. Type "help" for the command list.',
@@ -202,6 +206,7 @@
                     ['history', 'command history — "history | grep term"'],
                     ['ping',    'simulate a ping'],
                     ['ssh',     'attempt an SSH connection'],
+                    ['sound',   'keyboard sound — "sound on" / "sound off"'],
                 ],
                 whoami:  'Johan Louap — Full Stack Web & Mobile Developer',
                 skills:  'PHP 8 · Symfony 7 · React Native · REST API · MySQL · Linux',
@@ -224,6 +229,9 @@
                 sshHint:        '→ Type "cv" to download my resume, or "contact" to reach me.',
                 historyEmpty:   '(no commands in history)',
                 historyNoMatch: '(no match found)',
+                soundOn:     'Keyboard sound enabled. 🔊',
+                soundOff:    'Keyboard sound disabled. 🔇',
+                soundStatus: 'Keyboard sound: ',
             }
         }[locale];
 
@@ -231,6 +239,38 @@
         var inputEl = null;
         var activeLine = null;
         var cmdHistory = [];
+        var soundEnabled = false;
+        var audioCtx = null;
+
+        function playKeyClick() {
+            if (!soundEnabled) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                audioCtx.resume().then(function () {
+                    var now = audioCtx.currentTime;
+                    var duration = 0.055;
+                    var len = Math.floor(audioCtx.sampleRate * duration);
+                    var buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+                    var data = buf.getChannelData(0);
+                    for (var i = 0; i < len; i++) {
+                        data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 5);
+                    }
+                    var src    = audioCtx.createBufferSource();
+                    var filter = audioCtx.createBiquadFilter();
+                    var gain   = audioCtx.createGain();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(180, now);
+                    filter.Q.setValueAtTime(1.2, now);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+                    src.buffer = buf;
+                    src.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    src.start(now);
+                });
+            } catch (_) {}
+        }
 
         function newLine(cls) {
             var d = document.createElement('div');
@@ -405,6 +445,17 @@
                     out(T.sshDenied);
                     out(T.sshHint);
                     break;
+                case 'sound':
+                    if (args[0] === 'on') {
+                        soundEnabled = true;
+                        out(T.soundOn);
+                    } else if (args[0] === 'off') {
+                        soundEnabled = false;
+                        out(T.soundOff);
+                    } else {
+                        out(T.soundStatus + (soundEnabled ? 'on' : 'off'));
+                    }
+                    break;
                 default:
                     out(T.unknown);
             }
@@ -422,6 +473,7 @@
             scrollDown();
 
             inputEl.addEventListener('keydown', function (e) {
+                playKeyClick();
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     var v = inputEl.textContent;
@@ -541,6 +593,33 @@
         });
     }
 
+    // ── LOL TEASER — déroulement type tapis au scroll ──
+    function initLolTeaser() {
+        var card = document.querySelector('.lol-teaser__card');
+        if (!card || card.dataset.lolInit) return;
+        card.dataset.lolInit = '1';
+
+        card.classList.add('is-rolled');
+
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                obs.unobserve(card);
+
+                card.classList.remove('is-rolled');
+                card.classList.add('is-unrolling');
+
+                card.addEventListener('animationend', function onEnd(e) {
+                    if (e.animationName !== 'lol-unroll') return;
+                    card.classList.remove('is-unrolling');
+                    card.removeEventListener('animationend', onEnd);
+                });
+            });
+        }, { threshold: 0.25 });
+
+        obs.observe(card);
+    }
+
     // ── INIT ──
     function init() {
         updateYears();
@@ -550,6 +629,7 @@
         initTerminal();
         initSkillBars();
         initRevealAnimations();
+        initLolTeaser();
     }
 
     init();
